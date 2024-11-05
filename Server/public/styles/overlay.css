@@ -1,0 +1,42 @@
+@font-face {
+    font-family: LethalCompany;
+    src: url(../fonts/3270-Regular.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: white;
+    font-family: LethalCompany, Arial, sans-serif;
+    background-color: rgb(121, 121, 121);
+}
+
+#overlay {
+    height: 75px;
+    padding: 0 30px 0 30px;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 160px 1fr 160px 250px 250px;
+    column-gap: 30px;
+    /* background-color: rgba(0, 0, 0, 0.1); */
+}
+
+.item {
+    display: flex;
+    align-items: center;
+}
+
+.value {
+    font-size: 30px;
+    font-weight: bold;
+    text-shadow: 1px 1px 10px black;
+}
+
+.hidden {
+    visibility: hidden;
+}
