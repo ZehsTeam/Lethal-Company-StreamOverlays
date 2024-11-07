@@ -7,7 +7,6 @@ const lootText = document.querySelector('#loot .value');
 
 const sourceId = 'overlay';
 
-const serverPort = 8000;
 const reconnectInterval = 5000; // milliseconds.
 
 let webSocket;
@@ -27,6 +26,7 @@ function connectWebSocket() {
 
     webSocket.onclose = () => {
         console.log("WebSocket connection closed. Attempting to reconnect...");
+        hideOverlay();
         setTimeout(connectWebSocket, reconnectInterval);
     };
 
@@ -78,6 +78,12 @@ function webSocket_OnMessage(event) {
         lootText.textContent = `Loot: $${data.loot}`;
     }
 }
+
+function hideOverlay() {
+    overlayDiv.classList.add('hidden');
+}
+
+console.log("Server Port:", serverPort);
 
 // Initiate WebSocket connection
 connectWebSocket();

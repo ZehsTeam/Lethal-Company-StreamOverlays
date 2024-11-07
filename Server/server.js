@@ -3,13 +3,39 @@ const WebSocket = require('ws');
 const path = require('path');
 const fs = require('fs');
 
-const clientPort = 8000; // Port for the OBS browser source (WebSocket & HTTP server)
-const unityPort = 8080; // Port for Unity WebSocket
+process.title = "LethalOverlays Server";
+
+let clientPort = 8000; // Port for the OBS browser source (WebSocket & HTTP server)
+let unityPort = 8080; // Port for Unity WebSocket
+
+// Path to the config file
+const configPath = path.join(__dirname, 'config.json');
+
+// Check if the config file exists
+if (fs.existsSync(configPath)) {
+    try {
+        // Read and parse the configuration file
+        const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        clientPort = config.clientPort || clientPort; // Use the port in config or default
+        unityPort = config.unityPort || unityPort;
+        console.log(`Using ports from config.json - clientPort: ${clientPort}, unityPort: ${unityPort}`);
+    } catch (error) {
+        console.error("Error reading config.json:", error);
+    }
+} else {
+    console.log(`config.json not found, using default ports - clientPort: ${clientPort}, unityPort: ${unityPort}`);
+}
 
 const app = express();
 
 // Serve all static files from the "public" folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve clientPort as a global variable in a dynamically generated config.js file
+app.get('/config.js', (req, res) => {
+    res.type('application/javascript');
+    res.send(`const serverPort = ${clientPort};`);
+});
 
 // Middleware to handle requests without an extension
 app.get('/:source', (req, res, next) => {
@@ -34,6 +60,7 @@ app.get('/:source', (req, res, next) => {
 // Start the server
 const server = app.listen(clientPort, () => {
     console.log(`Web server for OBS running at http://localhost:${clientPort}`);
+    console.log(`OBS Browser Source -> http://localhost:${clientPort}/overlay (1450x75)`);
 });
 
 // WebSocket Server for OBS browser source

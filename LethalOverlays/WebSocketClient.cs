@@ -104,6 +104,11 @@ internal static class WebSocketClient
     {
         yield return new WaitForSeconds(_reconnectDelay);
 
+        if (!_autoReconnect)
+        {
+            yield break;
+        }
+
         if (!_isConnected)
         {
             Plugin.Logger.LogInfo("Reconnecting to Node.js server...");
