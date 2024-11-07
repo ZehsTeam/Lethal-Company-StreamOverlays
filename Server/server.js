@@ -8,8 +8,8 @@ process.title = "LethalOverlays Server";
 let clientPort = 8000; // Port for the OBS browser source (WebSocket & HTTP server)
 let unityPort = 8080; // Port for Unity WebSocket
 
-// Path to the config file
-const configPath = path.join(__dirname, 'config.json');
+// Determine path to config.json
+const configPath = path.join(process.cwd(), 'config.json');
 
 // Check if the config file exists
 if (fs.existsSync(configPath)) {
@@ -21,6 +21,7 @@ if (fs.existsSync(configPath)) {
         console.log(`Using ports from config.json - clientPort: ${clientPort}, unityPort: ${unityPort}`);
     } catch (error) {
         console.error("Error reading config.json:", error);
+        console.log(`Using default ports - clientPort: ${clientPort}, unityPort: ${unityPort}`);
     }
 } else {
     console.log(`config.json not found, using default ports - clientPort: ${clientPort}, unityPort: ${unityPort}`);

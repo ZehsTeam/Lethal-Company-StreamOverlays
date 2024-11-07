@@ -80,7 +80,7 @@ internal static class Utils
             dayOffset = Plugin.ConfigManager.Overlay_DayOffset.Value;
         }
 
-        return StartOfRound.Instance.gameStats.daysSpent + dayOffset;
+        return StartOfRound.Instance.gameStats.daysSpent + dayOffset + 1;
     }
 
     public static int GetProfitQuota()

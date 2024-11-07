@@ -11,41 +11,53 @@ internal static class WebSocketClient
     private static WebSocket _webSocket;
 
     // Node.js WebSocket server URL
-    private static string _serverUrl => $"ws://127.0.0.1:{_serverPort}";
+    private static string _serverUrl => $"ws://{_serverIP}:{_serverPort}";
+    private static string _serverIP
+    {
+        get
+        {
+            if (Plugin.ConfigManager == null || Plugin.ConfigManager.Networking_IPAddress == null)
+            {
+                return "127.0.0.1";
+            }
+
+            return Plugin.ConfigManager.Networking_IPAddress.Value;
+        }
+    }
     private static int _serverPort
     {
         get
         {
-            if (Plugin.ConfigManager != null && Plugin.ConfigManager.Networking_Port != null)
+            if (Plugin.ConfigManager == null || Plugin.ConfigManager.Networking_Port == null)
             {
-                return Plugin.ConfigManager.Networking_Port.Value;
+                return 8080;
             }
 
-            return 8080;
+            return Plugin.ConfigManager.Networking_Port.Value;
         }
     }
     private static bool _autoReconnect
     {
         get
         {
-            if (Plugin.ConfigManager != null && Plugin.ConfigManager.Networking_AutoReconnect != null)
+            if (Plugin.ConfigManager == null || Plugin.ConfigManager.Networking_AutoReconnect == null)
             {
-                return Plugin.ConfigManager.Networking_AutoReconnect.Value;
+                return true;
             }
-
-            return true;
+            
+            return Plugin.ConfigManager.Networking_AutoReconnect.Value;
         }
     }
     private static float _reconnectDelay
     {
         get
         {
-            if (Plugin.ConfigManager != null && Plugin.ConfigManager.Networking_ReconnectDelay != null)
+            if (Plugin.ConfigManager == null || Plugin.ConfigManager.Networking_ReconnectDelay == null)
             {
-                return Plugin.ConfigManager.Networking_ReconnectDelay.Value;
+                return 5f;
             }
 
-            return 5f;
+            return Plugin.ConfigManager.Networking_ReconnectDelay.Value;
         }
     }
 

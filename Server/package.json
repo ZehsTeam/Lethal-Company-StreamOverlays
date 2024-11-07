@@ -2,8 +2,13 @@
   "name": "lethaloverlays",
   "version": "1.0.0",
   "description": "",
-  "bin": "server.js",
   "main": "server.js",
+  "bin": "server.js",
+  "pkg": {
+    "assets": [
+      "public/**/*"
+    ]
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"

@@ -8,7 +8,7 @@ namespace com.github.zehsteam.LethalOverlays;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency(LethalConfigProxy.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
-public class Plugin : BaseUnityPlugin
+internal class Plugin : BaseUnityPlugin
 {
     private readonly Harmony _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
 
