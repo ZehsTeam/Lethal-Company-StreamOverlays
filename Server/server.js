@@ -5,7 +5,7 @@ const fs = require('fs');
 
 process.title = "StreamOverlays Server";
 
-let clientPort = 8000; // Port for the OBS browser source (WebSocket & HTTP server)
+let clientPort = 8000; // Port for the browser source (WebSocket & HTTP server)
 let unityPort = 8080; // Port for Unity WebSocket
 
 // Determine path to config.json
@@ -60,11 +60,11 @@ app.get('/:source', (req, res, next) => {
 
 // Start the server
 const server = app.listen(clientPort, () => {
-    console.log(`Web server for OBS running at http://localhost:${clientPort}`);
-    console.log(`OBS Browser Source -> http://localhost:${clientPort}/overlay (1450x75)`);
+    console.log(`Web server for Browser Sources running at http://localhost:${clientPort}`);
+    console.log(`\nBrowser Source -> http://localhost:${clientPort}/overlay (Recommended 1450x75)`);
 });
 
-// WebSocket Server for OBS browser source
+// WebSocket Server for Browser Sources
 const clientWSS = new WebSocket.Server({ server });
 let unitySocket = null; // Store Unity WebSocket connection
 
@@ -82,6 +82,7 @@ unityWSS.on('connection', (socket) => {
 
     console.log("Unity connected to WebSocket server.");
     unitySocket = socket;
+    updateTitle();
 
     socket.on('message', (message) => {
         // Convert Buffer to string before parsing
@@ -89,7 +90,7 @@ unityWSS.on('connection', (socket) => {
 
         console.log("Received message from Unity:", messageString);
 
-        // Broadcast the message to all connected OBS clients
+        // Broadcast the message to all connected Browser Source clients
         clientWSS.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(messageString);
@@ -100,8 +101,9 @@ unityWSS.on('connection', (socket) => {
     socket.on('close', () => {
         console.log("Unity disconnected.");
         unitySocket = null;
+        updateTitle();
 
-        // Notify OBS clients that Unity has disconnected
+        // Notify Browser Source clients that Unity has disconnected
         clientWSS.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify({ source: 'overlay', visible: false }));
@@ -115,21 +117,22 @@ unityWSS.on('connection', (socket) => {
     });
 });
 
-// Handle OBS client WebSocket connections
+// Handle Browser Source client WebSocket connections
 clientWSS.on('connection', (clientSocket) => {
-    console.log("OBS Browser Source connected.");
+    console.log("Browser Source connected.");
+    updateTitle();
 
     clientSocket.on('message', (message) => {
         const clientMessage = JSON.parse(message);
 
-        // If OBS requests latest data and Unity is connected, request from Unity
+        // If Browser Source requests latest data and Unity is connected, request from Unity
         if (clientMessage.request === "latestData") {
             console.log("Requesting latest data from Unity...");
 
             if (unitySocket && unitySocket.readyState === WebSocket.OPEN) {
                 unitySocket.send(JSON.stringify({ request: "latestData" }));
             } else {
-                // Notify OBS that Unity is not connected
+                // Notify Browser Source that Unity is not connected
                 clientWSS.clients.forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
                         client.send(JSON.stringify({ source: 'overlay', visible: false }));
@@ -140,8 +143,18 @@ clientWSS.on('connection', (clientSocket) => {
     });
 
     clientSocket.on('close', () => {
-        console.log("OBS Browser Source disconnected.");
+        console.log("Browser Source disconnected.");
+        updateTitle();
     });
 });
 
-console.log(`WebSocket server for OBS running on ws://localhost:${clientPort}`);
+function updateTitle() {
+    const unityConnected = unitySocket !== null;
+    const browserSources = clientWSS ? clientWSS.clients.size : 0;
+
+    process.title = `StreamOverlays Server (Unity Connected: ${unityConnected} - Browser Sources: ${browserSources})`;
+}
+
+updateTitle();
+
+console.log(`WebSocket server for Browser Sources running on ws://localhost:${clientPort}`);
