@@ -1,6 +1,7 @@
 const overlayDiv = document.querySelector("#overlay");
 const crewText = document.querySelector("#crew .value");
 const moonText = document.querySelector('#moon .value');
+const weatherIcon = document.querySelector('#moon .icon');
 const dayText = document.querySelector('#day .value');
 const quotaText = document.querySelector('#quota .value');
 const lootText = document.querySelector('#loot .value');
@@ -66,6 +67,18 @@ function webSocket_OnMessage(event) {
         moonText.textContent = `Moon: ${data.moon}`;
     }
 
+    if (data.weather !== undefined) {
+        weatherIcon.innerHTML = getWeatherIconCode(data.weather);
+    }
+
+    if (data.showWeatherIcon !== undefined) {
+        if (data.showWeatherIcon) {
+            weatherIcon.classList.remove('collapse');
+        } else {
+            weatherIcon.classList.add('collapse');
+        }
+    }
+
     if (data.day !== undefined) {
         dayText.textContent = `Day: ${data.day}`;
     }
@@ -77,6 +90,20 @@ function webSocket_OnMessage(event) {
     if (data.loot !== undefined) {
         lootText.textContent = `Loot: $${data.loot}`;
     }
+}
+
+function getWeatherIconCode(weather) {
+    const weatherIconCodes = {
+        none: "&#xe900;",
+        dustclouds: "&#xe906;",
+        rainy: "&#xe901;",
+        stormy: "&#xe903;",
+        foggy: "&#xe904;",
+        flooded: "&#xe902;",
+        eclipsed: "&#xe905;"
+    };
+
+    return weatherIconCodes[weather.toLowerCase()] || "";
 }
 
 function hideOverlay() {

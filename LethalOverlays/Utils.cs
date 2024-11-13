@@ -6,6 +6,11 @@ namespace com.github.zehsteam.LethalOverlays;
 
 internal static class Utils
 {
+    public static string GetEnumName<T>(T e) where T : System.Enum
+    {
+        return System.Enum.GetName(typeof(T), e) ?? string.Empty;
+    }
+
     public static Transform GetHangarShipTransform()
     {
         if (StartOfRound.Instance == null)
@@ -66,6 +71,16 @@ internal static class Utils
         return StartOfRound.Instance.currentLevel.PlanetName;
     }
 
+    public static LevelWeatherType GetCurrentPlanetWeather()
+    {
+        if (StartOfRound.Instance == null || StartOfRound.Instance.currentLevel == null)
+        {
+            return LevelWeatherType.None;
+        }
+
+        return StartOfRound.Instance.currentLevel.currentWeather;
+    }
+
     public static int GetDayCount()
     {
         if (StartOfRound.Instance == null || StartOfRound.Instance.gameStats == null)
@@ -75,7 +90,7 @@ internal static class Utils
 
         int dayOffset = 0;
 
-        if (!NetworkUtils.IsServer)
+        if (Plugin.ConfigManager != null && Plugin.ConfigManager.Overlay_DayOffset != null)
         {
             dayOffset = Plugin.ConfigManager.Overlay_DayOffset.Value;
         }

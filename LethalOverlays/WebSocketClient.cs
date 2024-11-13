@@ -10,56 +10,12 @@ internal static class WebSocketClient
 {
     private static WebSocket _webSocket;
 
-    // Node.js WebSocket server URL
+    // WebSocket server URL
     private static string _serverUrl => $"ws://{_serverIP}:{_serverPort}";
-    private static string _serverIP
-    {
-        get
-        {
-            if (Plugin.ConfigManager == null || Plugin.ConfigManager.Networking_IPAddress == null)
-            {
-                return "127.0.0.1";
-            }
-
-            return Plugin.ConfigManager.Networking_IPAddress.Value;
-        }
-    }
-    private static int _serverPort
-    {
-        get
-        {
-            if (Plugin.ConfigManager == null || Plugin.ConfigManager.Networking_Port == null)
-            {
-                return 8080;
-            }
-
-            return Plugin.ConfigManager.Networking_Port.Value;
-        }
-    }
-    private static bool _autoReconnect
-    {
-        get
-        {
-            if (Plugin.ConfigManager == null || Plugin.ConfigManager.Networking_AutoReconnect == null)
-            {
-                return true;
-            }
-            
-            return Plugin.ConfigManager.Networking_AutoReconnect.Value;
-        }
-    }
-    private static float _reconnectDelay
-    {
-        get
-        {
-            if (Plugin.ConfigManager == null || Plugin.ConfigManager.Networking_ReconnectDelay == null)
-            {
-                return 5f;
-            }
-
-            return Plugin.ConfigManager.Networking_ReconnectDelay.Value;
-        }
-    }
+    private static string _serverIP => Plugin.ConfigManager.Networking_IP.Value;
+    private static int _serverPort => Plugin.ConfigManager.Networking_Port.Value;
+    private static bool _autoReconnect => Plugin.ConfigManager.Networking_AutoReconnect.Value;
+    private static float _reconnectDelay => Plugin.ConfigManager.Networking_ReconnectDelay.Value;
 
     private static bool _isConnected = false;
 
@@ -74,15 +30,21 @@ internal static class WebSocketClient
         }
     }
 
-    // Connects to the Node.js WebSocket server
+    // Connects to the WebSocket server
     private static void ConnectToServer()
     {
+        if (!Plugin.ConfigManager.Networking_Enabled.Value)
+        {
+            Plugin.Logger.LogInfo("Cancelled connection to server. Networking is disabled in the config settings.");
+            return;
+        }
+
         _webSocket = new WebSocket(_serverUrl);
 
         _webSocket.OnOpen += (sender, e) =>
         {
             _isConnected = true;
-            Plugin.Logger.LogInfo("Connected to Node.js server.");
+            Plugin.Logger.LogInfo("Connected to server.");
             UpdateOverlay();
         };
 
@@ -94,12 +56,12 @@ internal static class WebSocketClient
 
             if (_autoReconnect)
             {
-                Plugin.Logger.LogInfo("Disconnected from Node.js server. Attempting to reconnect...");
+                Plugin.Logger.LogInfo("Disconnected from server. Attempting to reconnect...");
                 Utils.StartCoroutine(ReconnectCoroutine());
             }
             else
             {
-                Plugin.Logger.LogInfo("Disconnected from Node.js server.");
+                Plugin.Logger.LogInfo("Disconnected from server.");
             }
         };
 
@@ -123,7 +85,7 @@ internal static class WebSocketClient
 
         if (!_isConnected)
         {
-            Plugin.Logger.LogInfo("Reconnecting to Node.js server...");
+            Plugin.Logger.LogInfo("Reconnecting to server...");
             ConnectToServer();
         }
     }
@@ -139,14 +101,14 @@ internal static class WebSocketClient
         ConnectToServer();
     }
 
-    // Sends data to the Node.js server
+    // Sends data to the server
     public static void SendData(object data)
     {
         if (_isConnected && _webSocket.ReadyState == WebSocketState.Open)
         {
             string jsonData = JsonConvert.SerializeObject(data);
             _webSocket.Send(jsonData);
-            Plugin.Instance.LogInfoExtended("Data sent to Node.js server: " + jsonData);
+            Plugin.Instance.LogInfoExtended("Data sent to server: " + jsonData);
         }
         else
         {
@@ -190,7 +152,7 @@ internal static class WebSocketClient
 
     public static void UpdateOverlay()
     {
-        // Send the latest data to Node.js
+        // Send the latest data to server
         SendData(GetLatestData());
     }
 
@@ -203,6 +165,8 @@ internal static class WebSocketClient
             visible = Utils.CanShowOverlay(),
             crew = Utils.GetCrewCount(),
             moon = Utils.GetCurrentPlanetName(),
+            weather = Utils.GetEnumName(Utils.GetCurrentPlanetWeather()),
+            showWeatherIcon = Plugin.ConfigManager.Overlay_ShowWeatherIcon.Value,
             day = Utils.GetDayCount(),
             quota = Utils.GetProfitQuota(),
             loot = Utils.GetLootTotal()

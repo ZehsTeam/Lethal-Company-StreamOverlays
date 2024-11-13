@@ -3,6 +3,11 @@
     src: url(../fonts/3270-Regular.ttf);
 }
 
+@font-face {
+    font-family: Icons;
+    src: url(../fonts/Icons.ttf);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -21,22 +26,49 @@ body {
     padding: 0 30px 0 30px;
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 160px 1fr 160px 250px 250px;
+    grid-template-columns: 140px 1fr 160px 250px 250px;
     column-gap: 30px;
     /* background-color: rgba(0, 0, 0, 0.1); */
-}
-
-.item {
-    display: flex;
-    align-items: center;
-}
-
-.value {
-    font-size: 30px;
-    font-weight: bold;
-    text-shadow: 1px 1px 10px black;
 }
 
 .hidden {
     visibility: hidden;
 }
+
+.collapse {
+    visibility: collapse;
+}
+
+.item {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.item p {
+    font-size: 30px;
+    font-weight: bold;
+    text-shadow: 1px 1px 10px black;
+}
+
+.icon {
+    font-family: Icons !important;
+    font-weight: normal !important;
+}
+
+@media only screen and (max-width: 1420px) {
+    #overlay {
+        grid-template-columns: 140px 1fr 145px 225px 210px;
+    }
+}
+
+@media only screen and (max-width: 1339px) {
+    #overlay {
+        grid-template-columns: 120px 1fr 120px 190px 175px;
+    }
+
+    .item p {
+        font-size: 25px;
+    }
+}
+

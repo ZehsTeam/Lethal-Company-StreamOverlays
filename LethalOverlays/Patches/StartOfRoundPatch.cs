@@ -68,6 +68,13 @@ internal static class StartOfRoundPatch
         WebSocketClient.UpdateOverlay();
     }
 
+    [HarmonyPatch(nameof(StartOfRound.SetMapScreenInfoToCurrentLevel))]
+    [HarmonyPostfix]
+    private static void SetMapScreenInfoToCurrentLevelPatch()
+    {
+        WebSocketClient.UpdateOverlay();
+    }
+
     [HarmonyPatch(nameof(StartOfRound.ResetShip))]
     [HarmonyPostfix]
     private static void ResetShipPatch()
