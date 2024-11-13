@@ -1,7 +1,7 @@
 ﻿using BepInEx.Configuration;
 using System;
 
-namespace com.github.zehsteam.LethalOverlays;
+namespace com.github.zehsteam.StreamOverlays;
 
 internal class ConfigManager
 {

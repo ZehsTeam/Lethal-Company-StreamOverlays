@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace com.github.zehsteam.LethalOverlays.Patches;
+namespace com.github.zehsteam.StreamOverlays.Patches;
 
 [HarmonyPatch(typeof(TimeOfDay))]
 internal static class TimeOfDayPatch

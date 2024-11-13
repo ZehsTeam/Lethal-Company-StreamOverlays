@@ -1,10 +1,10 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
-using com.github.zehsteam.LethalOverlays.Dependencies;
-using com.github.zehsteam.LethalOverlays.Patches;
+using com.github.zehsteam.StreamOverlays.Dependencies;
+using com.github.zehsteam.StreamOverlays.Patches;
 using HarmonyLib;
 
-namespace com.github.zehsteam.LethalOverlays;
+namespace com.github.zehsteam.StreamOverlays;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency(LethalConfigProxy.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]

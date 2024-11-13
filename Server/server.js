@@ -3,7 +3,7 @@ const WebSocket = require('ws');
 const path = require('path');
 const fs = require('fs');
 
-process.title = "LethalOverlays Server";
+process.title = "StreamOverlays Server";
 
 let clientPort = 8000; // Port for the OBS browser source (WebSocket & HTTP server)
 let unityPort = 8080; // Port for Unity WebSocket

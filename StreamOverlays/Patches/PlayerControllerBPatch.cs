@@ -2,7 +2,7 @@
 using HarmonyLib;
 using Unity.Netcode;
 
-namespace com.github.zehsteam.LethalOverlays.Patches;
+namespace com.github.zehsteam.StreamOverlays.Patches;
 
 [HarmonyPatch(typeof(PlayerControllerB))]
 internal static class PlayerControllerBPatch

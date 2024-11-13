@@ -1,6 +1,6 @@
 ﻿using Unity.Netcode;
 
-namespace com.github.zehsteam.LethalOverlays;
+namespace com.github.zehsteam.StreamOverlays;
 
 internal static class NetworkUtils
 {

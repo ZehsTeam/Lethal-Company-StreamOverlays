@@ -1,6 +1,6 @@
 ﻿using GameNetcodeStuff;
 
-namespace com.github.zehsteam.LethalOverlays;
+namespace com.github.zehsteam.StreamOverlays;
 
 internal static class PlayerUtils
 {

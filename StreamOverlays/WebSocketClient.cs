@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 using WebSocketSharp;
 
-namespace com.github.zehsteam.LethalOverlays;
+namespace com.github.zehsteam.StreamOverlays;
 
 internal static class WebSocketClient
 {

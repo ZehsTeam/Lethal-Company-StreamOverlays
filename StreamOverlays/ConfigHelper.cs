@@ -1,10 +1,10 @@
 ﻿using BepInEx.Configuration;
-using com.github.zehsteam.LethalOverlays.Dependencies;
+using com.github.zehsteam.StreamOverlays.Dependencies;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace com.github.zehsteam.LethalOverlays;
+namespace com.github.zehsteam.StreamOverlays;
 
 internal static class ConfigHelper
 {

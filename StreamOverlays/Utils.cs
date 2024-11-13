@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace com.github.zehsteam.LethalOverlays;
+namespace com.github.zehsteam.StreamOverlays;
 
 internal static class Utils
 {

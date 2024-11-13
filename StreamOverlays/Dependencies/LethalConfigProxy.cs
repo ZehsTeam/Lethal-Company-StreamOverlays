@@ -5,7 +5,7 @@ using LethalConfig.ConfigItems;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace com.github.zehsteam.LethalOverlays.Dependencies;
+namespace com.github.zehsteam.StreamOverlays.Dependencies;
 
 internal static class LethalConfigProxy
 {

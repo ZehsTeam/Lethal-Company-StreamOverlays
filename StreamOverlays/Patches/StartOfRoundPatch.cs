@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace com.github.zehsteam.LethalOverlays.Patches;
+namespace com.github.zehsteam.StreamOverlays.Patches;
 
 [HarmonyPatch(typeof(StartOfRound))]
 internal static class StartOfRoundPatch
