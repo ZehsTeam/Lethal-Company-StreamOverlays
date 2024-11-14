@@ -112,7 +112,7 @@ internal static class WebSocketClient
         }
         else
         {
-            Plugin.Logger.LogWarning("Unable to send data. WebSocket is not connected.");
+            Plugin.Instance.LogWarningExtended("Unable to send data. WebSocket is not connected.");
         }
     }
 

@@ -61,7 +61,7 @@ app.get('/:source', (req, res, next) => {
 // Start the server
 const server = app.listen(clientPort, () => {
     console.log(`Web server for Browser Sources running at http://localhost:${clientPort}`);
-    console.log(`\nBrowser Source -> http://localhost:${clientPort}/overlay (Recommended 1450x75)`);
+    console.log(`\nBrowser Source -> http://localhost:${clientPort}/overlay (Recommended 1450x75)\n`);
 });
 
 // WebSocket Server for Browser Sources
@@ -152,7 +152,7 @@ function updateTitle() {
     const unityConnected = unitySocket !== null;
     const browserSources = clientWSS ? clientWSS.clients.size : 0;
 
-    process.title = `StreamOverlays Server (Unity Connected: ${unityConnected} - Browser Sources: ${browserSources})`;
+    process.title = `StreamOverlays Server (Unity Connected: ${unityConnected} - Browser Sources Connected: ${browserSources})`;
 }
 
 updateTitle();

@@ -40,6 +40,11 @@ internal class Plugin : BaseUnityPlugin
         LogExtended(LogLevel.Info, data);
     }
 
+    public void LogWarningExtended(object data)
+    {
+        LogExtended(LogLevel.Warning, data);
+    }
+
     public void LogExtended(LogLevel level, object data)
     {
         if (ConfigManager == null || ConfigManager.ExtendedLogging == null)
