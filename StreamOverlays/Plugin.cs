@@ -5,6 +5,7 @@ using com.github.zehsteam.StreamOverlays.Dependencies;
 using com.github.zehsteam.StreamOverlays.Patches;
 using com.github.zehsteam.StreamOverlays.Server;
 using HarmonyLib;
+using System.Threading.Tasks;
 
 namespace com.github.zehsteam.StreamOverlays;
 
@@ -39,7 +40,7 @@ internal class Plugin : BaseUnityPlugin
 
         ConfigManager = new ConfigManager();
 
-        WebServer.Initialize();
+        Task.Run(WebServer.Initialize);
     }
 
     public void LogInfoExtended(object data)

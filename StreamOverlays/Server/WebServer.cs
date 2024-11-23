@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -19,9 +20,19 @@ internal static class WebServer
     private static WebSocketServer _webSocketServer;
     private static bool _isRunning;
 
-    public static void Initialize()
+    public static async Task Initialize()
     {
         Application.quitting += Stop;
+
+        if (PublicArchiveExists())
+        {
+            await DecompressPublicArchive();
+        }
+
+        if (!PublicFolderExists())
+        {
+            Plugin.Logger.LogFatal("Error! The \"public\" folder does not exist. The overlays will not work. Please report the bug to the mod developer!");
+        }
 
         if (Plugin.ConfigManager.Server_AutoStart.Value)
         {
@@ -221,4 +232,54 @@ internal static class WebServer
             loot = Utils.GetLootTotal()
         };
     }
+
+    #region Public Folder/Archive
+    private static bool PublicFolderExists()
+    {
+        return Directory.Exists(GetPublicFolderPath());
+    }
+
+    private static bool PublicArchiveExists()
+    {
+        return File.Exists(GetPublicArchivePath());
+    }
+
+    private static async Task DecompressPublicArchive()
+    {
+        string archivePath = GetPublicArchivePath();
+
+        if (!File.Exists(archivePath))
+        {
+            return;
+        }
+
+        if (PublicFolderExists())
+        {
+            Directory.Delete(GetPublicFolderPath(), recursive: true);
+        }
+
+        try
+        {
+            await Task.Run(() => ZipFile.ExtractToDirectory(archivePath, Utils.GetPluginDirectoryPath()));
+
+            File.Delete(archivePath);
+
+            Plugin.Logger.LogInfo("Successfully decompressed public archive.");
+        }
+        catch (Exception ex)
+        {
+            Plugin.Logger.LogError($"Error while decompressing public archive: {ex.Message}");
+        }
+    }
+
+    private static string GetPublicFolderPath()
+    {
+        return Path.Combine(Utils.GetPluginDirectoryPath(), "public");
+    }
+
+    private static string GetPublicArchivePath()
+    {
+        return Path.Combine(Utils.GetPluginDirectoryPath(), "public.zip");
+    }
+    #endregion
 }
