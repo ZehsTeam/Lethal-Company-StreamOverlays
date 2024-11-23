@@ -14,7 +14,7 @@ let webSocket;
 
 // Function to connect to the WebSocket server
 function connectWebSocket() {
-    webSocket = new WebSocket(`ws://localhost:${serverPort}`); // Connect to the WebSocket server
+    webSocket = new WebSocket(`ws://localhost:${webSocketPort}/overlay`); // Connect to the WebSocket server
 
     webSocket.onopen = () => {
         console.log("Connected to WebSocket server.");
@@ -110,7 +110,7 @@ function hideOverlay() {
     overlayDiv.classList.add('hidden');
 }
 
-console.log("Server Port:", serverPort);
+console.log("WebSocket Port:", webSocketPort);
 
 // Initiate WebSocket connection
 connectWebSocket();

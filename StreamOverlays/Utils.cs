@@ -14,6 +14,11 @@ internal static class Utils
         return System.Enum.GetName(typeof(T), e) ?? string.Empty;
     }
 
+    public static string GetPluginDirectoryPath()
+    {
+        return Path.GetDirectoryName(Plugin.Instance.Info.Location);
+    }
+
     public static ConfigFile CreateConfigFile(string path, string name = null, bool saveOnInit = false)
     {
         BepInPlugin metadata = MetadataHelper.GetMetadata(Plugin.Instance);

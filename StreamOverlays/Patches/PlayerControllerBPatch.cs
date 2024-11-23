@@ -1,4 +1,5 @@
-﻿using GameNetcodeStuff;
+﻿using com.github.zehsteam.StreamOverlays.Server;
+using GameNetcodeStuff;
 using HarmonyLib;
 using Unity.Netcode;
 
@@ -11,7 +12,7 @@ internal static class PlayerControllerBPatch
     [HarmonyPostfix]
     private static void ConnectClientToPlayerObjectPatch()
     {
-        WebSocketClient.UpdateOverlay();
+        WebServer.UpdateOverlay();
     }
 
     [HarmonyPatch(nameof(PlayerControllerB.GrabObjectClientRpc))]
@@ -32,7 +33,7 @@ internal static class PlayerControllerBPatch
 
         if (grabbableObject.isInShipRoom || grabbableObject.isInElevator)
         {
-            WebSocketClient.UpdateOverlay(); // Update Loot
+            WebServer.UpdateOverlay(); // Update Loot
         }
     }
 
@@ -42,7 +43,7 @@ internal static class PlayerControllerBPatch
     {
         if (droppedInShipRoom || droppedInElevator)
         {
-            WebSocketClient.UpdateOverlay(); // Update Loot
+            WebServer.UpdateOverlay(); // Update Loot
         }
     }
 }

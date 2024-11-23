@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using com.github.zehsteam.StreamOverlays.Server;
+using HarmonyLib;
 
 namespace com.github.zehsteam.StreamOverlays.Patches;
 
@@ -9,6 +10,6 @@ internal static class TimeOfDayPatch
     [HarmonyPostfix]
     private static void SyncNewProfitQuotaClientRpcPatch()
     {
-        WebSocketClient.UpdateOverlay();
+        WebServer.UpdateOverlay();
     }
 }

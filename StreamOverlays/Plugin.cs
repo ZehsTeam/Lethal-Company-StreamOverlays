@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using com.github.zehsteam.StreamOverlays.Dependencies;
 using com.github.zehsteam.StreamOverlays.Patches;
+using com.github.zehsteam.StreamOverlays.Server;
 using HarmonyLib;
 
 namespace com.github.zehsteam.StreamOverlays;
@@ -38,23 +39,12 @@ internal class Plugin : BaseUnityPlugin
 
         ConfigManager = new ConfigManager();
 
-        ServerHelper.Initialize();
-        WebSocketClient.Initialize();
+        WebServer.Initialize();
     }
 
     public void LogInfoExtended(object data)
     {
         LogExtended(LogLevel.Info, data);
-    }
-
-    public void LogWarningExtended(object data)
-    {
-        LogExtended(LogLevel.Warning, data);
-    }
-
-    public void LogErrorExtended(object data)
-    {
-        LogExtended(LogLevel.Error, data);
     }
 
     public void LogExtended(LogLevel level, object data)

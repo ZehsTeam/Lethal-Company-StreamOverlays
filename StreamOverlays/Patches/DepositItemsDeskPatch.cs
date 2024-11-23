@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using com.github.zehsteam.StreamOverlays.Server;
+using HarmonyLib;
 
 namespace com.github.zehsteam.StreamOverlays.Patches;
 
@@ -9,6 +10,6 @@ internal static class DepositItemsDeskPatch
     [HarmonyPostfix]
     private static void SellAndDisplayItemProfitsPatch()
     {
-        WebSocketClient.UpdateOverlay(); // Update Loot
+        WebServer.UpdateOverlay(); // Update Loot
     }
 }
