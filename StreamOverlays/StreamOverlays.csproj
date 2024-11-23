@@ -43,6 +43,7 @@
   <PropertyGroup>
     <LibraryFolder>D:\Documents\Lethal Company Modding\Mods</LibraryFolder>
     <PluginsFolder>D:\SteamLibrary\steamapps\common\Lethal Company\BepInEx\plugins</PluginsFolder>
+    <GalePluginsFolder>C:\Users\Andrey\AppData\Roaming\com.kesomannen.gale\lethal-company\profiles\Mod Development\BepInEx\plugins\Zehs-$(MSBuildProjectName)</GalePluginsFolder>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
 	</PropertyGroup>
@@ -62,5 +63,6 @@
   
   <Target Name="CopyToPluginsFolder" AfterTargets="PostBuildEvent">
     <Copy DestinationFolder="$(PluginsFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Copy DestinationFolder="$(GalePluginsFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
   </Target>
 </Project>

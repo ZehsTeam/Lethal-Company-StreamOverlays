@@ -12,12 +12,16 @@ internal class ConfigManager
     public ConfigEntry<int> Overlay_DayOffset { get; private set; }
     public ConfigEntry<bool> Overlay_ShowWeatherIcon { get; private set; }
 
-    // Networking
-    public ConfigEntry<bool> Networking_Enabled { get; private set; }
-    public ConfigEntry<string> Networking_IP { get; private set; }
-    public ConfigEntry<int> Networking_Port { get; private set; }
-    public ConfigEntry<bool> Networking_AutoReconnect { get; private set; }
-    public ConfigEntry<float> Networking_ReconnectDelay { get; private set; }
+    // Server
+    public ConfigEntry<bool> Server_AutoStart { get; private set; }
+    public ConfigEntry<int> Server_Port { get; private set; }
+
+    // Client
+    public ConfigEntry<bool> Client_Enabled { get; private set; }
+    public ConfigEntry<string> Client_ServerIP { get; private set; }
+    public ConfigEntry<int> Client_ServerPort { get; private set; }
+    public ConfigEntry<bool> Client_AutoReconnect { get; private set; }
+    public ConfigEntry<float> Client_ReconnectDelay { get; private set; }
 
     public ConfigManager()
     {
@@ -40,23 +44,29 @@ internal class ConfigManager
         Overlay_DayOffset.SettingChanged += (object sender, EventArgs e) => WebSocketClient.UpdateOverlay();
         Overlay_ShowWeatherIcon.SettingChanged += (object sender, EventArgs e) => WebSocketClient.UpdateOverlay();
 
-        // Networking
-        Networking_Enabled =        ConfigHelper.Bind("Networking", "Enabled",        defaultValue: true,        requiresRestart: false, "Enable networking and connection to the server.");
-        Networking_IP =             ConfigHelper.Bind("Networking", "IP",             defaultValue: "127.0.0.1", requiresRestart: false, "The ip address for the server.");
-        Networking_Port =           ConfigHelper.Bind("Networking", "Port",           defaultValue: 8080,        requiresRestart: false, "The port for the server.");
-        Networking_AutoReconnect =  ConfigHelper.Bind("Networking", "AutoReconnect",  defaultValue: true,        requiresRestart: false, "If enabled, will try to automatically reconnect to the server.");
-        Networking_ReconnectDelay = ConfigHelper.Bind("Networking", "ReconnectDelay", defaultValue: 5f,          requiresRestart: false, "The delay in seconds before trying to reconnect to the server.", new AcceptableValueRange<float>(1.0f, 60.0f));
-        ConfigHelper.AddButton("Networking", "Refresh Connection", "Refresh the connection to the server.", "Refresh", WebSocketClient.Reconnect);
-        ConfigHelper.AddButton("Networking", "Disconnect Connection", "Disconnect the connection to the server.", "Disconnect", WebSocketClient.CloseConnection);
+        // Server
+        ConfigHelper.AddButton("Server", "Start Server", "Start the server.", "Start", ServerHelper.Start);
+        //ConfigHelper.AddButton("Server", "Close Server", "Close the server.", "Close", ServerHelper.Stop);
+        Server_AutoStart = ConfigHelper.Bind("Server", "AutoStart", defaultValue: false, requiresRestart: false, "If enabled, the server will automatically start when you launch the game.");
+        Server_Port =      ConfigHelper.Bind("Server", "Port",      defaultValue: 8080,  requiresRestart: false, "The port for the server.");
         
-        Networking_Enabled.SettingChanged += Networking_Enabled_SettingChanged;
-        Networking_IP.SettingChanged += (object sender, EventArgs e) => WebSocketClient.Reconnect();
-        Networking_Port.SettingChanged += (object sender, EventArgs e) => WebSocketClient.Reconnect();
+        // Client
+        Client_Enabled =        ConfigHelper.Bind("Client", "Enabled",        defaultValue: false,       requiresRestart: false, "Enable networking and connection to the server.");
+        ConfigHelper.AddButton("Client", "Connect to server", "Connect to the server.", "Connect", WebSocketClient.Reconnect);
+        ConfigHelper.AddButton("Client", "Disconnect from server", "Disconnect from the server.", "Disconnect", WebSocketClient.CloseConnection);
+        Client_AutoReconnect =  ConfigHelper.Bind("Client", "AutoReconnect",  defaultValue: true,        requiresRestart: false, "If enabled, will try to automatically reconnect to the server.");
+        Client_ReconnectDelay = ConfigHelper.Bind("Client", "ReconnectDelay", defaultValue: 5f,          requiresRestart: false, "The delay in seconds before trying to reconnect to the server.", new AcceptableValueRange<float>(1.0f, 60.0f));
+        Client_ServerIP =       ConfigHelper.Bind("Client", "ServerIP",       defaultValue: "127.0.0.1", requiresRestart: false, "The ip address for the server.");
+        Client_ServerPort =     ConfigHelper.Bind("Client", "ServerPort",     defaultValue: 8080,        requiresRestart: false, "The port for the server.");
+        
+        Client_Enabled.SettingChanged += Client_Enabled_SettingChanged;
+        Client_ServerIP.SettingChanged += (object sender, EventArgs e) => WebSocketClient.Reconnect();
+        Client_ServerPort.SettingChanged += (object sender, EventArgs e) => WebSocketClient.Reconnect();
     }
 
-    private void Networking_Enabled_SettingChanged(object sender, EventArgs e)
+    private void Client_Enabled_SettingChanged(object sender, EventArgs e)
     {
-        if (Networking_Enabled.Value)
+        if (Client_Enabled.Value)
         {
             WebSocketClient.Reconnect();
         }

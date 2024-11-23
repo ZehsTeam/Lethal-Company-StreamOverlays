@@ -5,27 +5,67 @@ const fs = require('fs');
 
 process.title = "StreamOverlays Server";
 
-let clientPort = 8000; // Port for the browser source (WebSocket & HTTP server)
-let unityPort = 8080; // Port for Unity WebSocket
+let clientPort = 8000; // Default port for Browser Source (WebSocket & HTTP server)
+let unityPort = 8080;  // Default port for Unity WebSocket
+
+// Check command-line arguments
+const args = process.argv.slice(2);
+
+let argsClientPort = undefined;
+let argsUnityPort = undefined;
+
+// Parse command-line arguments for ports
+args.forEach((arg, index) => {
+    if (arg === '--clientPort' && index + 1 < args.length) {
+        argsClientPort = parseInt(args[index + 1], 10);
+    } else if (arg === '--unityPort' && index + 1 < args.length) {
+        argsUnityPort = parseInt(args[index + 1], 10);
+    }
+});
 
 // Determine path to config.json
 const configPath = path.join(process.cwd(), 'config.json');
 
-// Check if the config file exists
+let configClientPort = undefined;
+let configUnityPort = undefined;
+
 if (fs.existsSync(configPath)) {
     try {
-        // Read and parse the configuration file
         const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-        clientPort = config.clientPort || clientPort; // Use the port in config or default
-        unityPort = config.unityPort || unityPort;
-        console.log(`Using ports from config.json - clientPort: ${clientPort}, unityPort: ${unityPort}`);
+
+        if (config.clientPort !== undefined) {
+            configClientPort = config.clientPort;
+        }
+
+        if (config.unityPort !== undefined) {
+            configUnityPort = config.unityPort;
+        }
     } catch (error) {
         console.error("Error reading config.json:", error);
-        console.log(`Using default ports - clientPort: ${clientPort}, unityPort: ${unityPort}`);
     }
-} else {
-    console.log(`config.json not found, using default ports - clientPort: ${clientPort}, unityPort: ${unityPort}`);
 }
+
+if (argsClientPort !== undefined) {
+    clientPort = argsClientPort;
+    console.log(`Using clientPort from command-line arguments - clientPort: ${clientPort}`);
+} else if (configClientPort !== undefined) {
+    clientPort = configClientPort;
+    console.log(`Using clientPort from config.json - clientPort: ${clientPort}`);
+} else {
+    console.log(`Using default clientPort - clientPort: ${clientPort}`);
+}
+
+if (argsUnityPort !== undefined) {
+    unityPort = argsUnityPort;
+    console.log(`Using unityPort from command-line arguments - unityPort: ${unityPort}`);
+} else if (configUnityPort !== undefined) {
+    unityPort = configUnityPort;
+    console.log(`Using unityPort from config.json - unityPort: ${unityPort}`);
+} else {
+    console.log(`Using default unityPort - unityPort: ${unityPort}`);
+}
+
+console.log("");
 
 const app = express();
 
@@ -44,12 +84,9 @@ app.get('/:source', (req, res, next) => {
     const htmlPath = path.join(__dirname, 'public', `${source}.html`);
     const sourcePath = path.join(__dirname, 'public', source);
 
-    // Check if the HTML file exists
     if (path.extname(source) === '' && fs.existsSync(htmlPath)) {
-        // Serve the HTML file if no extension was provided
         res.sendFile(htmlPath);
     } else {
-        // Fall back to static file serving
         res.sendFile(sourcePath, (err) => {
             if (err) {
                 res.status(404).send('File not found');
@@ -60,8 +97,8 @@ app.get('/:source', (req, res, next) => {
 
 // Start the server
 const server = app.listen(clientPort, () => {
-    console.log(`Web server for Browser Sources running at http://localhost:${clientPort}`);
-    console.log(`\nBrowser Source -> http://localhost:${clientPort}/overlay (Recommended 1450x75)\n`);
+    console.log(`Web server for Browser Sources running at http://localhost:${clientPort}\n`);
+    console.log(`Browser Source -> http://localhost:${clientPort}/overlay (Recommended 1450x75)\n`);
 });
 
 // WebSocket Server for Browser Sources
@@ -82,15 +119,11 @@ unityWSS.on('connection', (socket) => {
 
     console.log("Unity connected to WebSocket server.");
     unitySocket = socket;
-    updateTitle();
 
     socket.on('message', (message) => {
-        // Convert Buffer to string before parsing
         const messageString = message.toString();
-
         console.log("Received message from Unity:", messageString);
 
-        // Broadcast the message to all connected Browser Source clients
         clientWSS.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(messageString);
@@ -101,9 +134,7 @@ unityWSS.on('connection', (socket) => {
     socket.on('close', () => {
         console.log("Unity disconnected.");
         unitySocket = null;
-        updateTitle();
 
-        // Notify Browser Source clients that Unity has disconnected
         clientWSS.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify({ source: 'overlay', visible: false }));
@@ -120,19 +151,16 @@ unityWSS.on('connection', (socket) => {
 // Handle Browser Source client WebSocket connections
 clientWSS.on('connection', (clientSocket) => {
     console.log("Browser Source connected.");
-    updateTitle();
 
     clientSocket.on('message', (message) => {
         const clientMessage = JSON.parse(message);
 
-        // If Browser Source requests latest data and Unity is connected, request from Unity
         if (clientMessage.request === "latestData") {
             console.log("Requesting latest data from Unity...");
 
             if (unitySocket && unitySocket.readyState === WebSocket.OPEN) {
                 unitySocket.send(JSON.stringify({ request: "latestData" }));
             } else {
-                // Notify Browser Source that Unity is not connected
                 clientWSS.clients.forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
                         client.send(JSON.stringify({ source: 'overlay', visible: false }));
@@ -144,17 +172,7 @@ clientWSS.on('connection', (clientSocket) => {
 
     clientSocket.on('close', () => {
         console.log("Browser Source disconnected.");
-        updateTitle();
     });
 });
-
-function updateTitle() {
-    const unityConnected = unitySocket !== null;
-    const browserSources = clientWSS ? clientWSS.clients.size : 0;
-
-    process.title = `StreamOverlays Server (Unity Connected: ${unityConnected} - Browser Sources Connected: ${browserSources})`;
-}
-
-updateTitle();
 
 console.log(`WebSocket server for Browser Sources running on ws://localhost:${clientPort}`);

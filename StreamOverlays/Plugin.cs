@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using com.github.zehsteam.StreamOverlays.Dependencies;
 using com.github.zehsteam.StreamOverlays.Patches;
@@ -14,15 +15,20 @@ internal class Plugin : BaseUnityPlugin
 
     internal static Plugin Instance { get; private set; }
     internal static new ManualLogSource Logger { get; private set; }
+    internal static new ConfigFile Config {  get; private set; }
 
     internal static ConfigManager ConfigManager { get; private set; }
 
+    #pragma warning disable IDE0051 // Remove unused private members
     private void Awake()
+    #pragma warning restore IDE0051 // Remove unused private members
     {
         if (Instance == null) Instance = this;
 
         Logger = BepInEx.Logging.Logger.CreateLogSource(MyPluginInfo.PLUGIN_GUID);
         Logger.LogInfo($"{MyPluginInfo.PLUGIN_NAME} has awoken!");
+
+        Config = Utils.CreateGlobalConfigFile();
 
         _harmony.PatchAll(typeof(StartOfRoundPatch));
         _harmony.PatchAll(typeof(TimeOfDayPatch));
@@ -32,6 +38,7 @@ internal class Plugin : BaseUnityPlugin
 
         ConfigManager = new ConfigManager();
 
+        ServerHelper.Initialize();
         WebSocketClient.Initialize();
     }
 
@@ -43,6 +50,11 @@ internal class Plugin : BaseUnityPlugin
     public void LogWarningExtended(object data)
     {
         LogExtended(LogLevel.Warning, data);
+    }
+
+    public void LogErrorExtended(object data)
+    {
+        LogExtended(LogLevel.Error, data);
     }
 
     public void LogExtended(LogLevel level, object data)

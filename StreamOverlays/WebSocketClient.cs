@@ -10,16 +10,14 @@ internal static class WebSocketClient
 {
     private static WebSocket _webSocket;
 
-    // WebSocket server URL
     private static string _serverUrl => $"ws://{_serverIP}:{_serverPort}";
-    private static string _serverIP => Plugin.ConfigManager.Networking_IP.Value;
-    private static int _serverPort => Plugin.ConfigManager.Networking_Port.Value;
-    private static bool _autoReconnect => Plugin.ConfigManager.Networking_AutoReconnect.Value;
-    private static float _reconnectDelay => Plugin.ConfigManager.Networking_ReconnectDelay.Value;
+    private static string _serverIP => Plugin.ConfigManager.Client_ServerIP.Value;
+    private static int _serverPort => Plugin.ConfigManager.Client_ServerPort.Value;
+    private static bool _autoReconnect => Plugin.ConfigManager.Client_AutoReconnect.Value;
+    private static float _reconnectDelay => Plugin.ConfigManager.Client_ReconnectDelay.Value;
 
     private static bool _isConnected = false;
 
-    // Initializes the WebSocket connection
     public static void Initialize()
     {
         Application.quitting += CloseConnection;
@@ -30,10 +28,9 @@ internal static class WebSocketClient
         }
     }
 
-    // Connects to the WebSocket server
     private static void ConnectToServer()
     {
-        if (!Plugin.ConfigManager.Networking_Enabled.Value)
+        if (!Plugin.ConfigManager.Client_Enabled.Value)
         {
             Plugin.Logger.LogInfo("Cancelled connection to server. Networking is disabled in the config settings.");
             return;
@@ -41,10 +38,30 @@ internal static class WebSocketClient
 
         _webSocket = new WebSocket(_serverUrl);
 
+        _webSocket.Log.Output = (data, path) =>
+        {
+            // Map WebSocketSharp.LogLevel to BepInEx.Logging.LogLevel
+            BepInEx.Logging.LogLevel logLevel = data.Level switch
+            {
+                WebSocketSharp.LogLevel.Trace => BepInEx.Logging.LogLevel.Info,
+                WebSocketSharp.LogLevel.Debug => BepInEx.Logging.LogLevel.Debug,
+                WebSocketSharp.LogLevel.Info => BepInEx.Logging.LogLevel.Info,
+                WebSocketSharp.LogLevel.Warn => BepInEx.Logging.LogLevel.Warning,
+                WebSocketSharp.LogLevel.Error => BepInEx.Logging.LogLevel.Error,
+                WebSocketSharp.LogLevel.Fatal => BepInEx.Logging.LogLevel.Fatal,
+                _ => BepInEx.Logging.LogLevel.Info, // Default to Info if unrecognized
+            };
+
+            // Log the message using the mapped log level
+            Plugin.Instance.LogExtended(logLevel, data.Message);
+        };
+
         _webSocket.OnOpen += (sender, e) =>
         {
             _isConnected = true;
+
             Plugin.Logger.LogInfo("Connected to server.");
+
             UpdateOverlay();
         };
 
@@ -52,28 +69,29 @@ internal static class WebSocketClient
 
         _webSocket.OnClose += (sender, e) =>
         {
+            if (_isConnected)
+            {
+                Plugin.Logger.LogInfo("Disconnected from server.");
+            }
+
             _isConnected = false;
 
             if (_autoReconnect)
             {
-                Plugin.Logger.LogInfo("Disconnected from server. Attempting to reconnect...");
+                Plugin.Instance.LogInfoExtended("Attempting to reconnect...");
+
                 Utils.StartCoroutine(ReconnectCoroutine());
-            }
-            else
-            {
-                Plugin.Logger.LogInfo("Disconnected from server.");
             }
         };
 
         _webSocket.OnError += (sender, e) =>
         {
-            Plugin.Logger.LogError($"WebSocket error: {e.Message}");
+            Plugin.Instance.LogErrorExtended($"WebSocket error: {e.Message}");
         };
 
         _webSocket.ConnectAsync(); // Start asynchronous connection
     }
 
-    // Coroutine to reconnect after a delay
     private static IEnumerator ReconnectCoroutine()
     {
         yield return new WaitForSeconds(_reconnectDelay);
@@ -85,12 +103,11 @@ internal static class WebSocketClient
 
         if (!_isConnected)
         {
-            Plugin.Logger.LogInfo("Reconnecting to server...");
+            Plugin.Instance.LogInfoExtended("Reconnecting to server...");
             ConnectToServer();
         }
     }
 
-    // Manually reconnects to the server
     public static void Reconnect()
     {
         if (_webSocket != null)
@@ -101,7 +118,6 @@ internal static class WebSocketClient
         ConnectToServer();
     }
 
-    // Sends data to the server
     public static void SendData(object data)
     {
         if (_isConnected && _webSocket.ReadyState == WebSocketState.Open)
@@ -116,7 +132,6 @@ internal static class WebSocketClient
         }
     }
 
-    // Processes incoming messages from the server
     private static void ProcessServerMessage(string message)
     {
         Plugin.Instance.LogInfoExtended("Message received from server: " + message);
@@ -134,11 +149,10 @@ internal static class WebSocketClient
         }
         catch (JsonReaderException e)
         {
-            Plugin.Logger.LogError($"Failed to parse JSON message: {e.Message}");
+            Plugin.Instance.LogErrorExtended($"Failed to parse JSON message: {e.Message}");
         }
     }
 
-    // Closes the WebSocket connection (e.g., on application quit)
     public static void CloseConnection()
     {
         if (_webSocket != null)
@@ -146,7 +160,6 @@ internal static class WebSocketClient
             _webSocket.Close();
             _webSocket = null;
             _isConnected = false;
-            Plugin.Logger.LogInfo("WebSocket connection closed.");
         }
     }
 

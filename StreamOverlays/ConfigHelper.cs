@@ -28,7 +28,7 @@ internal static class ConfigHelper
 
     public static ConfigEntry<T> Bind<T>(string section, string key, T defaultValue, bool requiresRestart, string description, AcceptableValueBase acceptableValues = null, Action<T> settingChanged = null, ConfigFile configFile = null)
     {
-        configFile ??= Plugin.Instance.Config;
+        configFile ??= Plugin.Config;
 
         var configEntry = acceptableValues == null
             ? configFile.Bind(section, key, defaultValue, description)
@@ -49,7 +49,7 @@ internal static class ConfigHelper
 
     public static Dictionary<ConfigDefinition, string> GetOrphanedConfigEntries(ConfigFile configFile = null)
     {
-        configFile ??= Plugin.Instance.Config;
+        configFile ??= Plugin.Config;
 
         PropertyInfo orphanedEntriesProp = configFile.GetType().GetProperty("OrphanedEntries", BindingFlags.NonPublic | BindingFlags.Instance);
         return (Dictionary<ConfigDefinition, string>)orphanedEntriesProp.GetValue(configFile, null);
@@ -92,7 +92,7 @@ internal static class ConfigHelper
     // Credit to Kittenji.
     public static void ClearUnusedEntries(ConfigFile configFile = null)
     {
-        configFile ??= Plugin.Instance.Config;
+        configFile ??= Plugin.Config;
 
         var orphanedEntries = GetOrphanedConfigEntries(configFile);
 
