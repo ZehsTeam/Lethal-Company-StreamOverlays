@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using System.Collections;
 using System.IO;
 using System.Linq;
@@ -141,7 +142,14 @@ internal static class Utils
 
     public static int GetLootTotal()
     {
-        return GetShipLootTotal() + GetVehicleLootTotal();
+        int total = GetShipLootTotal() + GetVehicleLootTotal();
+
+        if (ShipInventoryProxy.Enabled)
+        {
+            total += ShipInventoryProxy.GetLootTotal();
+        }
+
+        return total;
     }
 
     public static int GetShipLootTotal()

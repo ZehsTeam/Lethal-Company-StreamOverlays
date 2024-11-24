@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using com.github.zehsteam.StreamOverlays.Dependencies;
+using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using com.github.zehsteam.StreamOverlays.Patches;
 using com.github.zehsteam.StreamOverlays.Server;
 using HarmonyLib;
@@ -11,6 +12,7 @@ namespace com.github.zehsteam.StreamOverlays;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency(LethalConfigProxy.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency(ShipInventoryProxy.PLUGIN_GUID, BepInDependency.DependencyFlags.SoftDependency)]
 internal class Plugin : BaseUnityPlugin
 {
     private readonly Harmony _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
@@ -37,6 +39,11 @@ internal class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(PlayerControllerBPatch));
         _harmony.PatchAll(typeof(VehicleControllerPatch));
         _harmony.PatchAll(typeof(DepositItemsDeskPatch));
+
+        if (ShipInventoryProxy.Enabled)
+        {
+            ShipInventoryProxy.PatchAll(_harmony);
+        }
 
         ConfigManager = new ConfigManager();
 

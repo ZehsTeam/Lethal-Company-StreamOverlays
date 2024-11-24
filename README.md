@@ -1,5 +1,5 @@
 # StreamOverlays
-#### Display stats about the game in real-time on your stream using browser sources. Shows the player count, current moon and weather, day count, quota, and loot on the ship. Works with OBS, Streamlabs OBS, ect... Twitch, YouTube, TikTok, Kick
+#### Display stats about the game in real-time on your stream using browser sources. Shows the player count, current moon, current weather, day count, quota, and loot on the ship. Works with OBS, Streamlabs OBS, ect... Twitch, YouTube, TikTok, Kick
 
 * This mod is fully client-side and works in vanilla lobbies.
 

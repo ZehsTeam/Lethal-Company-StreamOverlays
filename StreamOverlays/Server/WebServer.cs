@@ -39,7 +39,7 @@ internal static class WebServer
             Start();
         }
     }
-
+    
     public static void Start()
     {
         if (_isRunning)

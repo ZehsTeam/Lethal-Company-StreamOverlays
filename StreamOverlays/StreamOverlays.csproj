@@ -7,7 +7,7 @@
     
     <AssemblyName>com.github.zehsteam.$(MSBuildProjectName)</AssemblyName> <!-- PLUGIN_GUID -->
     <Product>$(MSBuildProjectName)</Product>                               <!-- PLUGIN_NAME -->
-    <Version>1.0.2</Version>                                               <!-- PLUGIN_VERSION -->
+    <Version>1.0.3</Version>                                               <!-- PLUGIN_VERSION -->
     <Description></Description>
     
     <RootNamespace>com.github.zehsteam.$(MSBuildProjectName)</RootNamespace>
@@ -43,19 +43,18 @@
   <PropertyGroup>
     <!-- Local libraries folder -->
     <LibraryFolder>D:\Documents\Lethal Company Modding\Mods</LibraryFolder>
-
+    
     <!-- Lethal Company plugins folder -->
     <PluginsFolder>D:\SteamLibrary\steamapps\common\Lethal Company\BepInEx\plugins</PluginsFolder>
     
     <!-- Gale profile name -->
     <GaleProfile>Mod Development</GaleProfile>
-    
     <GalePluginsFolder>$(AppData)\com.kesomannen.gale\lethal-company\profiles\$(GaleProfile)\BepInEx\plugins\Zehs-$(MSBuildProjectName)</GalePluginsFolder>
     
     <!-- Website -->
     <PublicSourceFolder>$(MSBuildProjectDirectory)\Website\public</PublicSourceFolder>
     <PublicDestinationFolder>$(GalePluginsFolder)\public</PublicDestinationFolder>
-
+    
     <!-- Other settings -->
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
@@ -71,15 +70,20 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Reference Include="LethalConfig"><HintPath>$(LibraryFolder)\AinaVT-LethalConfig\LethalConfig.dll</HintPath></Reference>
+    <Reference Include="LethalConfig"> <HintPath>$(LibraryFolder)\AinaVT-LethalConfig\LethalConfig.dll     </HintPath></Reference>
+    <Reference Include="ShipInventory"><HintPath>$(LibraryFolder)\WarperSan-ShipInventory\ShipInventory.dll</HintPath></Reference>
+    <Reference Include="CSync">        <HintPath>$(LibraryFolder)\Sigurd-CSync\com.sigurd.csync.dll        </HintPath></Reference>
   </ItemGroup>
   
   <Target Name="CopyToPluginsFolder" AfterTargets="PostBuildEvent">
     <Copy DestinationFolder="$(PluginsFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+  </Target>
+  
+  <Target Name="CopyToGalePluginsFolder" AfterTargets="CopyToPluginsFolder">
     <Copy DestinationFolder="$(GalePluginsFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
   </Target>
   
-  <Target Name="CleanAndCopyFolders" AfterTargets="CopyToPluginsFolder">
+  <Target Name="CleanAndCopyFolders" AfterTargets="CopyToGalePluginsFolder">
     <Exec Command="robocopy &quot;$(PublicSourceFolder)&quot; &quot;$(PublicDestinationFolder)&quot; /mir || exit 0" />
   </Target>
 </Project>
