@@ -52,7 +52,7 @@
     <GalePluginsFolder>$(AppData)\com.kesomannen.gale\lethal-company\profiles\$(GaleProfile)\BepInEx\plugins\Zehs-$(MSBuildProjectName)</GalePluginsFolder>
     
     <!-- Website -->
-    <PublicSourceFolder>$(MSBuildProjectDirectory)\Website\public</PublicSourceFolder>
+    <PublicSourceFolder>$(MSBuildProjectDirectory)\..\Website\public</PublicSourceFolder>
     <PublicDestinationFolder>$(GalePluginsFolder)\public</PublicDestinationFolder>
     
     <!-- Other settings -->

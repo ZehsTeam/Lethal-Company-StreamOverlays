@@ -1,7 +1,8 @@
 # StreamOverlays
 #### Display stats about the game in real-time on your stream using browser sources. Shows the player count, current moon, current weather, day count, quota, and loot on the ship. Works with OBS, Streamlabs OBS, ect... Twitch, YouTube, TikTok, Kick
 
-* This mod is fully client-side and works in vanilla lobbies.
+#### <ins>This mod is fully client-side and works in vanilla lobbies.</ins>
+#### This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) mod.
 
 ## <img src="https://i.imgur.com/TpnrFSH.png" width="20px"> Download
 
@@ -30,6 +31,9 @@ Set the width to around 1450\
 Set the height to 75
 
 > If you do not see the overlay try refreshing the browser source in your streaming application. (OBS, Streamlabs OBS, etc...)
+
+## Compatibility / Integration
+This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) mod.
 
 ## Developer Contact
 #### Report bugs or give suggestions here:
