@@ -8,7 +8,10 @@ internal static class NetworkUtils
     {
         get
         {
-            if (NetworkManager.Singleton == null) return false;
+            if (NetworkManager.Singleton == null)
+            {
+                return false;
+            }
 
             return NetworkManager.Singleton.IsServer;
         }
@@ -18,7 +21,10 @@ internal static class NetworkUtils
     {
         get
         {
-            if (NetworkManager.Singleton == null) return false;
+            if (NetworkManager.Singleton == null)
+            {
+                return false;
+            }
 
             return NetworkManager.Singleton.IsHost;
         }

@@ -6,8 +6,6 @@ const dayText = document.querySelector('#day .value');
 const quotaText = document.querySelector('#quota .value');
 const lootText = document.querySelector('#loot .value');
 
-const sourceId = 'overlay';
-
 const reconnectInterval = 5000; // milliseconds.
 
 let webSocket;
@@ -18,9 +16,6 @@ function connectWebSocket() {
 
     webSocket.onopen = () => {
         console.log("Connected to WebSocket server.");
-        
-        // Send a request to the Node.js server for the latest data
-        requestLatestData();
     };
 
     webSocket.onmessage = (event) => webSocket_OnMessage(event);
@@ -37,20 +32,9 @@ function connectWebSocket() {
     };
 }
 
-// Function to request the latest data from Node.js server
-function requestLatestData() {
-    if (webSocket && webSocket.readyState === WebSocket.OPEN) {
-        webSocket.send(JSON.stringify({ request: "latestData" }));
-    }
-}
-
 function webSocket_OnMessage(event) {
     const data = JSON.parse(event.data);
-
-    if (data.source === undefined || data.source !== sourceId) {
-        return;
-    }
-
+    
     if (data.visible !== undefined) {
         if (data.visible) {
             overlayDiv.classList.remove('hidden');

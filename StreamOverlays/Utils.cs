@@ -31,7 +31,7 @@ internal static class Utils
     {
         BepInPlugin metadata = MetadataHelper.GetMetadata(Plugin.Instance);
         name ??= $"{metadata.GUID}-{name}";
-        return CreateConfigFile(Paths.ConfigPath, saveOnInit: saveOnInit);
+        return CreateConfigFile(Paths.ConfigPath, name, saveOnInit: saveOnInit);
     }
 
     public static ConfigFile CreateGlobalConfigFile(string name = null, bool saveOnInit = false)

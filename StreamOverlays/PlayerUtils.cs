@@ -26,6 +26,11 @@ internal static class PlayerUtils
 
     public static PlayerControllerB GetPlayerScriptByClientId(ulong clientId)
     {
+        if (StartOfRound.Instance == null)
+        {
+            return null;
+        }
+
         foreach (var playerScript in StartOfRound.Instance.allPlayerScripts)
         {
             if (playerScript.actualClientId == clientId)

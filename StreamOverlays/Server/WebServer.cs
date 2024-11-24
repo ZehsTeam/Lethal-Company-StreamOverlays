@@ -104,6 +104,8 @@ internal static class WebServer
         {
             string requestedPath = request.Url.LocalPath.TrimStart('/'); // e.g., "overlay" or "assets/css/style.css"
 
+            Plugin.Instance.LogInfoExtended($"Requested path: \"{requestedPath}\"");
+
             if (string.IsNullOrEmpty(requestedPath))
             {
                 requestedPath = "overlay.html";
@@ -112,8 +114,6 @@ internal static class WebServer
             {
                 requestedPath += ".html";
             }
-
-            Plugin.Logger.LogInfo($"Requested path: \"{requestedPath}\"");
 
             if (requestedPath.Equals("config.js", StringComparison.OrdinalIgnoreCase))
             {
@@ -221,7 +221,6 @@ internal static class WebServer
     {
         return new
         {
-            source = "overlay",
             visible = Utils.CanShowOverlay(),
             crew = Utils.GetCrewCount(),
             moon = Utils.GetCurrentPlanetName(),
