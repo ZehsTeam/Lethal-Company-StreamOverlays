@@ -51,10 +51,10 @@ internal static class WebServer
         _isRunning = true;
 
         // Start HTTP Server
-        Task.Run(() => StartHttpServer(HttpPort));
+        Task.Run(StartHttpServer);
 
         // Start WebSocket Server
-        _webSocketServer = new WebSocketServer($"ws://localhost:{WebSocketPort}");
+        _webSocketServer = new WebSocketServer($"ws://{System.Net.IPAddress.Any}:{WebSocketPort}");
         _webSocketServer.AddWebSocketService<OverlayBehavior>("/overlay");
         _webSocketServer.Start();
 
@@ -73,14 +73,14 @@ internal static class WebServer
         Plugin.Logger.LogInfo("Server stopped.");
     }
 
-    private static void StartHttpServer(int port)
+    private static void StartHttpServer()
     {
         _httpListener = new HttpListener();
-        _httpListener.Prefixes.Add($"http://localhost:{port}/");
+        _httpListener.Prefixes.Add($"http://{System.Net.IPAddress.Any}:{HttpPort}/");
         _httpListener.Start();
 
-        Plugin.Logger.LogInfo($"HTTP server started on http://localhost:{port}");
-
+        Plugin.Logger.LogInfo($"HTTP server started on http://localhost:{HttpPort}");
+        
         while (_isRunning)
         {
             try
@@ -252,14 +252,30 @@ internal static class WebServer
             return;
         }
 
-        if (PublicFolderExists())
-        {
-            Directory.Delete(GetPublicFolderPath(), recursive: true);
-        }
-
         try
         {
-            await Task.Run(() => ZipFile.ExtractToDirectory(archivePath, Utils.GetPluginDirectoryPath()));
+            string extractPath = Utils.GetPluginDirectoryPath();
+
+            await Task.Run(() =>
+            {
+                using var archive = ZipFile.OpenRead(archivePath);
+
+                foreach (var entry in archive.Entries)
+                {
+                    string destinationPath = Path.Combine(extractPath, entry.FullName);
+                    string destinationDir = Path.GetDirectoryName(destinationPath);
+
+                    if (!string.IsNullOrEmpty(destinationDir))
+                    {
+                        Directory.CreateDirectory(destinationDir);
+                    }
+
+                    if (!entry.FullName.EndsWith("/"))
+                    {
+                        entry.ExtractToFile(destinationPath, overwrite: true);
+                    }
+                }
+            });
 
             File.Delete(archivePath);
 

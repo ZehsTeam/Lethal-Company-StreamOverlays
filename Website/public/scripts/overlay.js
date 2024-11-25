@@ -12,7 +12,7 @@ let webSocket;
 
 // Function to connect to the WebSocket server
 function connectWebSocket() {
-    webSocket = new WebSocket(`ws://localhost:${webSocketPort}/overlay`); // Connect to the WebSocket server
+    webSocket = new WebSocket(`ws://${window.location.hostname}:${webSocketPort}/overlay`); // Connect to the WebSocket server
 
     webSocket.onopen = () => {
         console.log("Connected to WebSocket server.");
