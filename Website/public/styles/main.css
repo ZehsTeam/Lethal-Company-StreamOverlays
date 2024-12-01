@@ -1,0 +1,48 @@
+@font-face {
+    font-family: LethalCompany;
+    src: url(../fonts/3270-Regular.ttf);
+}
+
+@font-face {
+    font-family: Icons;
+    src: url(../fonts/Icons.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: white;
+    font-family: LethalCompany, Arial, sans-serif;
+    background-color: rgb(121, 121, 121);
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.collapse {
+    visibility: collapse;
+}
+
+.item {
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.item p {
+    font-size: 30px;
+    font-weight: bold;
+    text-shadow: 1px 1px 10px black;
+}
+
+.icon {
+    font-family: Icons !important;
+    font-weight: normal !important;
+}

@@ -5,6 +5,7 @@ const weatherIcon = document.querySelector('#moon .icon');
 const dayText = document.querySelector('#day .value');
 const quotaText = document.querySelector('#quota .value');
 const lootText = document.querySelector('#loot .value');
+const averagePerDay = document.querySelector('#average-per-day .value');
 
 const reconnectInterval = 5000; // milliseconds.
 
@@ -22,7 +23,7 @@ function connectWebSocket() {
 
     webSocket.onclose = () => {
         console.log("WebSocket connection closed. Attempting to reconnect...");
-        hideOverlay();
+        setOverlayVisibility(false);
         setTimeout(connectWebSocket, reconnectInterval);
     };
 
@@ -34,49 +35,91 @@ function connectWebSocket() {
 
 function webSocket_OnMessage(event) {
     const data = JSON.parse(event.data);
+
+    setOverlayVisibility(data.visible);
+    setCrewCount(data.crew);
+    setMoon(data.moon);
+    setWeather(data.weather);
+    setWeatherIconVisibility(data.showWeatherIcon);
+    setDayCount(data.day);
+    setQuota(data.quota);
+    setLoot(data.loot)
+    setAveragePerDay(data.averagePerDay);
+}
+
+function setOverlayVisibility(value) {
+    if (value === undefined) {
+        return;
+    }
+
+    if (overlayDiv === undefined) {
+        return;
+    }
+
+    if (value) {
+        overlayDiv.classList.remove('hidden');
+    } else {
+        overlayDiv.classList.add('hidden');
+    }
+}
+
+function setCrewCount(value) {
+    if (value === undefined) {
+        return;
+    }
+
+    if (crewText === null) {
+        return;
+    }
+
+    crewText.textContent = `Crew: ${value}`;
+}
+
+function setMoon(value) {
+    if (value === undefined) {
+        return;
+    }
+
+    if (moonText === null) {
+        return;
+    }
     
-    if (data.visible !== undefined) {
-        if (data.visible) {
-            overlayDiv.classList.remove('hidden');
-        } else {
-            overlayDiv.classList.add('hidden');
-        }
+    moonText.textContent = `Moon: ${value}`;
+}
+
+function setWeather(value) {
+    if (value === undefined) {
+        return;
     }
 
-    if (data.crew !== undefined) {
-        crewText.textContent = `Crew: ${data.crew}`;
+    if (weatherIcon === null) {
+        return;
     }
 
-    if (data.moon !== undefined) {
-        moonText.textContent = `Moon: ${data.moon}`;
+    weatherIcon.innerHTML = getWeatherIconCode(value);
+}
+
+function setWeatherIconVisibility(value) {
+    if (value === undefined) {
+        return;
     }
 
-    if (data.weather !== undefined) {
-        weatherIcon.innerHTML = getWeatherIconCode(data.weather);
+    if (weatherIcon === null) {
+        return;
     }
 
-    if (data.showWeatherIcon !== undefined) {
-        if (data.showWeatherIcon) {
-            weatherIcon.classList.remove('collapse');
-        } else {
-            weatherIcon.classList.add('collapse');
-        }
-    }
-
-    if (data.day !== undefined) {
-        dayText.textContent = `Day: ${data.day}`;
-    }
-
-    if (data.quota !== undefined) {
-        quotaText.textContent = `Quota: $${data.quota}`;
-    }
-
-    if (data.loot !== undefined) {
-        lootText.textContent = `Loot: $${data.loot}`;
+    if (value) {
+        weatherIcon.classList.remove('collapse');
+    } else {
+        weatherIcon.classList.add('collapse');
     }
 }
 
 function getWeatherIconCode(weather) {
+    if (weather === undefined) {
+        return "";
+    }
+
     const weatherIconCodes = {
         none: "&#xe900;",
         dustclouds: "&#xe906;",
@@ -90,8 +133,52 @@ function getWeatherIconCode(weather) {
     return weatherIconCodes[weather.toLowerCase()] || "";
 }
 
-function hideOverlay() {
-    overlayDiv.classList.add('hidden');
+function setDayCount(value) {
+    if (value === undefined) {
+        return;
+    }
+
+    if (dayText === null) {
+        return;
+    }
+
+    dayText.textContent = `Day: ${value}`;
+}
+
+function setQuota(value) {
+    if (value === undefined) {
+        return;
+    }
+
+    if (quotaText === null) {
+        return;
+    }
+
+    quotaText.textContent = `Quota: $${value}`;
+}
+
+function setLoot(value) {
+    if (value === undefined) {
+        return;
+    }
+
+    if (lootText === null) {
+        return;
+    }
+
+    lootText.textContent = `Loot: $${value}`;
+}
+
+function setAveragePerDay(value) {
+    if (value === undefined) {
+        return;
+    }
+
+    if (averagePerDay === null) {
+        return;
+    }
+
+    averagePerDay.textContent = `Average per day: $${value}`;
 }
 
 console.log("WebSocket Port:", webSocketPort);

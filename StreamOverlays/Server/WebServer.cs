@@ -228,7 +228,8 @@ internal static class WebServer
             showWeatherIcon = Plugin.ConfigManager.Overlay_ShowWeatherIcon.Value,
             day = Utils.GetDayCount(),
             quota = Utils.GetProfitQuota(),
-            loot = Utils.GetLootTotal()
+            loot = Utils.GetLootTotal(),
+            averagePerDay = StatsHelper.GetAveragePerDay()
         };
     }
 

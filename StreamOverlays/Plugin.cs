@@ -34,6 +34,7 @@ internal class Plugin : BaseUnityPlugin
 
         Config = Utils.CreateGlobalConfigFile();
 
+        _harmony.PatchAll(typeof(GameNetworkManagerPatch));
         _harmony.PatchAll(typeof(StartOfRoundPatch));
         _harmony.PatchAll(typeof(TimeOfDayPatch));
         _harmony.PatchAll(typeof(PlayerControllerBPatch));

@@ -10,6 +10,7 @@ internal static class StartOfRoundPatch
     [HarmonyPostfix]
     private static void StartPatch()
     {
+        StatsHelper.LoadDayData();
         WebServer.UpdateOverlay();
     }
 
@@ -55,10 +56,11 @@ internal static class StartOfRoundPatch
         WebServer.UpdateOverlay();
     }
 
-    [HarmonyPatch(nameof(StartOfRound.EndOfGameClientRpc))]
+    [HarmonyPatch(nameof(StartOfRound.EndOfGame))]
     [HarmonyPostfix]
-    private static void EndOfGameClientRpcPatch()
+    private static void EndOfGamePatch(int scrapCollected)
     {
+        StatsHelper.AddDayData(Utils.GetDayCount(), scrapCollected);
         WebServer.UpdateOverlay();
     }
 
