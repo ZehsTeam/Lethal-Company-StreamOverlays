@@ -4,16 +4,16 @@
         <meta charset="UTF-8">
         <title>Lethal Company Overlay</title>
         <link rel="stylesheet" href="./styles/main.css">
-        <link rel="stylesheet" href="./styles/single.css">
+        <link rel="stylesheet" href="./styles/overlay.css">
     </head>
     <body>
-        <div class="hidden" id="overlay">
-            <div class="item" id="quota">
-                <p class="value">Quota: $130</p>
-            </div>
-        </div>
-        
+        <custom-overlay>
+            <custom-quota></custom-quota>
+        </custom-overlay>
+
         <script src="./config.js"></script>
+        <script src="./scripts/components.js"></script>
         <script src="./scripts/overlay.js"></script>
+        <script src="./scripts/data.js"></script>
     </body>
 </html>

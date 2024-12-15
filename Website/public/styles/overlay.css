@@ -1,25 +1,8 @@
-#overlay {
+custom-overlay {
     height: 75px;
-    padding: 0 30px 0 30px;
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 140px 1fr 160px 250px 250px;
-    column-gap: 30px;
-    /* background-color: rgba(0, 0, 0, 0.1); */
-}
-
-@media only screen and (max-width: 1420px) {
-    #overlay {
-        grid-template-columns: 140px 1fr 145px 225px 210px;
-    }
-}
-
-@media only screen and (max-width: 1339px) {
-    #overlay {
-        grid-template-columns: 120px 1fr 120px 190px 175px;
-    }
-
-    .item p {
-        font-size: 25px;
-    }
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+    gap: 40px; /* Maintains consistent spacing between items */
 }

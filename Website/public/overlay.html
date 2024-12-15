@@ -7,26 +7,17 @@
         <link rel="stylesheet" href="./styles/overlay.css">
     </head>
     <body>
-        <div class="hidden" id="overlay">
-            <div class="item" id="crew">
-                <p class="value">Crew: 1</p>
-            </div>
-            <div class="item" id="moon">
-                <p class="value">Moon: 41 Experimentation</p>
-                <p class="icon" style="margin-left: 20px;">&#xe900;</p>
-            </div>
-            <div class="item" id="day">
-                <p class="value">Day: 1</p>
-            </div>
-            <div class="item" id="quota">
-                <p class="value">Quota: $130</p>
-            </div>
-            <div class="item" id="loot">
-                <p class="value">Loot: $0</p>
-            </div>
-        </div>
-        
+        <custom-overlay>
+            <custom-crew></custom-crew>
+            <custom-moon></custom-moon>
+            <custom-day></custom-day>
+            <custom-quota></custom-quota>
+            <custom-loot></custom-loot>
+        </custom-overlay>
+
         <script src="./config.js"></script>
+        <script src="./scripts/components.js"></script>
         <script src="./scripts/overlay.js"></script>
+        <script src="./scripts/data.js"></script>
     </body>
 </html>

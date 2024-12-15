@@ -1,187 +1,58 @@
-const overlayDiv = document.querySelector("#overlay");
-const crewText = document.querySelector("#crew .value");
-const moonText = document.querySelector('#moon .value');
-const weatherIcon = document.querySelector('#moon .icon');
-const dayText = document.querySelector('#day .value');
-const quotaText = document.querySelector('#quota .value');
-const lootText = document.querySelector('#loot .value');
-const averagePerDay = document.querySelector('#average-per-day .value');
 
-const reconnectInterval = 5000; // milliseconds.
-
-let webSocket;
-
-// Function to connect to the WebSocket server
-function connectWebSocket() {
-    webSocket = new WebSocket(`ws://${window.location.hostname}:${webSocketPort}/overlay`); // Connect to the WebSocket server
-
-    webSocket.onopen = () => {
-        console.log("Connected to WebSocket server.");
-    };
-
-    webSocket.onmessage = (event) => webSocket_OnMessage(event);
-
-    webSocket.onclose = () => {
-        console.log("WebSocket connection closed. Attempting to reconnect...");
-        setOverlayVisibility(false);
-        setTimeout(connectWebSocket, reconnectInterval);
-    };
-
-    webSocket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-        webSocket.close();  // Ensure WebSocket is closed before retrying
-    };
+function getGapValue() {
+    const overlay = document.querySelector('custom-overlay');
+    const computedStyle = getComputedStyle(overlay);
+    const gapValue = parseFloat(computedStyle.gap); // Retrieve and parse the gap value
+    return gapValue;
 }
 
-function webSocket_OnMessage(event) {
-    const data = JSON.parse(event.data);
+function recalculateItemsMinSize() {
+    const overlayItems = document.querySelectorAll('custom-overlay .item');
 
-    setOverlayVisibility(data.visible);
-    setCrewCount(data.crew);
-    setMoon(data.moon);
-    setWeather(data.weather);
-    setWeatherIconVisibility(data.showWeatherIcon);
-    setDayCount(data.day);
-    setQuota(data.quota);
-    setLoot(data.loot)
-    setAveragePerDay(data.averagePerDay);
+    overlayItems.forEach(item => {
+        const valueElement = item.querySelector('.value');
+        const iconElement = item.querySelector('.icon');
+
+        const minsizeText = valueElement?.getAttribute('data-minsize');
+
+        // Create a temporary element to measure text width
+        const tempElement = document.createElement('span');
+        tempElement.style.position = 'absolute';
+        tempElement.style.visibility = 'hidden';
+        tempElement.style.whiteSpace = 'nowrap';
+        tempElement.style.font = getComputedStyle(valueElement).font;
+        tempElement.innerText = minsizeText;
+
+        document.body.appendChild(tempElement);
+        const textWidth = tempElement.offsetWidth;
+        document.body.removeChild(tempElement);
+
+        // Measure icon width if it exists
+        let iconWidth = 0;
+        
+        if (iconElement) {
+            const iconTemp = document.createElement('span');
+            iconTemp.style.position = 'absolute';
+            iconTemp.style.visibility = 'hidden';
+            iconTemp.style.whiteSpace = 'nowrap';
+            iconTemp.style.font = getComputedStyle(iconElement).font;
+            iconTemp.innerText = iconElement.innerText;
+
+            document.body.appendChild(iconTemp);
+            iconWidth = iconTemp.offsetWidth;
+            document.body.removeChild(iconTemp);
+        }
+
+        let gapWidth = 0;
+
+        if (item.classList.contains('grow')) {
+            gapWidth = getGapValue();
+        }
+        
+        // Add the dynamic gap width
+        const totalMinWidth = textWidth + iconWidth + gapWidth;
+        item.style.minWidth = `${totalMinWidth}px`;
+    });
 }
 
-function setOverlayVisibility(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    if (overlayDiv === undefined) {
-        return;
-    }
-
-    if (value) {
-        overlayDiv.classList.remove('hidden');
-    } else {
-        overlayDiv.classList.add('hidden');
-    }
-}
-
-function setCrewCount(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    if (crewText === null) {
-        return;
-    }
-
-    crewText.textContent = `Crew: ${value}`;
-}
-
-function setMoon(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    if (moonText === null) {
-        return;
-    }
-    
-    moonText.textContent = `Moon: ${value}`;
-}
-
-function setWeather(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    if (weatherIcon === null) {
-        return;
-    }
-
-    weatherIcon.innerHTML = getWeatherIconCode(value);
-}
-
-function setWeatherIconVisibility(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    if (weatherIcon === null) {
-        return;
-    }
-
-    if (value) {
-        weatherIcon.classList.remove('collapse');
-    } else {
-        weatherIcon.classList.add('collapse');
-    }
-}
-
-function getWeatherIconCode(weather) {
-    if (weather === undefined) {
-        return "";
-    }
-
-    const weatherIconCodes = {
-        none: "&#xe900;",
-        dustclouds: "&#xe906;",
-        rainy: "&#xe901;",
-        stormy: "&#xe903;",
-        foggy: "&#xe904;",
-        flooded: "&#xe902;",
-        eclipsed: "&#xe905;"
-    };
-
-    return weatherIconCodes[weather.toLowerCase()] || "";
-}
-
-function setDayCount(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    if (dayText === null) {
-        return;
-    }
-
-    dayText.textContent = `Day: ${value}`;
-}
-
-function setQuota(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    if (quotaText === null) {
-        return;
-    }
-
-    quotaText.textContent = `Quota: $${value}`;
-}
-
-function setLoot(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    if (lootText === null) {
-        return;
-    }
-
-    lootText.textContent = `Loot: $${value}`;
-}
-
-function setAveragePerDay(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    if (averagePerDay === null) {
-        return;
-    }
-
-    averagePerDay.textContent = `Average per day: $${value}`;
-}
-
-console.log("WebSocket Port:", webSocketPort);
-
-// Initiate WebSocket connection
-connectWebSocket();
+document.addEventListener('DOMContentLoaded', recalculateItemsMinSize);
