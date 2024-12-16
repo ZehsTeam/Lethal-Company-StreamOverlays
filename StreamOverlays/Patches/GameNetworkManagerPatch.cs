@@ -11,7 +11,7 @@ internal static class GameNetworkManagerPatch
     private static void SaveGamePatch()
     {
         StatsHelper.SaveDayData();
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(GameNetworkManager.ResetSavedGameValues))]
@@ -19,6 +19,6 @@ internal static class GameNetworkManagerPatch
     private static void ResetSavedGameValuesPatch()
     {
         StatsHelper.ResetSavedDayData();
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 }

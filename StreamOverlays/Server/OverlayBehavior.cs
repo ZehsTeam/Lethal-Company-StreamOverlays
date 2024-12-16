@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using WebSocketSharp;
 using WebSocketSharp.Server;
 
 namespace com.github.zehsteam.StreamOverlays.Server;
@@ -10,24 +7,8 @@ public class OverlayBehavior : WebSocketBehavior
 {
     protected override void OnOpen()
     {
-        UpdateOverlay();
-    }
-
-    protected override void OnMessage(MessageEventArgs e)
-    {
-        try
-        {
-            var jsonObject = JObject.Parse(e.Data);
-
-            if (jsonObject["request"]?.ToString() == "latestData")
-            {
-                UpdateOverlay();
-            }
-        }
-        catch (Exception ex)
-        {
-            Plugin.Logger.LogError($"Failed to parse JSON message: {ex.Message}");
-        }
+        UpdateOverlayFormatting();
+        UpdateOverlayData();
     }
 
     public void SendJsonToClient(object jsonData)
@@ -35,8 +16,13 @@ public class OverlayBehavior : WebSocketBehavior
         Send(JsonConvert.SerializeObject(jsonData));
     }
 
-    public void UpdateOverlay()
+    public void UpdateOverlayFormatting()
     {
-        SendJsonToClient(WebServer.GetOverlayData());
+        SendJsonToClient(WebServer.GetOverlaysFormatting());
+    }
+
+    public void UpdateOverlayData()
+    {
+        SendJsonToClient(WebServer.GetOverlaysData());
     }
 }

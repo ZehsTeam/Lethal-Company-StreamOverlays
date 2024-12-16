@@ -11,6 +11,6 @@ internal static class ItemManagerPatch
     [HarmonyPostfix]
     private static void SetItemsPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 }

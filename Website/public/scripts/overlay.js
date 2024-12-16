@@ -6,7 +6,7 @@ function getGapValue() {
     return gapValue;
 }
 
-function recalculateItemsMinSize() {
+function calculateItemsMinSize() {
     const overlayItems = document.querySelectorAll('custom-overlay .item');
 
     overlayItems.forEach(item => {
@@ -55,4 +55,4 @@ function recalculateItemsMinSize() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', recalculateItemsMinSize);
+document.addEventListener('DOMContentLoaded', calculateItemsMinSize);

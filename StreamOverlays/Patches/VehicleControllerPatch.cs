@@ -10,6 +10,6 @@ internal static class VehicleControllerPatch
     [HarmonyPostfix]
     private static void CollectItemsInTruckPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 }

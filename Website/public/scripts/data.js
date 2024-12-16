@@ -14,7 +14,7 @@ function connectWebSocket() {
 
     webSocket.onclose = () => {
         console.log("WebSocket connection closed. Attempting to reconnect...");
-        setOverlayVisibility(false);
+        setOverlayVisible(false);
         setTimeout(connectWebSocket, reconnectInterval);
     };
 
@@ -27,181 +27,56 @@ function connectWebSocket() {
 function webSocket_OnMessage(event) {
     const data = JSON.parse(event.data);
 
-    setOverlayVisibility(data.visible);
-    setCrewCount(data.crew);
-    setMoon(data.moon);
-    setWeather(data.weather);
-    setWeatherIconVisibility(data.showWeatherIcon);
-    setDayCount(data.day, 1);
-    setQuota(1, data.quota);
-    setLoot(data.loot)
-    setAveragePerDay(data.averagePerDay);
-}
-
-function setOverlayVisibility(value) {
-    if (value === undefined) {
+    if (data.type === undefined) {
         return;
     }
+
+    if (data.type === 'data' || data.type === 'formatting') {
+        setOverlayVisible(data.showOverlay);
+        updateCrew(data);
+        updateMoon(data);
+        updateDay(data);
+        updateQuota(data);
+        updateLoot(data);
+        updateAveragePerDay(data);
+    }
+}
+
+function setOverlayVisible(value) {
+    if (value === undefined) return;
 
     const elements = document.querySelectorAll('custom-overlay');
-
-    if (elements.length === 0) {
-        return;
-    }
-
-    elements.forEach(element => {
-        if (value) {
-            element.classList.remove('hidden');
-        } else {
-            element.classList.add('hidden');
-        }
-    });
+    elements.forEach(element => element.setVisible(value));
 }
 
-function setCrewCount(value) {
-    if (value === undefined) {
-        return;
-    }
-
+function updateCrew(data) {
     const elements = document.querySelectorAll('custom-crew');
-
-    if (elements.length === 0) {
-        return;
-    }
-
-    elements.forEach(element => {
-        element.setValue(value);
-    });
+    elements.forEach(element => element.update(data));
 }
 
-function setMoon(value) {
-    if (value === undefined) {
-        return;
-    }
-
+function updateMoon(data) {
     const elements = document.querySelectorAll('custom-moon');
-
-    if (elements.length === 0) {
-        return;
-    }
-
-    elements.forEach(element => {
-        element.setValue(value);
-    });
+    elements.forEach(element => element.update(data));
 }
 
-function setWeather(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    const elements = document.querySelectorAll('custom-moon');
-
-    if (elements.length === 0) {
-        return;
-    }
-
-    const weatherIconCode = getWeatherIconCode(value);
-
-    elements.forEach(element => {
-        element.setWeatherIcon(weatherIconCode);
-    });
-}
-
-function setWeatherIconVisibility(value) {
-    if (value === undefined) {
-        return;
-    }
-
-    const elements = document.querySelectorAll('custom-moon');
-
-    if (elements.length === 0) {
-        return;
-    }
-
-    elements.forEach(element => {
-        element.setWeatherIconVisibility(value);
-    });
-}
-
-function getWeatherIconCode(weather) {
-    if (weather === undefined) {
-        return "";
-    }
-
-    const weatherIconCodes = {
-        none: "&#xe900;",
-        dustclouds: "&#xe906;",
-        rainy: "&#xe901;",
-        stormy: "&#xe903;",
-        foggy: "&#xe904;",
-        flooded: "&#xe902;",
-        eclipsed: "&#xe905;"
-    };
-
-    return weatherIconCodes[weather.toLowerCase()] || "";
-}
-
-function setDayCount(day, dayInQuota) {
-    if (day === undefined) return;
-    if (dayInQuota === undefined) return;
-
+function updateDay(data) {
     const elements = document.querySelectorAll('custom-day');
-
-    if (elements.length === 0) {
-        return;
-    }
-
-    elements.forEach(element => {
-        element.setValue(day, dayInQuota);
-    });
+    elements.forEach(element => element.update(data));
 }
 
-function setQuota(quotaIndex, quota) {
-    if (quotaIndex === undefined) return;
-    if (quota === undefined) return;
-
+function updateQuota(data) {
     const elements = document.querySelectorAll('custom-quota');
-
-    if (elements.length === 0) {
-        return;
-    }
-    
-    elements.forEach(element => {
-        element.setValue(quotaIndex, quota);
-    });
+    elements.forEach(element => element.update(data));
 }
 
-function setLoot(value) {
-    if (value === undefined) {
-        return;
-    }
-
+function updateLoot(data) {
     const elements = document.querySelectorAll('custom-loot');
-
-    if (elements.length === 0) {
-        return;
-    }
-    
-    elements.forEach(element => {
-        element.setValue(value);
-    });
+    elements.forEach(element => element.update(data));
 }
 
-function setAveragePerDay(value) {
-    if (value === undefined) {
-        return;
-    }
-
+function updateAveragePerDay(data) {
     const elements = document.querySelectorAll('custom-averageperday');
-
-    if (elements.length === 0) {
-        return;
-    }
-    
-    elements.forEach(element => {
-        element.setValue(value);
-    });
+    elements.forEach(element => element.update(data));
 }
 
 console.log("WebSocket Port:", webSocketPort);

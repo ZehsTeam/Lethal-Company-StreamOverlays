@@ -11,6 +11,6 @@ internal static class ChuteInteractPatch
     [HarmonyPostfix]
     private static void SpawnItemClientRpcPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 }

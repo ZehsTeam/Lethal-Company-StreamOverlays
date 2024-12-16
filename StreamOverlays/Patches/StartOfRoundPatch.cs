@@ -11,49 +11,49 @@ internal static class StartOfRoundPatch
     private static void StartPatch()
     {
         StatsHelper.LoadDayData();
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.OnPlayerConnectedClientRpc))]
     [HarmonyPostfix]
     private static void OnPlayerConnectedClientRpcPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.SyncShipUnlockablesClientRpc))]
     [HarmonyPostfix]
     private static void SyncShipUnlockablesClientRpcPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.OnClientConnect))]
     [HarmonyPostfix]
     private static void OnClientConnectPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.OnPlayerDC))]
     [HarmonyPostfix]
     private static void OnPlayerDCPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.ChangeLevelClientRpc))]
     [HarmonyPostfix]
     private static void ChangeLevelClientRpcPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.StartGame))]
     [HarmonyPostfix]
     private static void StartGamePatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.EndOfGame))]
@@ -61,34 +61,34 @@ internal static class StartOfRoundPatch
     private static void EndOfGamePatch(int scrapCollected)
     {
         StatsHelper.AddDayData(Utils.GetDayCount(), scrapCollected);
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.ReviveDeadPlayers))]
     [HarmonyPostfix]
     private static void ReviveDeadPlayersPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.SetMapScreenInfoToCurrentLevel))]
     [HarmonyPostfix]
     private static void SetMapScreenInfoToCurrentLevelPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.ResetShip))]
     [HarmonyPostfix]
     private static void ResetShipPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.OnLocalDisconnect))]
     [HarmonyPostfix]
     private static void OnLocalDisconnectPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 }

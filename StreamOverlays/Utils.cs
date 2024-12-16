@@ -79,7 +79,7 @@ internal static class Utils
         {
             if (GameNetworkManager.Instance == null)
             {
-                return 0;
+                return 1;
             }
 
             return GameNetworkManager.Instance.connectedPlayers;
@@ -87,7 +87,7 @@ internal static class Utils
 
         if (StartOfRound.Instance == null)
         {
-            return 0;
+            return 1;
         }
 
         return StartOfRound.Instance.connectedPlayersAmount + 1;
@@ -117,17 +117,23 @@ internal static class Utils
     {
         if (StartOfRound.Instance == null || StartOfRound.Instance.gameStats == null)
         {
-            return 0;
+            return 1;
         }
 
-        int dayOffset = 0;
+        return StartOfRound.Instance.gameStats.daysSpent + 1;
+    }
 
-        if (Plugin.ConfigManager != null && Plugin.ConfigManager.Overlay_DayOffset != null)
+    public static int GetDayInQuota()
+    {
+        if (TimeOfDay.Instance == null)
         {
-            dayOffset = Plugin.ConfigManager.Overlay_DayOffset.Value;
+            return 1;
         }
 
-        return StartOfRound.Instance.gameStats.daysSpent + dayOffset + 1;
+        int daysUntilDeadline = Mathf.Max(TimeOfDay.Instance.daysUntilDeadline, 0);
+        int daysInQuota = 3;
+
+        return (daysInQuota - daysUntilDeadline) + 1;
     }
 
     public static int GetProfitQuota()
@@ -138,6 +144,16 @@ internal static class Utils
         }
 
         return TimeOfDay.Instance.profitQuota;
+    }
+
+    public static int GetQuotaIndex()
+    {
+        if (TimeOfDay.Instance == null)
+        {
+            return 1;
+        }
+
+        return TimeOfDay.Instance.timesFulfilledQuota + 1;
     }
 
     public static int GetLootTotal()

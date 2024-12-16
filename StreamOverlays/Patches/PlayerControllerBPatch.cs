@@ -12,7 +12,7 @@ internal static class PlayerControllerBPatch
     [HarmonyPostfix]
     private static void ConnectClientToPlayerObjectPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(PlayerControllerB.GrabObjectClientRpc))]
@@ -33,7 +33,7 @@ internal static class PlayerControllerBPatch
 
         if (grabbableObject.isInShipRoom || grabbableObject.isInElevator)
         {
-            WebServer.UpdateOverlay(); // Update Loot
+            WebServer.UpdateOverlaysData(); // Update Loot
         }
     }
 
@@ -43,7 +43,7 @@ internal static class PlayerControllerBPatch
     {
         if (droppedInShipRoom || droppedInElevator)
         {
-            WebServer.UpdateOverlay(); // Update Loot
+            WebServer.UpdateOverlaysData(); // Update Loot
         }
     }
 }

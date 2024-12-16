@@ -10,6 +10,13 @@ internal static class TimeOfDayPatch
     [HarmonyPostfix]
     private static void SyncNewProfitQuotaClientRpcPatch()
     {
-        WebServer.UpdateOverlay();
+        WebServer.UpdateOverlaysData();
+    }
+
+    [HarmonyPatch(nameof(TimeOfDay.UpdateProfitQuotaCurrentTime))]
+    [HarmonyPostfix]
+    private static void UpdateProfitQuotaCurrentTimePatch()
+    {
+        WebServer.UpdateOverlaysData();
     }
 }

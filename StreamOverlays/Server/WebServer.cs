@@ -212,24 +212,54 @@ internal static class WebServer
         }
     }
 
-    public static void UpdateOverlay()
+    public static void UpdateOverlays()
     {
-        SendJsonToClients(GetOverlayData());
+        UpdateOverlaysFormatting();
+        UpdateOverlaysData();
     }
 
-    public static object GetOverlayData()
+    public static void UpdateOverlaysFormatting()
+    {
+        SendJsonToClients(GetOverlaysFormatting());
+    }
+
+    public static void UpdateOverlaysData()
+    {
+        SendJsonToClients(GetOverlaysData());
+    }
+
+    public static object GetOverlaysFormatting()
     {
         return new
         {
-            visible = Utils.CanShowOverlay(),
-            crew = Utils.GetCrewCount(),
-            moon = Utils.GetCurrentPlanetName(),
-            weather = Utils.GetEnumName(Utils.GetCurrentPlanetWeather()),
-            showWeatherIcon = Plugin.ConfigManager.Overlay_ShowWeatherIcon.Value,
-            day = Utils.GetDayCount(),
-            quota = Utils.GetProfitQuota(),
-            loot = Utils.GetLootTotal(),
-            averagePerDay = StatsHelper.GetAveragePerDay()
+            type = "formatting",
+
+            crewLabel = Plugin.ConfigManager.CrewStat_Label.Value,
+            moonLabel = Plugin.ConfigManager.MoonStat_Label.Value,
+            dayLabel = Plugin.ConfigManager.DayStat_Label.Value,
+            quotaLabel = Plugin.ConfigManager.QuotaStat_Label.Value,
+            lootLabel = Plugin.ConfigManager.LootStat_Label.Value,
+            averagePerDayLabel = Plugin.ConfigManager.AveragePerDayStat_Label.Value
+        };
+    }
+
+    public static object GetOverlaysData()
+    {
+        return new
+        {
+            type = "data",
+
+            showOverlay = Utils.CanShowOverlay(),
+            crewCount = Utils.GetCrewCount(),
+            moonName = Utils.GetCurrentPlanetName(),
+            weatherName = Utils.GetEnumName(Utils.GetCurrentPlanetWeather()),
+            showWeatherIcon = Plugin.ConfigManager.MoonStat_ShowWeatherIcon.Value,
+            dayCount = Utils.GetDayCount(),
+            dayInQuota = Utils.GetDayInQuota(),
+            quotaValue = Utils.GetProfitQuota(),
+            quotaIndex = Utils.GetQuotaIndex(),
+            lootValue = Utils.GetLootTotal(),
+            averagePerDayValue = StatsHelper.GetAveragePerDay()
         };
     }
 
