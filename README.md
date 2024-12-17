@@ -36,12 +36,22 @@ Ensure the game is running. The overlays will not work otherwise.
    http://localhost:8080/overlay
    ```  
 2. Adjust the browser source settings:  
-   - **Width**: Set to **1450** or **1920** *(Flexible)*  
+   - **Width**: Set to **1535** or **1920** *(Flexible)*  
    - **Height**: Set to **75**
 
 #### Additional Notes:
 - **Streaming from another PC?** Replace `localhost` in the URL with the local IP address of the PC running the game (e.g., `192.168.0.1`).  
 - **Troubleshooting:** If the overlay doesn't appear, refresh the browser source in your streaming application. 
+
+## Config Settings
+This mod uses a global config file.
+
+You can locate the config file at:
+```
+%localappdata%\..\LocalLow\ZeekerssRBLX\Lethal Company\StreamOverlays\global.cfg
+```
+
+> **Tip:** You can use the [LethalConfig](https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/) mod to easily edit the config settings in-game.
 
 ## Overlays
 Choose from multiple overlays to customize your stream.  
@@ -53,14 +63,14 @@ Choose from multiple overlays to customize your stream.
 - URL: `http://localhost:8080/overlay`  
 - Displays: **Crew**, **Moon**, **Day**, **Quota**, **Loot**  
 - Settings:  
-  - **Width**: 1450 or 1920 *(Flexible)*  
+  - **Width**: 1535 or 1920 *(Flexible)*  
   - **Height**: 75  
 
 ### Overlay 2
 - URL: `http://localhost:8080/overlay2`  
 - Displays: **Crew**, **Moon**, **Day**, **Quota**, **Loot**, **Average per day**  
 - Settings:  
-  - **Width**: 1850 or 1920 *(Flexible)*  
+  - **Width**: 1800 or 1920 *(Flexible)*  
   - **Height**: 75  
 
 ### Individual Overlays
@@ -109,7 +119,11 @@ Choose from multiple overlays to customize your stream.
 </details>
 
 ## Compatibility & Integration
-This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) mod.
+- This mod has integration with the [LethalConfig](https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/) mod.
+  - Allows you to easily edit the config settings in-game.
+<br><br>
+- This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) mod.
+  - Includes the total scrap value in the ship inventory in the loot stat.
 
 ## Developer Contact
 #### Report bugs, suggest features, or provide feedback:  

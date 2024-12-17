@@ -10,7 +10,7 @@ internal static class GameNetworkManagerPatch
     [HarmonyPostfix]
     private static void SaveGamePatch()
     {
-        StatsHelper.SaveDayData();
+        DayManager.SaveDayData();
         WebServer.UpdateOverlaysData();
     }
 
@@ -18,7 +18,7 @@ internal static class GameNetworkManagerPatch
     [HarmonyPostfix]
     private static void ResetSavedGameValuesPatch()
     {
-        StatsHelper.ResetSavedDayData();
+        DayManager.ResetSavedDayData();
         WebServer.UpdateOverlaysData();
     }
 }

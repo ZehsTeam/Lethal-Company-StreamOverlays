@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace com.github.zehsteam.StreamOverlays;
 
-internal static class StatsHelper
+internal static class DayManager
 {
     private static List<DayData> _dayDataList = [];
 

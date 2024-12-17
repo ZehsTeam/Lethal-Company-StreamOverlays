@@ -21,25 +21,42 @@ body {
     background-color: rgb(121, 121, 121);
 }
 
-/* .hidden {
+.hidden {
     visibility: hidden;
-} */
+}
 
 .collapse {
     visibility: collapse;
 }
 
-.item {
-    min-width: fit-content;
+custom-overlay {
+    height: 75px;
+    padding: 0 30px;
     display: flex;
     align-items: center;
-    flex: 0 1 auto; /* Allow growth and shrinking */
-    flex-shrink: 0; /* Prevent shrinking below min-width */
+    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
+    gap: 40px; /* Maintains consistent spacing between items */
+}
+
+.item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.size-container {
+    height: 0;
+    visibility: hidden; /* Prevent it from being seen */
 }
 
 .grow {
     flex: 1 1 auto; /* Allow the element to grow and take remaining space */
-    min-width: 0;   /* Prevent content from forcing the width larger than necessary */
 }
 
 .item p {

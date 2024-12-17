@@ -10,6 +10,10 @@ internal static class DepositItemsDeskPatch
     [HarmonyPostfix]
     private static void SellAndDisplayItemProfitsPatch()
     {
-        WebServer.UpdateOverlaysData(); // Update Loot
+        if (LootManager.CanUpdateLootTotal())
+        {
+            LootManager.UpdateLootTotal();
+            WebServer.UpdateOverlaysData();
+        }
     }
 }

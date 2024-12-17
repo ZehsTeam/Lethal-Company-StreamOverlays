@@ -11,6 +11,10 @@ internal static class ItemManagerPatch
     [HarmonyPostfix]
     private static void SetItemsPatch()
     {
-        WebServer.UpdateOverlaysData();
+        if (LootManager.CanUpdateLootTotal())
+        {
+            LootManager.UpdateLootTotal();
+            WebServer.UpdateOverlaysData();
+        }
     }
 }

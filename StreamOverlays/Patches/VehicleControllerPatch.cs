@@ -10,6 +10,10 @@ internal static class VehicleControllerPatch
     [HarmonyPostfix]
     private static void CollectItemsInTruckPatch()
     {
-        WebServer.UpdateOverlaysData();
+        if (LootManager.CanUpdateLootTotal())
+        {
+            LootManager.UpdateLootTotal();
+            WebServer.UpdateOverlaysData();
+        }
     }
 }

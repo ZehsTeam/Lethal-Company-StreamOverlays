@@ -19,12 +19,17 @@ internal static class PlayerControllerBPatch
     [HarmonyPostfix]
     private static void GrabObjectClientRpcPatch(NetworkObjectReference grabbedObject)
     {
-        #pragma warning disable Harmony003 // Harmony non-ref patch parameters modified
-        if (!grabbedObject.TryGet(out NetworkObject networkObject))
+        if (!LootManager.CanUpdateLootTotal())
         {
             return;
         }
+
+        #pragma warning disable Harmony003 // Harmony non-ref patch parameters modified
+        if (!grabbedObject.TryGet(out NetworkObject networkObject))
         #pragma warning restore Harmony003 // Harmony non-ref patch parameters modified
+        {
+            return;
+        }
 
         if (!networkObject.TryGetComponent(out GrabbableObject grabbableObject))
         {
@@ -33,7 +38,8 @@ internal static class PlayerControllerBPatch
 
         if (grabbableObject.isInShipRoom || grabbableObject.isInElevator)
         {
-            WebServer.UpdateOverlaysData(); // Update Loot
+            LootManager.UpdateLootTotal();
+            WebServer.UpdateOverlaysData();
         }
     }
 
@@ -41,9 +47,36 @@ internal static class PlayerControllerBPatch
     [HarmonyPostfix]
     private static void ThrowObjectClientRpcPatch(bool droppedInElevator, bool droppedInShipRoom)
     {
+        if (!LootManager.CanUpdateLootTotal())
+        {
+            return;
+        }
+
         if (droppedInShipRoom || droppedInElevator)
         {
-            WebServer.UpdateOverlaysData(); // Update Loot
+            LootManager.UpdateLootTotal();
+            WebServer.UpdateOverlaysData();
+        }
+    }
+
+    [HarmonyPatch(nameof(PlayerControllerB.PlaceGrabbableObject))]
+    [HarmonyPostfix]
+    private static void PlaceGrabbableObjectPatch(GrabbableObject placeObject)
+    {
+        if (!LootManager.CanUpdateLootTotal())
+        {
+            return;
+        }
+
+        if (placeObject == null)
+        {
+            return;
+        }
+
+        if (placeObject.isInShipRoom || placeObject.isInElevator)
+        {
+            LootManager.UpdateLootTotal();
+            WebServer.UpdateOverlaysData();
         }
     }
 }

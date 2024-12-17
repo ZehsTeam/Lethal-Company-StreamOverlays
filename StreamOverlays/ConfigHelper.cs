@@ -36,7 +36,7 @@ internal static class ConfigHelper
 
         if (settingChanged != null)
         {
-            configEntry.SettingChanged += (object sender, EventArgs e) => settingChanged?.Invoke(configEntry.Value);
+            configEntry.SettingChanged += (sender, e) => settingChanged?.Invoke(configEntry.Value);
         }
 
         if (LethalConfigProxy.Enabled)

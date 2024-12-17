@@ -10,7 +10,8 @@ internal static class StartOfRoundPatch
     [HarmonyPostfix]
     private static void StartPatch()
     {
-        StatsHelper.LoadDayData();
+        DayManager.LoadDayData();
+        LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
     }
 
@@ -60,7 +61,8 @@ internal static class StartOfRoundPatch
     [HarmonyPostfix]
     private static void EndOfGamePatch(int scrapCollected)
     {
-        StatsHelper.AddDayData(Utils.GetDayCount(), scrapCollected);
+        DayManager.AddDayData(Utils.GetDayCount(), scrapCollected);
+        LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
     }
 
@@ -82,6 +84,7 @@ internal static class StartOfRoundPatch
     [HarmonyPostfix]
     private static void ResetShipPatch()
     {
+        LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
     }
 

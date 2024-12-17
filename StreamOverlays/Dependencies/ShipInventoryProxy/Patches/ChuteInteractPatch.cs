@@ -11,6 +11,10 @@ internal static class ChuteInteractPatch
     [HarmonyPostfix]
     private static void SpawnItemClientRpcPatch()
     {
-        WebServer.UpdateOverlaysData();
+        if (LootManager.CanUpdateLootTotal())
+        {
+            LootManager.UpdateLootTotal();
+            WebServer.UpdateOverlaysData();
+        }
     }
 }

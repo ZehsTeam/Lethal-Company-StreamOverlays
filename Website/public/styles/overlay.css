@@ -1,8 +1,0 @@
-custom-overlay {
-    height: 75px;
-    padding: 0 30px;
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
-    gap: 40px; /* Maintains consistent spacing between items */
-}

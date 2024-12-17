@@ -258,8 +258,8 @@ internal static class WebServer
             dayInQuota = Utils.GetDayInQuota(),
             quotaValue = Utils.GetProfitQuota(),
             quotaIndex = Utils.GetQuotaIndex(),
-            lootValue = Utils.GetLootTotal(),
-            averagePerDayValue = StatsHelper.GetAveragePerDay()
+            lootValue = LootManager.GetLootTotal(),
+            averagePerDayValue = DayManager.GetAveragePerDay()
         };
     }
 

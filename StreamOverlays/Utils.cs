@@ -1,9 +1,7 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
-using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using System.Collections;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 
 namespace com.github.zehsteam.StreamOverlays;
@@ -154,51 +152,6 @@ internal static class Utils
         }
 
         return TimeOfDay.Instance.timesFulfilledQuota + 1;
-    }
-
-    public static int GetLootTotal()
-    {
-        int total = GetShipLootTotal() + GetVehicleLootTotal();
-
-        if (ShipInventoryProxy.Enabled)
-        {
-            total += ShipInventoryProxy.GetLootTotal();
-        }
-
-        return total;
-    }
-
-    public static int GetShipLootTotal()
-    {
-        Transform hangarShipTransform = GetHangarShipTransform();
-
-        if (hangarShipTransform == null)
-        {
-            return 0;
-        }
-
-        GrabbableObject[] grabbableObjects = hangarShipTransform.GetComponentsInChildren<GrabbableObject>();
-
-        return grabbableObjects.Where(IsValidScrapAndNotHeld).Sum(x => x.scrapValue);
-    }
-
-    public static int GetVehicleLootTotal()
-    {
-        VehicleController vehicleController = Object.FindFirstObjectByType<VehicleController>();
-
-        if (vehicleController == null)
-        {
-            return 0;
-        }
-
-        if (!vehicleController.magnetedToShip)
-        {
-            return 0;
-        }
-
-        GrabbableObject[] grabbableObjects = vehicleController.GetComponentsInChildren<GrabbableObject>();
-
-        return grabbableObjects.Where(IsValidScrapAndNotHeld).Sum(x => x.scrapValue);
     }
 
     public static bool IsValidScrapAndNotHeld(GrabbableObject grabbableObject)
