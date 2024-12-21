@@ -250,11 +250,11 @@ internal static class WebServer
             type = "data",
 
             showOverlay = Utils.CanShowOverlay(),
-            crewCount = Utils.GetCrewCount(),
+            crewCount = Utils.GetPlayerCount(),
             moonName = Utils.GetCurrentPlanetName(),
             weatherName = Utils.GetEnumName(Utils.GetCurrentPlanetWeather()),
             showWeatherIcon = Plugin.ConfigManager.MoonStat_ShowWeatherIcon.Value,
-            dayCount = Utils.GetDayCount(),
+            dayCount = DayManager.GetDayNumber(),
             dayInQuota = Utils.GetDayInQuota(),
             quotaValue = Utils.GetProfitQuota(),
             quotaIndex = Utils.GetQuotaIndex(),

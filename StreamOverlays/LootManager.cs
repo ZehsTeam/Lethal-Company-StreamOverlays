@@ -82,11 +82,20 @@ internal static class LootManager
             return 0;
         }
 
-        VehicleController vehicleController = StartOfRound.Instance.attachedVehicle;
-        if (vehicleController == null) return 0;
+        try
+        {
+            VehicleController vehicleController = StartOfRound.Instance.attachedVehicle;
+            if (vehicleController == null) return 0;
 
-        GrabbableObject[] grabbableObjects = vehicleController.GetComponentsInChildren<GrabbableObject>();
+            GrabbableObject[] grabbableObjects = vehicleController.GetComponentsInChildren<GrabbableObject>();
 
-        return grabbableObjects.Where(Utils.IsValidScrapAndNotHeld).Sum(x => x.scrapValue);
+            return grabbableObjects.Where(Utils.IsValidScrapAndNotHeld).Sum(x => x.scrapValue);
+        }
+        catch (System.Exception ex)
+        {
+            Plugin.Logger.LogError($"Failed to get loot total from attached vehicle. {ex}");
+        }
+
+        return 0;
     }
 }

@@ -26,14 +26,16 @@ internal static class StartOfRoundPatch
     [HarmonyPostfix]
     private static void SyncShipUnlockablesClientRpcPatch()
     {
+        LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.OnClientConnect))]
     [HarmonyPostfix]
-    private static void OnClientConnectPatch()
+    private static void OnClientConnectPatch(ulong clientId)
     {
         WebServer.UpdateOverlaysData();
+        PluginNetworkManager.OnClientConnected(clientId);
     }
 
     [HarmonyPatch(nameof(StartOfRound.OnPlayerDC))]
@@ -61,7 +63,7 @@ internal static class StartOfRoundPatch
     [HarmonyPostfix]
     private static void EndOfGamePatch(int scrapCollected)
     {
-        DayManager.AddDayData(Utils.GetDayCount(), scrapCollected);
+        DayManager.AddDayData(scrapCollected);
         LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
     }

@@ -23,7 +23,6 @@ function connectWebSocket() {
 
     webSocket.onopen = () => {
         console.log(`[WebSocket] Connected to server at ws://${window.location.hostname}:${webSocketPort}/overlay`);
-        reconnectAttempts = 0; // Reset attempts on successful connection
     };
 
     webSocket.onmessage = (event) => webSocket_OnMessage(event);

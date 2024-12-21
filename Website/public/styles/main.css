@@ -34,8 +34,8 @@ custom-overlay {
     padding: 0 30px;
     display: flex;
     align-items: center;
-    flex-wrap: nowrap; /* Prevent items from wrapping to the next line */
-    gap: 40px; /* Maintains consistent spacing between items */
+    flex-wrap: nowrap;
+    gap: 40px;
 }
 
 .item {
@@ -52,18 +52,18 @@ custom-overlay {
 
 .size-container {
     height: 0;
-    visibility: hidden; /* Prevent it from being seen */
+    visibility: hidden;
 }
 
 .grow {
-    flex: 1 1 auto; /* Allow the element to grow and take remaining space */
+    flex: 1 1 auto;
 }
 
 .item p {
     font-size: 30px;
     font-weight: bold;
     text-shadow: 1px 1px 10px black;
-    white-space: nowrap; /* Prevent text wrapping */
+    white-space: nowrap;
 }
 
 .icon {

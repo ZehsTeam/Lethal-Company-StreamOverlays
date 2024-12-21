@@ -30,7 +30,7 @@ internal static class Utils
     {
         BepInPlugin metadata = MetadataHelper.GetMetadata(Plugin.Instance);
         name ??= $"{metadata.GUID}-{name}";
-        return CreateConfigFile(Paths.ConfigPath, name, saveOnInit: saveOnInit);
+        return CreateConfigFile(Paths.ConfigPath, name, saveOnInit);
     }
 
     public static ConfigFile CreateGlobalConfigFile(string name = null, bool saveOnInit = false)
@@ -71,7 +71,7 @@ internal static class Utils
         return true;
     }
 
-    public static int GetCrewCount()
+    public static int GetPlayerCount()
     {
         if (NetworkUtils.IsServer)
         {
@@ -109,16 +109,6 @@ internal static class Utils
         }
 
         return StartOfRound.Instance.currentLevel.currentWeather;
-    }
-
-    public static int GetDayCount()
-    {
-        if (StartOfRound.Instance == null || StartOfRound.Instance.gameStats == null)
-        {
-            return 1;
-        }
-
-        return StartOfRound.Instance.gameStats.daysSpent + 1;
     }
 
     public static int GetDayInQuota()

@@ -6,11 +6,12 @@ namespace com.github.zehsteam.StreamOverlays;
 
 internal static class DayManager
 {
-    private static List<DayData> _dayDataList = [];
+
+    public static List<DayData> DayDataList = [];
 
     public static void LoadDayData()
     {
-        _dayDataList = [];
+        DayDataList = [];
 
         if (!NetworkUtils.IsServer)
         {
@@ -25,7 +26,7 @@ internal static class DayManager
         try
         {
             string json = SaveSystem.LoadData<string>("DayData");
-            _dayDataList = JsonConvert.DeserializeObject<List<DayData>>(json);
+            DayDataList = JsonConvert.DeserializeObject<List<DayData>>(json);
 
             Plugin.Instance.LogInfoExtended($"Loaded day data from save file. {json}");
         }
@@ -44,7 +45,7 @@ internal static class DayManager
 
         try
         {
-            string json = JsonConvert.SerializeObject(_dayDataList);
+            string json = JsonConvert.SerializeObject(DayDataList);
             SaveSystem.SaveData("DayData", json);
 
             Plugin.Instance.LogInfoExtended($"Saved day data to save file. {json}");
@@ -55,19 +56,21 @@ internal static class DayManager
         }
     }
 
-    public static void AddDayData(int day, int scrapCollected)
+    public static void AddDayData(int scrapCollected)
     {
         if (!CanAddDayData())
         {
             return;
         }
 
-        if (_dayDataList.Any(x => x.Day == day))
+        int dayNumber = GetDayNumber();
+
+        if (DayDataList.Any(x => x.Day == dayNumber))
         {
             return;
         }
 
-        _dayDataList.Add(new DayData(day, scrapCollected));
+        DayDataList.Add(new DayData(dayNumber, scrapCollected));
     }
 
     private static bool CanAddDayData()
@@ -82,26 +85,31 @@ internal static class DayManager
 
     public static void ResetSavedDayData()
     {
-        _dayDataList = [];
+        DayDataList = [];
         SaveDayData();
+    }
+
+    public static int GetDayNumber()
+    {
+        return DayDataList.Count + 1;
     }
 
     public static int GetAveragePerDay()
     {
-        if (_dayDataList.Count == 0)
+        if (DayDataList.Count == 0)
         {
             return 0;
         }
 
-        return _dayDataList.Sum(x => x.ScrapCollected) / _dayDataList.Count;
+        return DayDataList.Sum(x => x.ScrapCollected) / DayDataList.Count;
     }
 }
 
 [System.Serializable]
 public struct DayData
 {
-    public int Day { get; private set; }
-    public int ScrapCollected { get; private set; }
+    public int Day;
+    public int ScrapCollected;
 
     public DayData(int day, int scrapCollected)
     {
