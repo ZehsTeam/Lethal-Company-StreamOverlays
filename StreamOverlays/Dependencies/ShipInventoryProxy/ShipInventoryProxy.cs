@@ -28,6 +28,8 @@ internal static class ShipInventoryProxy
         {
             harmony.PatchAll(typeof(ItemManagerPatch));
             harmony.PatchAll(typeof(ChuteInteractPatch));
+
+            Plugin.Logger.LogInfo("Applied ShipInventory patches.");
         }
         catch (System.Exception ex)
         {

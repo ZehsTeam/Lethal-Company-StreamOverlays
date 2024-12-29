@@ -15,7 +15,6 @@ internal static class LethalConfigProxy
         get
         {
             _enabled ??= Chainloader.PluginInfos.ContainsKey(PLUGIN_GUID);
-
             return _enabled.Value;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using com.github.zehsteam.StreamOverlays.Helpers;
 using System.Collections;
 using System.IO;
 using UnityEngine;
@@ -166,7 +167,7 @@ internal static class Utils
             return false;
         }
 
-        if (grabbableObject.deactivated)
+        if (GrabbableObjectHelper.IsDeactivated(grabbableObject))
         {
             return false;
         }
@@ -189,5 +190,42 @@ internal static class Utils
         Plugin.Logger.LogError("Failed to start coroutine. " + routine);
 
         return null;
+    }
+
+    public static int GetScrapValueCollectedThisRound()
+    {
+        if (StartOfRound.Instance == null)
+        {
+            return 0;
+        }
+
+        GrabbableObject[] grabbableObjects = Object.FindObjectsByType<GrabbableObject>(FindObjectsSortMode.None);
+
+        int totalValue = 0;
+
+        foreach (var grabbableObject in grabbableObjects)
+        {
+            if (!grabbableObject.itemProperties.isScrap)
+            {
+                continue;
+            }
+
+            if (grabbableObject.scrapPersistedThroughRounds)
+            {
+                continue;
+            }
+
+            if (GrabbableObjectHelper.IsDeactivated(grabbableObject) || grabbableObject.itemUsedUp)
+            {
+                continue;
+            }
+
+            if (grabbableObject.isInShipRoom || grabbableObject.isInElevator)
+            {
+                totalValue += grabbableObject.scrapValue;
+            }
+        }
+
+        return totalValue;
     }
 }

@@ -17,6 +17,7 @@ internal static class TimeOfDayPatch
     [HarmonyPostfix]
     private static void UpdateProfitQuotaCurrentTimePatch()
     {
+        LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
     }
 }

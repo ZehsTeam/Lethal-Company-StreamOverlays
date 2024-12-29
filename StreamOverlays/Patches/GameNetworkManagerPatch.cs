@@ -11,6 +11,7 @@ internal static class GameNetworkManagerPatch
     private static void SaveGamePatch()
     {
         DayManager.SaveDayData();
+        LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
     }
 

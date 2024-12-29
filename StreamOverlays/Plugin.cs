@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using com.github.zehsteam.StreamOverlays.Dependencies;
 using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
+using com.github.zehsteam.StreamOverlays.Dependencies.Vanilla;
 using com.github.zehsteam.StreamOverlays.Patches;
 using com.github.zehsteam.StreamOverlays.Server;
 using HarmonyLib;
@@ -37,10 +38,15 @@ internal class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(NetworkManagerPatch));
         _harmony.PatchAll(typeof(GameNetworkManagerPatch));
         _harmony.PatchAll(typeof(StartOfRoundPatch));
+        _harmony.PatchAll(typeof(RoundManagerPatch));
         _harmony.PatchAll(typeof(TimeOfDayPatch));
         _harmony.PatchAll(typeof(PlayerControllerBPatch));
-        _harmony.PatchAll(typeof(VehicleControllerPatch));
         _harmony.PatchAll(typeof(DepositItemsDeskPatch));
+
+        if (VehicleControllerProxy.Enabled)
+        {
+            VehicleControllerProxy.PatchAll(_harmony);
+        }
 
         if (ShipInventoryProxy.Enabled)
         {

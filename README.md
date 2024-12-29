@@ -2,6 +2,7 @@
 #### Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, ship loot, and average per day. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.
 
 #### <ins>This mod is fully client-side and works in vanilla lobbies.</ins>
+#### <ins>This mod works in all game versions v40 to v69+</ins>
 #### This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) mod.
 
 ## <img src="https://i.imgur.com/TpnrFSH.png" width="20px"> Download
