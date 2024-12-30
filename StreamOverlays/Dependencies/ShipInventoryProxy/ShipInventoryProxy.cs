@@ -14,7 +14,6 @@ internal static class ShipInventoryProxy
         get
         {
             _enabled ??= Chainloader.PluginInfos.ContainsKey(PLUGIN_GUID);
-
             return _enabled.Value;
         }
     }
@@ -38,15 +37,15 @@ internal static class ShipInventoryProxy
     }
 
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-    public static int GetLootTotal()
+    public static int GetLootTotal(bool onlyFromRound = false)
     {
         try
         {
-            return ItemManager.GetTotalValue();
+            return ItemManager.GetTotalValue(onlyScraps: true, onlyFromRound);
         }
         catch (System.Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to get the total loot value from ShipInventory. {ex}");
+            Plugin.Logger.LogError($"Failed to get the total value from ShipInventory. {ex}");
         }
 
         return 0;

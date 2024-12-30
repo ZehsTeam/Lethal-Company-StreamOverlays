@@ -24,12 +24,12 @@ internal static class WebServer
     {
         Application.quitting += Stop;
 
-        if (PublicArchiveExists())
+        if (WebsiteArchiveExists())
         {
-            await DecompressPublicArchive();
+            await DecompressWebsiteArchive();
         }
 
-        if (!PublicFolderExists())
+        if (!WebsiteFolderExists())
         {
             Plugin.Logger.LogFatal("Error! The \"public\" folder does not exist. The overlays will not work. Please report the bug to the mod developer!");
         }
@@ -263,20 +263,20 @@ internal static class WebServer
         };
     }
 
-    #region Public Folder/Archive
-    private static bool PublicFolderExists()
+    #region Website Folder/Archive
+    private static bool WebsiteFolderExists()
     {
-        return Directory.Exists(GetPublicFolderPath());
+        return Directory.Exists(GetWebsiteFolderPath());
     }
 
-    private static bool PublicArchiveExists()
+    private static bool WebsiteArchiveExists()
     {
-        return File.Exists(GetPublicArchivePath());
+        return File.Exists(GetWebsiteArchivePath());
     }
 
-    private static async Task DecompressPublicArchive()
+    private static async Task DecompressWebsiteArchive()
     {
-        string archivePath = GetPublicArchivePath();
+        string archivePath = GetWebsiteArchivePath();
 
         if (!File.Exists(archivePath))
         {
@@ -318,12 +318,12 @@ internal static class WebServer
         }
     }
 
-    private static string GetPublicFolderPath()
+    private static string GetWebsiteFolderPath()
     {
         return Path.Combine(Utils.GetPluginDirectoryPath(), "public");
     }
 
-    private static string GetPublicArchivePath()
+    private static string GetWebsiteArchivePath()
     {
         return Path.Combine(Utils.GetPluginDirectoryPath(), "public.zip");
     }

@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using com.github.zehsteam.StreamOverlays.Helpers;
 using System.Collections;
 using System.IO;
@@ -40,6 +41,23 @@ internal static class Utils
         string path = Path.Combine(Application.persistentDataPath, metadata.Name);
         name ??= "global";
         return CreateConfigFile(path, name, saveOnInit);
+    }
+
+    public static Coroutine StartCoroutine(IEnumerator routine)
+    {
+        if (Plugin.Instance != null)
+        {
+            return Plugin.Instance.StartCoroutine(routine);
+        }
+
+        if (GameNetworkManager.Instance != null)
+        {
+            return GameNetworkManager.Instance.StartCoroutine(routine);
+        }
+
+        Plugin.Logger.LogError("Failed to start coroutine. " + routine);
+
+        return null;
     }
 
     public static Transform GetHangarShipTransform()
@@ -167,7 +185,7 @@ internal static class Utils
             return false;
         }
 
-        if (GrabbableObjectHelper.IsDeactivated(grabbableObject))
+        if (GrabbableObjectHelper.IsDeactivated(grabbableObject) || grabbableObject.itemUsedUp)
         {
             return false;
         }
@@ -175,23 +193,10 @@ internal static class Utils
         return grabbableObject.itemProperties.isScrap;
     }
 
-    public static Coroutine StartCoroutine(IEnumerator routine)
-    {
-        if (Plugin.Instance != null)
-        {
-            return Plugin.Instance.StartCoroutine(routine);
-        }
-
-        if (GameNetworkManager.Instance != null)
-        {
-            return GameNetworkManager.Instance.StartCoroutine(routine);
-        }
-
-        Plugin.Logger.LogError("Failed to start coroutine. " + routine);
-
-        return null;
-    }
-
+    /// <summary>
+    /// This method is expected to be called after StartOfRound.GetValueOfAllScrap
+    /// </summary>
+    /// <returns></returns>
     public static int GetScrapValueCollectedThisRound()
     {
         if (StartOfRound.Instance == null)
@@ -199,13 +204,11 @@ internal static class Utils
             return 0;
         }
 
-        GrabbableObject[] grabbableObjects = Object.FindObjectsByType<GrabbableObject>(FindObjectsSortMode.None);
-
         int totalValue = 0;
 
-        foreach (var grabbableObject in grabbableObjects)
+        foreach (var grabbableObject in Object.FindObjectsByType<GrabbableObject>(FindObjectsSortMode.None))
         {
-            if (!grabbableObject.itemProperties.isScrap)
+            if (!IsValidScrap(grabbableObject))
             {
                 continue;
             }
@@ -215,7 +218,7 @@ internal static class Utils
                 continue;
             }
 
-            if (GrabbableObjectHelper.IsDeactivated(grabbableObject) || grabbableObject.itemUsedUp)
+            if (grabbableObject.itemProperties.itemName.Equals("Body", System.StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
@@ -224,6 +227,11 @@ internal static class Utils
             {
                 totalValue += grabbableObject.scrapValue;
             }
+        }
+
+        if (ShipInventoryProxy.Enabled)
+        {
+            totalValue += ShipInventoryProxy.GetLootTotal(onlyFromRound: true);
         }
 
         return totalValue;

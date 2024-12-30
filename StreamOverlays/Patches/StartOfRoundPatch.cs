@@ -1,7 +1,5 @@
 ﻿using com.github.zehsteam.StreamOverlays.Server;
 using HarmonyLib;
-using System;
-using System.Reflection;
 
 namespace com.github.zehsteam.StreamOverlays.Patches;
 
@@ -63,25 +61,9 @@ internal static class StartOfRoundPatch
 
     [HarmonyPatch(nameof(StartOfRound.EndOfGame))]
     [HarmonyPostfix]
-    private static void EndOfGamePatch(MethodBase __originalMethod, object[] __args)
+    private static void EndOfGamePatch()
     {
-        // Check if the method has a parameter named "scrapCollected"
-        var parameters = __originalMethod.GetParameters();
-        var scrapCollectedIndex = Array.FindIndex(parameters, p => p.Name == "scrapCollected");
-
-        int scrapCollected = 0;
-
-        if (scrapCollectedIndex >= 0)
-        {
-            // If the parameter exists, extract its value from __args
-            scrapCollected = (int)__args[scrapCollectedIndex];
-        }
-        else
-        {
-            scrapCollected = Utils.GetScrapValueCollectedThisRound();
-        }
-
-        DayManager.AddDayData(scrapCollected);
+        DayManager.AddDayData(Utils.GetScrapValueCollectedThisRound());
         LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
     }

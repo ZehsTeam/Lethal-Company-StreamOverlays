@@ -7,9 +7,9 @@ namespace com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy.Pat
 [HarmonyPatch(typeof(ItemManager))]
 internal static class ItemManagerPatch
 {
-    [HarmonyPatch(nameof(ItemManager.SetItems))]
+    [HarmonyPatch(nameof(ItemManager.UpdateCache))]
     [HarmonyPostfix]
-    private static void SetItemsPatch()
+    private static void UpdateCachePatch()
     {
         if (LootManager.CanUpdateLootTotal())
         {
