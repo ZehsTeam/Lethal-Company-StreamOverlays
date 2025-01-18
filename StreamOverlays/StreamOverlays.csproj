@@ -7,7 +7,7 @@
     
     <AssemblyName>com.github.zehsteam.$(MSBuildProjectName)</AssemblyName> <!-- PLUGIN_GUID -->
     <Product>$(MSBuildProjectName)</Product>                               <!-- PLUGIN_NAME -->
-    <Version>1.4.1</Version>                                               <!-- PLUGIN_VERSION -->
+    <Version>1.4.2</Version>                                               <!-- PLUGIN_VERSION -->
     <Description>Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, and ship loot. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.</Description>
     
     <RootNamespace>com.github.zehsteam.$(MSBuildProjectName)</RootNamespace>

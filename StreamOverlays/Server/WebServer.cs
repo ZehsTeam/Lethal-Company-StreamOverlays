@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.IO;
 using System.IO.Compression;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -14,15 +14,21 @@ internal static class WebServer
 {
     public static int HttpPort => Plugin.ConfigManager.Server_HttpPort.Value;
     public static int WebSocketPort => Plugin.ConfigManager.Server_WebSocketPort.Value;
-    public static bool IsRunning => _isRunning;
+    public static bool IsRunning { get; private set; }
 
     private static HttpListener _httpListener;
     private static WebSocketServer _webSocketServer;
-    private static bool _isRunning;
+
+    private static readonly object _broadcastLock = new object();
+    private static bool _isApplicationQuitting;
 
     public static async Task Initialize()
     {
-        Application.quitting += Stop;
+        Application.quitting += () =>
+        {
+            _isApplicationQuitting = true;
+            Stop();
+        };
 
         if (WebsiteArchiveExists())
         {
@@ -39,60 +45,135 @@ internal static class WebServer
             Start();
         }
     }
-    
+
     public static void Start()
     {
-        if (_isRunning)
+        if (IsRunning)
         {
             Plugin.Logger.LogWarning("Server is already running!");
             return;
         }
 
-        _isRunning = true;
+        try
+        {
+            IsRunning = true;
 
-        // Start HTTP Server
-        Task.Run(StartHttpServer);
+            // Start HTTP Server and wait for completion
+            if (!StartHttpServer())
+            {
+                Plugin.Logger.LogError("Failed to start WebSocket server. HTTP server failed to start.");
+                Stop();
+                return;
+            }
 
-        // Start WebSocket Server
-        _webSocketServer = new WebSocketServer($"ws://{System.Net.IPAddress.Any}:{WebSocketPort}");
-        _webSocketServer.AddWebSocketService<OverlayBehavior>("/overlay");
-        _webSocketServer.Start();
+            // Start WebSocket Server
+            _webSocketServer = new WebSocketServer($"ws://{System.Net.IPAddress.Any}:{WebSocketPort}");
+            _webSocketServer.AddWebSocketService<OverlayBehavior>("/overlay");
+            _webSocketServer.Start();
 
-        Plugin.Logger.LogInfo($"WebSocket server started on ws://localhost:{WebSocketPort}");
+            if (!_webSocketServer.IsListening)
+            {
+                Plugin.Logger.LogError("Failed to start WebSocket server. The port might already be in use.");
+                Stop();
+                return;
+            }
+
+            Plugin.Logger.LogInfo($"WebSocket server started on ws://localhost:{WebSocketPort}");
+        }
+        catch (SocketException ex)
+        {
+            Plugin.Logger.LogError($"Failed to start WebSocket server. {ex.Message}");
+            Stop();
+        }
+        catch (System.Exception ex)
+        {
+            Plugin.Logger.LogError($"Failed to start WebSocket server. {ex}");
+            Stop();
+        }
     }
 
     public static void Stop()
     {
-        if (!_isRunning) return;
+        if (!IsRunning) return;
 
-        _isRunning = false;
+        IsRunning = false;
 
-        _httpListener?.Stop();
+        if (_httpListener != null)
+        {
+            _httpListener.Stop();
+            _httpListener.Close();
+            _httpListener = null;
+        }
+
         _webSocketServer?.Stop();
+        _webSocketServer = null;
 
         Plugin.Logger.LogInfo("Server stopped.");
     }
 
-    private static void StartHttpServer()
+    private static bool StartHttpServer()
     {
-        _httpListener = new HttpListener();
-        _httpListener.Prefixes.Add($"http://{System.Net.IPAddress.Any}:{HttpPort}/");
-        _httpListener.Start();
+        try
+        {
+            _httpListener = new HttpListener();
+            _httpListener.Prefixes.Add($"http://{System.Net.IPAddress.Any}:{HttpPort}/");
+            _httpListener.Start();
 
-        Plugin.Logger.LogInfo($"HTTP server started on http://localhost:{HttpPort}");
-        
-        while (_isRunning)
+            Plugin.Logger.LogInfo($"HTTP server started on http://localhost:{HttpPort}");
+
+            // Run the HTTP server loop in a background thread
+            _ = Task.Run(HandleHttpRequests);
+
+            return true;
+        }
+        catch (SocketException ex)
+        {
+            Plugin.Logger.LogError($"Failed to start HTTP server. {ex.Message}");
+        }
+        catch (System.Exception ex)
+        {
+            Plugin.Logger.LogError($"Failed to start HTTP server. {ex}");
+        }
+
+        return false;
+    }
+
+    private static void HandleHttpRequests()
+    {
+        while (IsRunning && _httpListener != null)
         {
             try
             {
-                var context = _httpListener.GetContext();
-                Task.Run(() => HandleHttpRequest(context));
+                var result = _httpListener.BeginGetContext(OnHttpRequest, _httpListener);
+                result.AsyncWaitHandle.WaitOne(); // Wait for the next request
             }
-            catch (Exception ex) when (!_isRunning)
+            catch (System.Exception ex) when (IsRunning)
             {
-                Plugin.Logger.LogWarning($"HTTP server stopped: {ex.Message}");
+                Plugin.Logger.LogError($"Error handling HTTP requests: {ex.Message}");
             }
         }
+    }
+
+    private static void OnHttpRequest(System.IAsyncResult asyncResult)
+    {
+        if (_httpListener == null || !_httpListener.IsListening || _isApplicationQuitting)
+        {
+            return;
+        }
+
+        var context = _httpListener.EndGetContext(asyncResult);
+
+        Task.Run(() =>
+        {
+            try
+            {
+                HandleHttpRequest(context);
+            }
+            catch (System.Exception ex)
+            {
+                Plugin.Logger.LogError($"Error processing HTTP request: {ex.Message}");
+            }
+        });
     }
 
     private static void HandleHttpRequest(HttpListenerContext context)
@@ -115,7 +196,7 @@ internal static class WebServer
                 requestedPath += ".html";
             }
 
-            if (requestedPath.Equals("config.js", StringComparison.OrdinalIgnoreCase))
+            if (requestedPath.Equals("config.js", System.StringComparison.OrdinalIgnoreCase))
             {
                 response.ContentType = "application/javascript";
                 string content = $"const webSocketPort = {WebSocketPort};";
@@ -152,7 +233,7 @@ internal static class WebServer
                 response.OutputStream.Write(errorBytes, 0, errorBytes.Length);
             }
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             // Handle server errors
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -195,20 +276,27 @@ internal static class WebServer
 
     public static void SendJsonToClients(object jsonData)
     {
-        if (_webSocketServer == null)
+        if (_webSocketServer == null || !_webSocketServer.IsListening)
         {
             return;
         }
 
-        var json = JsonConvert.SerializeObject(jsonData);
-
-        foreach (var path in _webSocketServer.WebSocketServices.Paths)
+        lock (_broadcastLock)
         {
-            // Access the service host for the path
-            var serviceHost = _webSocketServer.WebSocketServices[path];
+            try
+            {
+                var json = JsonConvert.SerializeObject(jsonData);
 
-            // Broadcast to all connected sessions
-            serviceHost.Sessions.Broadcast(json);
+                foreach (var path in _webSocketServer.WebSocketServices.Paths)
+                {
+                    var serviceHost = _webSocketServer.WebSocketServices[path];
+                    serviceHost.Sessions.Broadcast(json);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Plugin.Logger.LogError($"Failed to send JSON data to WebSocket clients. {ex}");
+            }
         }
     }
 
@@ -312,7 +400,7 @@ internal static class WebServer
 
             Plugin.Logger.LogInfo("Successfully decompressed public archive.");
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             Plugin.Logger.LogError($"Error while decompressing public archive: {ex.Message}");
         }
