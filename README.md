@@ -3,7 +3,7 @@
 
 #### <ins>This mod is fully client-side and works in vanilla lobbies.</ins>
 #### <ins>This mod works in all game versions v40 to v69+</ins>
-#### This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) mod.
+#### This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) and [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/SoftDiamond/ShipInventoryUpdated/) mod.
 
 ## <img src="https://i.imgur.com/TpnrFSH.png" width="20px"> Download
 
@@ -123,7 +123,7 @@ Choose from multiple overlays to customize your stream.
 - This mod has integration with the [LethalConfig](https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/) mod.
   - Allows you to easily edit the config settings in-game.
 <br><br>
-- This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) mod.
+- This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) and [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/SoftDiamond/ShipInventoryUpdated/) mod.
   - Includes the total scrap value in the ship inventory in the loot stat.
 
 ## Developer Contact

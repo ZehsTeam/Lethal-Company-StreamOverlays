@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Sockets;
@@ -85,7 +86,7 @@ internal static class WebServer
             Plugin.Logger.LogError($"Failed to start WebSocket server. {ex.Message}");
             Stop();
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to start WebSocket server. {ex}");
             Stop();
@@ -130,7 +131,7 @@ internal static class WebServer
         {
             Plugin.Logger.LogError($"Failed to start HTTP server. {ex.Message}");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to start HTTP server. {ex}");
         }
@@ -147,14 +148,14 @@ internal static class WebServer
                 var result = _httpListener.BeginGetContext(OnHttpRequest, _httpListener);
                 result.AsyncWaitHandle.WaitOne(); // Wait for the next request
             }
-            catch (System.Exception ex) when (IsRunning)
+            catch (Exception ex) when (IsRunning)
             {
                 Plugin.Logger.LogError($"Error handling HTTP requests: {ex.Message}");
             }
         }
     }
 
-    private static void OnHttpRequest(System.IAsyncResult asyncResult)
+    private static void OnHttpRequest(IAsyncResult asyncResult)
     {
         if (_httpListener == null || !_httpListener.IsListening || _isApplicationQuitting)
         {
@@ -169,7 +170,7 @@ internal static class WebServer
             {
                 HandleHttpRequest(context);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Plugin.Logger.LogError($"Error processing HTTP request: {ex.Message}");
             }
@@ -196,7 +197,7 @@ internal static class WebServer
                 requestedPath += ".html";
             }
 
-            if (requestedPath.Equals("config.js", System.StringComparison.OrdinalIgnoreCase))
+            if (requestedPath.Equals("config.js", StringComparison.OrdinalIgnoreCase))
             {
                 response.ContentType = "application/javascript";
                 string content = $"const webSocketPort = {WebSocketPort};";
@@ -233,7 +234,7 @@ internal static class WebServer
                 response.OutputStream.Write(errorBytes, 0, errorBytes.Length);
             }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             // Handle server errors
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -293,7 +294,7 @@ internal static class WebServer
                     serviceHost.Sessions.Broadcast(json);
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Plugin.Logger.LogError($"Failed to send JSON data to WebSocket clients. {ex}");
             }
@@ -400,7 +401,7 @@ internal static class WebServer
 
             Plugin.Logger.LogInfo("Successfully decompressed public archive.");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Error while decompressing public archive: {ex.Message}");
         }

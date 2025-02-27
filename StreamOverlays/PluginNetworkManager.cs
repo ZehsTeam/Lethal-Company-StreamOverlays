@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Unity.Collections;
 using Unity.Netcode;
 
@@ -40,7 +41,7 @@ internal static class PluginNetworkManager
 
             SendCustomMessageToClient(clientId, customMessage);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to send CustomMessage data to client: {clientId}. {ex}");
         }
@@ -76,7 +77,7 @@ internal static class PluginNetworkManager
 
             Plugin.Logger.LogInfo($"Sent CustomMessage data to client: {clientId}");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to send CustomMessage data to client: {clientId}. {ex}");
         }
@@ -118,7 +119,7 @@ internal static class PluginNetworkManager
 
             ApplyCustomMessageData(customMessage);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to deserialize message. {ex}");
         }
@@ -140,14 +141,14 @@ internal static class PluginNetworkManager
 
             Plugin.Logger.LogInfo("Applied CustomMessage data successfully!");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to apply CustomMessage data. {ex}");
         }
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class CustomMessage
 {
     public int DaysSpent;

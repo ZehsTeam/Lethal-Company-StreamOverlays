@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,7 +31,7 @@ internal static class DayManager
 
             Plugin.Instance.LogInfoExtended($"Loaded day data from save file. {json}");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to load day data from save file. {ex}");
         }
@@ -50,7 +51,7 @@ internal static class DayManager
 
             Plugin.Instance.LogInfoExtended($"Saved day data to save file. {json}");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to save day data to save file. {ex}");
         }
@@ -105,7 +106,7 @@ internal static class DayManager
     }
 }
 
-[System.Serializable]
+[Serializable]
 public struct DayData
 {
     public int Day;

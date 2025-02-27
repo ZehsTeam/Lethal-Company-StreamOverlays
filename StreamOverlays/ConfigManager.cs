@@ -1,6 +1,7 @@
 ﻿using BepInEx.Configuration;
 using com.github.zehsteam.StreamOverlays.Helpers;
 using com.github.zehsteam.StreamOverlays.Server;
+using System;
 
 namespace com.github.zehsteam.StreamOverlays;
 
@@ -49,30 +50,30 @@ internal class ConfigManager
 
         // Crew Stat
         CrewStat_Label = ConfigHelper.Bind("Crew Stat", "Label", defaultValue: "Crew: {value}", requiresRestart: false, "The formatting of the Crew stat display text. {value} is the amount of players in the current lobby.");
-        CrewStat_Label.SettingChanged += (object sender, System.EventArgs e) => WebServer.UpdateOverlaysFormatting();
+        CrewStat_Label.SettingChanged += (object sender, EventArgs e) => WebServer.UpdateOverlaysFormatting();
 
         // Moon Stat
         MoonStat_Label =           ConfigHelper.Bind("Moon Stat", "Label",           defaultValue: "Moon: {value}", requiresRestart: false, "The formatting of the Moon stat display text. {value} is the name of the current moon.");
         MoonStat_ShowWeatherIcon = ConfigHelper.Bind("Moon Stat", "ShowWeatherIcon", defaultValue: true, requiresRestart: false, "If enabled, will show an icon for the current weather after the moon name.");
-        MoonStat_Label.SettingChanged += (object sender, System.EventArgs e) => WebServer.UpdateOverlaysFormatting();
-        MoonStat_ShowWeatherIcon.SettingChanged += (object sender, System.EventArgs e) => WebServer.UpdateOverlaysData();
+        MoonStat_Label.SettingChanged += (object sender, EventArgs e) => WebServer.UpdateOverlaysFormatting();
+        MoonStat_ShowWeatherIcon.SettingChanged += (object sender, EventArgs e) => WebServer.UpdateOverlaysData();
 
         // Day Stat
         DayStat_Label = ConfigHelper.Bind("Day Stat", "Label", defaultValue: "Day: {value} ({value2}/{value3})", requiresRestart: false, "The formatting of the Day stat display text. {value} is the day number. {value2} is the day number in the current quota. {value3} is the amount of days in a quota. You can remove {value2} and {value3} if you want to.");
-        DayStat_Label.SettingChanged += (object sender, System.EventArgs e) => WebServer.UpdateOverlaysFormatting();
+        DayStat_Label.SettingChanged += (object sender, EventArgs e) => WebServer.UpdateOverlaysFormatting();
 
         // Quota Stat
         QuotaStat_Label = ConfigHelper.Bind("Quota Stat", "Label", defaultValue: "Quota {value2}: ${value}", requiresRestart: false, "The formatting of the Quota stat display text. {value} is the current profit quota. {value2} is the quota number/index. You can remove {value2} if you want to.");
-        QuotaStat_Label.SettingChanged += (object sender, System.EventArgs e) => WebServer.UpdateOverlaysFormatting();
+        QuotaStat_Label.SettingChanged += (object sender, EventArgs e) => WebServer.UpdateOverlaysFormatting();
 
         // Loot Stat
         LootStat_Label =              ConfigHelper.Bind("Loot Stat", "Label",              defaultValue: "Ship Loot: ${value}", requiresRestart: false, "The formatting of the Loot stat display text. {value} is the total scrap value on the ship and attached company cruiser.");
         LootStat_OnlyUpdateEndOfDay = ConfigHelper.Bind("Loot Stat", "OnlyUpdateEndOfDay", defaultValue: true,                  requiresRestart: false, "If enabled, the Loot stat will only update when the day ends or if you are in orbit.");
-        LootStat_Label.SettingChanged += (object sender, System.EventArgs e) => WebServer.UpdateOverlaysFormatting();
+        LootStat_Label.SettingChanged += (object sender, EventArgs e) => WebServer.UpdateOverlaysFormatting();
 
         // Average Per Day Stat
         AveragePerDayStat_Label = ConfigHelper.Bind("Average Per Day Stat", "Label", defaultValue: "Avg/Day: ${value}", requiresRestart: false, "The formatting of the Average Per Day stat display text. {value} is the average collected scrap per day.");
-        AveragePerDayStat_Label.SettingChanged += (object sender, System.EventArgs e) => WebServer.UpdateOverlaysFormatting();
+        AveragePerDayStat_Label.SettingChanged += (object sender, EventArgs e) => WebServer.UpdateOverlaysFormatting();
 
         // Server
         Server_AutoStart =     ConfigHelper.Bind("Server", "AutoStart",     defaultValue: true, requiresRestart: false, "If enabled, the server will automatically start when you launch the game.");

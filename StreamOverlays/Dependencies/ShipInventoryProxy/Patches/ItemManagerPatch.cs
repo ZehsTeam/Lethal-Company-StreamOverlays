@@ -1,6 +1,6 @@
 ﻿using com.github.zehsteam.StreamOverlays.Server;
 using HarmonyLib;
-using ShipInventory.Helpers;
+using ShipInventory.Items;
 
 namespace com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy.Patches;
 

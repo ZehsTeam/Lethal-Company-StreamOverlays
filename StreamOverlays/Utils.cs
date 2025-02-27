@@ -2,17 +2,19 @@
 using BepInEx.Configuration;
 using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using com.github.zehsteam.StreamOverlays.Helpers;
+using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace com.github.zehsteam.StreamOverlays;
 
 internal static class Utils
 {
-    public static string GetEnumName<T>(T e) where T : System.Enum
+    public static string GetEnumName<T>(T e) where T : Enum
     {
-        return System.Enum.GetName(typeof(T), e) ?? string.Empty;
+        return Enum.GetName(typeof(T), e) ?? string.Empty;
     }
 
     public static string GetPluginDirectoryPath()
@@ -218,7 +220,7 @@ internal static class Utils
                 continue;
             }
 
-            if (grabbableObject.itemProperties.itemName.Equals("Body", System.StringComparison.OrdinalIgnoreCase))
+            if (grabbableObject.itemProperties.itemName.Equals("Body", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }

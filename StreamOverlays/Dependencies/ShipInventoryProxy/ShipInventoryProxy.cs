@@ -1,7 +1,8 @@
 ﻿using BepInEx.Bootstrap;
 using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy.Patches;
 using HarmonyLib;
-using ShipInventory.Helpers;
+using ShipInventory.Items;
+using System;
 using System.Runtime.CompilerServices;
 
 namespace com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
@@ -30,7 +31,7 @@ internal static class ShipInventoryProxy
 
             Plugin.Logger.LogInfo("Applied ShipInventory patches.");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to apply ShipInventory patches. {ex}");
         }
@@ -43,7 +44,7 @@ internal static class ShipInventoryProxy
         {
             return ItemManager.GetTotalValue(onlyScraps: true, onlyFromRound);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Plugin.Logger.LogError($"Failed to get the total value from ShipInventory. {ex}");
         }
