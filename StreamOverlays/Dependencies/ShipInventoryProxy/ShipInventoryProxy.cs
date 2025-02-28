@@ -9,7 +9,7 @@ namespace com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 
 internal static class ShipInventoryProxy
 {
-    public const string PLUGIN_GUID = ShipInventory.MyPluginInfo.PLUGIN_GUID;
+    public const string PLUGIN_GUID = LCMPluginInfo.PLUGIN_GUID;
     public static bool Enabled
     {
         get
