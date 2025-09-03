@@ -1,15 +1,20 @@
 # StreamOverlays
-#### Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, ship loot, and average per day. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.
 
-#### <ins>This mod is fully client-side and works in vanilla lobbies.</ins>
-#### <ins>This mod works in all game versions v40 to v69+</ins>
-#### This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) and [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/SoftDiamond/ShipInventoryUpdated/) mod.
+[![Thunderstore Version](https://img.shields.io/thunderstore/v/Zehs/StreamOverlays?style=for-the-badge&logo=thunderstore&logoColor=white)](https://thunderstore.io/c/lethal-company/p/Zehs/StreamOverlays)
+[![Thunderstore Downloads](https://img.shields.io/thunderstore/dt/Zehs/StreamOverlays?style=for-the-badge&logo=thunderstore&logoColor=white)](https://thunderstore.io/c/lethal-company/p/Zehs/StreamOverlays)
 
-## <img src="https://i.imgur.com/TpnrFSH.png" width="20px"> Download
+**Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, ship loot, and average per day. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.**
 
-Download [StreamOverlays](https://thunderstore.io/c/lethal-company/p/Zehs/StreamOverlays/) on Thunderstore.
+**<ins>Who needs this mod installed for it to work?</ins> Only You!**
+
+**<ins>This mod is fully client-side and works in vanilla lobbies.</ins>**
+
+**<ins>This mod works in all game versions from v40 to v72+</ins>**
+
+**This mod has integration with the [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/LethalCompanyModding/ShipInventoryUpdated) mod.**
 
 ## Features
+
 This mod hosts a local website that you can use as a browser source in OBS, Streamlabs OBS, or other streaming applications.
 
 The overlays provide real-time game data, including:
@@ -22,13 +27,16 @@ The overlays provide real-time game data, including:
 - Average collected scrap per day
 
 ## Installation & Usage
+
 ### Step 1: Installation
+
 Install the mod using one of the following mod managers:  
 - [Thunderstore Mod Manager](https://www.overwolf.com/app/thunderstore-thunderstore_mod_manager)  
-- [r2modman](https://thunderstore.io/c/lethal-company/p/ebkr/r2modman/)  
-- [Gale Mod Manager](https://thunderstore.io/c/lethal-company/p/Kesomannen/GaleModManager/)  
+- [r2modman](https://github.com/ebkr/r2modmanPlus/releases)  
+- [Gale Mod Manager](https://github.com/Kesomannen/gale/releases) (Recommended)
 
 ### Step 2: Launch the Game
+
 Ensure the game is running. The overlays will not work otherwise.
 
 ### Step 3: Add the Browser Source
@@ -41,10 +49,11 @@ Ensure the game is running. The overlays will not work otherwise.
    - **Height**: Set to **75**
 
 #### Additional Notes:
+
 - **Streaming from another PC?** Replace `localhost` in the URL with the local IP address of the PC running the game (e.g., `192.168.0.1`).  
 - **Troubleshooting:** If the overlay doesn't appear, refresh the browser source in your streaming application. 
 
-## Config Settings
+**Config Settings**
 This mod uses a global config file.
 
 You can locate the config file at:
@@ -55,12 +64,14 @@ You can locate the config file at:
 > **Tip:** You can use the [LethalConfig](https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/) mod to easily edit the config settings in-game.
 
 ## Overlays
+
 Choose from multiple overlays to customize your stream.  
 > **Tip:** You can use multiple overlays simultaneously.  
 
 <details><summary>Click to Expand</summary>
 
 ### Default Overlay
+
 - URL: `http://localhost:8080/overlay`  
 - Displays: **Crew**, **Moon**, **Day**, **Quota**, **Loot**  
 - Settings:  
@@ -68,6 +79,7 @@ Choose from multiple overlays to customize your stream.
   - **Height**: 75  
 
 ### Overlay 2
+
 - URL: `http://localhost:8080/overlay2`  
 - Displays: **Crew**, **Moon**, **Day**, **Quota**, **Loot**, **Average per day**  
 - Settings:  
@@ -75,42 +87,42 @@ Choose from multiple overlays to customize your stream.
   - **Height**: 75  
 
 ### Individual Overlays
-#### Crew  
+**Crew**
 - URL: `http://localhost:8080/crew`  
 - Displays: Player count  
 - Settings:  
   - **Width**: 500 *(Flexible)*  
   - **Height**: 75  
 
-#### Moon & Weather
+**Moon & Weather**
 - URL: `http://localhost:8080/moon`  
 - Displays: Current moon and weather
 - Settings:  
   - **Width**: 500 *(Flexible)*  
   - **Height**: 75  
 
-#### Day  
+**Day**
 - URL: `http://localhost:8080/day`  
 - Displays: Day count  
 - Settings:  
   - **Width**: 500 *(Flexible)*  
   - **Height**: 75  
 
-#### Quota  
+**Quota**
 - URL: `http://localhost:8080/quota`  
 - Displays: Quota  
 - Settings:  
   - **Width**: 500 *(Flexible)*  
   - **Height**: 75  
 
-#### Loot  
+**Loot**
 - URL: `http://localhost:8080/loot`  
 - Displays: Loot on the ship  
 - Settings:  
   - **Width**: 500 *(Flexible)*  
   - **Height**: 75  
 
-#### Average Per Day  
+**Average Per Day**
 - URL: `http://localhost:8080/averageperday`  
 - Displays: Average scrap collected per day  
 - Settings:  
@@ -120,6 +132,7 @@ Choose from multiple overlays to customize your stream.
 </details>
 
 ## Compatibility & Integration
+
 - This mod has integration with the [LethalConfig](https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/) mod.
   - Allows you to easily edit the config settings in-game.
 <br><br>
@@ -127,7 +140,9 @@ Choose from multiple overlays to customize your stream.
   - Includes the total scrap value in the ship inventory in the loot stat.
 
 ## Developer Contact
-#### Report bugs, suggest features, or provide feedback:  
+
+**Report bugs, suggest features, or provide feedback:**
+
 - **GitHub Issues Page:** [StreamOverlays](https://github.com/ZehsTeam/Lethal-Company-StreamOverlays/issues)  
 
 | **Discord Server** | **Forum** | **Post** |  
@@ -135,11 +150,12 @@ Choose from multiple overlays to customize your stream.
 | [Lethal Company Modding](https://discord.gg/XeyYqRdRGC) | `#mod-releases` | [StreamOverlays](https://discord.com/channels/1168655651455639582/1309938877405855856) |  
 | [Unofficial Lethal Company Community](https://discord.gg/nYcQFEpXfU) | `#mod-releases` | [StreamOverlays](https://discord.com/channels/1169792572382773318/1309939026744053860) |  
 
-- **Email:** crithaxxog@gmail.com  
-- **Twitch:** [CritHaxXoG](https://www.twitch.tv/crithaxxog)  
-- **YouTube:** [Zehs](https://www.youtube.com/channel/UCb4VEkc-_im0h8DKXlwmIAA)
+https://solo.to/crithaxxog
+
+[<img src="https://i.imgur.com/duJZQTS.png" width="200px">](https://ko-fi.com/zehsteam)
 
 ## Credits
+
 * <a href="https://www.flaticon.com/free-icons/sun" title="sun icons">Sun icons created by Good Ware - Flaticon</a>
 * <a href="https://www.flaticon.com/free-icons/cloudy" title="cloudy icons">Cloudy icons created by bqlqn - Flaticon</a>
 * <a href="https://www.flaticon.com/free-icons/rain" title="rain icons">Rain icons created by bqlqn - Flaticon</a>
@@ -149,6 +165,7 @@ Choose from multiple overlays to customize your stream.
 * <a href="https://www.flaticon.com/free-icons/eclipse" title="eclipse icons">Eclipse icons created by Muhamad Ulum - Flaticon</a>
 
 ## Screenshots
+
 <img src="https://i.imgur.com/JCtTmEZ.png">
 <img src="https://i.imgur.com/Twfxu0z.png">
 <img src="https://i.imgur.com/MugOPwD.png">
