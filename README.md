@@ -53,7 +53,7 @@ Ensure the game is running. The overlays will not work otherwise.
 - **Streaming from another PC?** Replace `localhost` in the URL with the local IP address of the PC running the game (e.g., `192.168.0.1`).  
 - **Troubleshooting:** If the overlay doesn't appear, refresh the browser source in your streaming application. 
 
-**Config Settings**
+## Config Settings
 This mod uses a global config file.
 
 You can locate the config file at:
