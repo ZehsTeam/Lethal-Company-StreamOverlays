@@ -60,7 +60,8 @@
     <Game>lethal-company</Game>
     <GaleProfileName>Mod Development</GaleProfileName>
     <GaleDataFolder>$(AppData)\com.kesomannen.gale</GaleDataFolder>
-    <BepInExPluginsFolder>$(GaleDataFolder)\$(Game)\profiles\$(GaleProfileName)\BepInEx\plugins</BepInExPluginsFolder>
+    <GaleProfilesFolder>$(GaleDataFolder)\$(Game)\profiles</GaleProfilesFolder>
+    <BepInExPluginsFolder>$(GaleProfilesFolder)\$(GaleProfileName)\BepInEx\plugins</BepInExPluginsFolder>
     <PluginFolder>$(BepInExPluginsFolder)\Zehs-$(MSBuildProjectName)</PluginFolder>
   </PropertyGroup>
   
@@ -83,6 +84,16 @@
   <Target Name="CopyToGalePluginFolder" AfterTargets="PostBuildEvent">
     <Copy Condition="Exists('$(PluginFolder)')" DestinationFolder="$(PluginFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
     <Exec Condition="Exists('$(PluginFolder)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolder)\public&quot; /mir || exit 0" />
+  </Target>
+  
+  <!-- Copy files to Gale plugin folder 2 -->
+  <PropertyGroup>
+    <GalePluginFolder2>$(GaleProfilesFolder)\Mod Development 2\BepInEx\plugins\Zehs-$(MSBuildProjectName)</GalePluginFolder2>
+  </PropertyGroup>
+  
+  <Target Name="CopyToGalePluginFolder2" AfterTargets="CopyToGalePluginFolder">
+    <Copy Condition="Exists('$(GalePluginFolder2)')" DestinationFolder="$(GalePluginFolder2)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(GalePluginFolder2)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(GalePluginFolder2)\public&quot; /mir || exit 0" />
   </Target>
   
   <!-- Copy files to older versions plugin folders -->
