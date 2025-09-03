@@ -3,14 +3,24 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     
     <AssemblyName>com.github.zehsteam.$(MSBuildProjectName)</AssemblyName> <!-- PLUGIN_GUID -->
     <Product>$(MSBuildProjectName)</Product>                               <!-- PLUGIN_NAME -->
     <Version>1.4.4</Version>                                               <!-- PLUGIN_VERSION -->
-    <Description>Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, and ship loot. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.</Description>
+    <Authors>Zehs</Authors>
+    <Description>[v40/v72+] Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, and ship loot. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.</Description>
+    <Copyright>Copyright © 2025 Zehs</Copyright>
     
     <RootNamespace>com.github.zehsteam.$(MSBuildProjectName)</RootNamespace>
+    
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
+    
+    <!-- Trim the project path in debug symbols -->
+    <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
     
     <RestoreAdditionalProjectSources>
       https://api.nuget.org/v3/index.json;
@@ -18,91 +28,81 @@
       https://nuget.samboy.dev/v3/index.json;
     </RestoreAdditionalProjectSources>
   </PropertyGroup>
-  
+
   <Target Name="ClearReferenceCopyLocalPaths" AfterTargets="ResolveAssemblyReferences">
     <ItemGroup>
       <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" />
     </ItemGroup>
   </Target>
-  
+
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
-    <PackageReference Include="BepInEx.Core" Version="5.4.*" />
-    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" PrivateAssets="all" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="UnityEngine.Modules" Version="2023.2.4" IncludeAssets="compile" />
-    <PackageReference Include="LethalCompany.GameLibs.Steam" Version="67.0.0-ngd.0" PrivateAssets="all" />
+    <PackageReference Include="UnityEngine.Modules" Version="2022.3.9" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="LethalCompany.GameLibs.Steam" Version="70.0.0-ngd.0" PrivateAssets="all" />
     <PackageReference Include="WebSocketSharp-netstandard" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="LethalConfig" HintPath="$(BepInExPluginsFolder)\AinaVT-LethalConfig\LethalConfig\LethalConfig.dll" />
+    <Reference Include="ShipInventoryUpdated" HintPath="$(BepInExPluginsFolder)\LethalCompanyModding-ShipInventoryUpdated\ShipInventoryUpdated.dll" Publicize="true" />
+    <Reference Include="CSync" HintPath="$(BepInExPluginsFolder)\Sigurd-CSync\CSync\com.sigurd.csync.dll" />
   </ItemGroup>
   
   <PropertyGroup>
-    <!-- Mod libraries folder -->
-    <LibraryFolder>D:\Documents\Lethal Company Modding\Mods</LibraryFolder>
-    
-    <!-- Steam library folder -->
+    <Game>lethal-company</Game>
+    <GaleProfileName>Mod Development</GaleProfileName>
+    <GaleDataFolder>$(AppData)\com.kesomannen.gale</GaleDataFolder>
+    <BepInExPluginsFolder>$(GaleDataFolder)\$(Game)\profiles\$(GaleProfileName)\BepInEx\plugins</BepInExPluginsFolder>
+    <PluginFolder>$(BepInExPluginsFolder)\Zehs-$(MSBuildProjectName)</PluginFolder>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <WebsitePublicFolder>$(MSBuildProjectDirectory)\..\Website\public</WebsitePublicFolder>
+  </PropertyGroup>
+  
+  <PropertyGroup>
     <SteamLibrary>D:\SteamLibrary\steamapps\common</SteamLibrary>
-    
-    <!-- Lethal Company plugins folders -->
-    <PluginsFolder>$(SteamLibrary)\Lethal Company\BepInEx\plugins</PluginsFolder>
-    <PluginsFolderV40>$(SteamLibrary)\Lethal Company v40\BepInEx\plugins\Zehs-$(MSBuildProjectName)</PluginsFolderV40>
-    <PluginsFolderV45>$(SteamLibrary)\Lethal Company v45 final\BepInEx\plugins\Zehs-$(MSBuildProjectName)</PluginsFolderV45>
-    <PluginsFolderV49>$(SteamLibrary)\Lethal Company v49\BepInEx\plugins\Zehs-$(MSBuildProjectName)</PluginsFolderV49>
-    <PluginsFolderV50>$(SteamLibrary)\Lethal Company v50 hotfix\BepInEx\plugins\Zehs-$(MSBuildProjectName)</PluginsFolderV50>
-    <PluginsFolderV56>$(SteamLibrary)\Lethal Company v56 hotfix\BepInEx\plugins\Zehs-$(MSBuildProjectName)</PluginsFolderV56>
-    <PluginsFolderV62>$(SteamLibrary)\Lethal Company v62\BepInEx\plugins\Zehs-$(MSBuildProjectName)</PluginsFolderV62>
-    
-    <!-- Gale profile name -->
-    <GaleProfile>Mod Development</GaleProfile>
-    
-    <!-- Gale plugins folder -->
-    <GalePluginsFolder>$(AppData)\com.kesomannen.gale\lethal-company\profiles\$(GaleProfile)\BepInEx\plugins\Zehs-$(MSBuildProjectName)</GalePluginsFolder>
-    
-    <!-- Website folder -->
-    <WebsiteFolder>$(MSBuildProjectDirectory)\..\Website\public</WebsiteFolder>
-    
-    <!-- Other settings -->
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
-	</PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
-    <DebugType>embedded</DebugType>
+    <PluginFolderEnding>BepInEx\plugins\Zehs-$(MSBuildProjectName)</PluginFolderEnding>
+    <PluginFolderV40>$(SteamLibrary)\Lethal Company v40\$(PluginFolderEnding)</PluginFolderV40>
+    <PluginFolderV45>$(SteamLibrary)\Lethal Company v45 final\$(PluginFolderEnding)</PluginFolderV45>
+    <PluginFolderV49>$(SteamLibrary)\Lethal Company v49\$(PluginFolderEnding)</PluginFolderV49>
+    <PluginFolderV50>$(SteamLibrary)\Lethal Company v50 hotfix\$(PluginFolderEnding)</PluginFolderV50>
+    <PluginFolderV56>$(SteamLibrary)\Lethal Company v56 hotfix\$(PluginFolderEnding)</PluginFolderV56>
+    <PluginFolderV62>$(SteamLibrary)\Lethal Company v62\$(PluginFolderEnding)</PluginFolderV62>
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <Reference Include="LethalConfig">        <HintPath>$(LibraryFolder)\AinaVT-LethalConfig\LethalConfig.dll                              </HintPath></Reference>
-    <Reference Include="ShipInventoryUpdated"><HintPath>$(LibraryFolder)\LethalCompanyModding-ShipInventoryUpdated\ShipInventoryUpdated.dll</HintPath></Reference>
-    <Reference Include="CSync">               <HintPath>$(LibraryFolder)\Sigurd-CSync\com.sigurd.csync.dll                                 </HintPath></Reference>
-  </ItemGroup>
-  
-  <Target Name="CopyToPluginsFolder" AfterTargets="PostBuildEvent">
-    <Copy DestinationFolder="$(PluginsFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+  <!-- Copy files to Gale plugin folder -->
+  <Target Name="CopyToGalePluginFolder" AfterTargets="PostBuildEvent">
+    <Copy Condition="Exists('$(PluginFolder)')" DestinationFolder="$(PluginFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolder)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolder)\public&quot; /mir || exit 0" />
   </Target>
   
-  <Target Name="CopyToGalePluginsFolder" AfterTargets="CopyToPluginsFolder">
-    <Copy DestinationFolder="$(GalePluginsFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
-  </Target>
-  
-  <Target Name="CopyPublicFolder" AfterTargets="CopyToGalePluginsFolder">
-    <Exec Command="robocopy &quot;$(WebsiteFolder)&quot; &quot;$(GalePluginsFolder)\public&quot; /mir || exit 0" />
-  </Target>
-  
-  <Target Name="CopyToOlderVersionsFolders" AfterTargets="CopyToPluginsFolder">
-    <Copy DestinationFolder="$(PluginsFolderV40)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
-    <Copy DestinationFolder="$(PluginsFolderV45)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
-    <Copy DestinationFolder="$(PluginsFolderV49)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
-    <Copy DestinationFolder="$(PluginsFolderV50)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
-    <Copy DestinationFolder="$(PluginsFolderV56)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
-    <Copy DestinationFolder="$(PluginsFolderV62)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+  <!-- Copy files to older versions plugin folders -->
+  <Target Name="CopyToOlderVersionsPluginFolders" AfterTargets="CopyToGalePluginFolder">
+    <Copy Condition="Exists('$(PluginFolderV40)')" DestinationFolder="$(PluginFolderV40)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV40)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV40)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV45)')" DestinationFolder="$(PluginFolderV45)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV45)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV45)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV49)')" DestinationFolder="$(PluginFolderV49)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV49)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV49)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV50)')" DestinationFolder="$(PluginFolderV50)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV50)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV50)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV56)')" DestinationFolder="$(PluginFolderV56)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV56)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV56)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV62)')" DestinationFolder="$(PluginFolderV62)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV62)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV62)\public&quot; /mir || exit 0" />
   </Target>
 </Project>
