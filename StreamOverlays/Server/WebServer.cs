@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using com.github.zehsteam.StreamOverlays.Helpers;
+using com.github.zehsteam.StreamOverlays.Managers;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -13,8 +15,8 @@ namespace com.github.zehsteam.StreamOverlays.Server;
 
 internal static class WebServer
 {
-    public static int HttpPort => Plugin.ConfigManager.Server_HttpPort.Value;
-    public static int WebSocketPort => Plugin.ConfigManager.Server_WebSocketPort.Value;
+    public static int HttpPort => ConfigManager.Server_HttpPort.Value;
+    public static int WebSocketPort => ConfigManager.Server_WebSocketPort.Value;
     public static bool IsRunning { get; private set; }
 
     private static HttpListener _httpListener;
@@ -38,10 +40,10 @@ internal static class WebServer
 
         if (!WebsiteFolderExists())
         {
-            Plugin.Logger.LogFatal("Error! The \"public\" folder does not exist. The overlays will not work. Please report the bug to the mod developer!");
+            Logger.LogFatal("Error! The \"public\" folder does not exist. The overlays will not work. Please report the bug to the mod developer!");
         }
 
-        if (Plugin.ConfigManager.Server_AutoStart.Value)
+        if (ConfigManager.Server_AutoStart.Value)
         {
             Start();
         }
@@ -51,7 +53,7 @@ internal static class WebServer
     {
         if (IsRunning)
         {
-            Plugin.Logger.LogWarning("Server is already running!");
+            Logger.LogWarning("Server is already running!");
             return;
         }
 
@@ -62,7 +64,7 @@ internal static class WebServer
             // Start HTTP Server and wait for completion
             if (!StartHttpServer())
             {
-                Plugin.Logger.LogError("Failed to start WebSocket server. HTTP server failed to start.");
+                Logger.LogError("Failed to start WebSocket server. HTTP server failed to start.");
                 Stop();
                 return;
             }
@@ -74,21 +76,21 @@ internal static class WebServer
 
             if (!_webSocketServer.IsListening)
             {
-                Plugin.Logger.LogError("Failed to start WebSocket server. The port might already be in use.");
+                Logger.LogError("Failed to start WebSocket server. The port might already be in use.");
                 Stop();
                 return;
             }
 
-            Plugin.Logger.LogInfo($"WebSocket server started on ws://localhost:{WebSocketPort}");
+            Logger.LogInfo($"WebSocket server started on ws://localhost:{WebSocketPort}");
         }
         catch (SocketException ex)
         {
-            Plugin.Logger.LogError($"Failed to start WebSocket server. {ex.Message}");
+            Logger.LogError($"Failed to start WebSocket server. {ex.Message}");
             Stop();
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to start WebSocket server. {ex}");
+            Logger.LogError($"Failed to start WebSocket server. {ex}");
             Stop();
         }
     }
@@ -109,7 +111,7 @@ internal static class WebServer
         _webSocketServer?.Stop();
         _webSocketServer = null;
 
-        Plugin.Logger.LogInfo("Server stopped.");
+        Logger.LogInfo("Server stopped.");
     }
 
     private static bool StartHttpServer()
@@ -120,7 +122,7 @@ internal static class WebServer
             _httpListener.Prefixes.Add($"http://{System.Net.IPAddress.Any}:{HttpPort}/");
             _httpListener.Start();
 
-            Plugin.Logger.LogInfo($"HTTP server started on http://localhost:{HttpPort}");
+            Logger.LogInfo($"HTTP server started on http://localhost:{HttpPort}");
 
             // Run the HTTP server loop in a background thread
             _ = Task.Run(HandleHttpRequests);
@@ -129,11 +131,11 @@ internal static class WebServer
         }
         catch (SocketException ex)
         {
-            Plugin.Logger.LogError($"Failed to start HTTP server. {ex.Message}");
+            Logger.LogError($"Failed to start HTTP server. {ex.Message}");
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to start HTTP server. {ex}");
+            Logger.LogError($"Failed to start HTTP server. {ex}");
         }
 
         return false;
@@ -150,7 +152,7 @@ internal static class WebServer
             }
             catch (Exception ex) when (IsRunning)
             {
-                Plugin.Logger.LogError($"Error handling HTTP requests: {ex.Message}");
+                Logger.LogError($"Error handling HTTP requests: {ex.Message}");
             }
         }
     }
@@ -172,7 +174,7 @@ internal static class WebServer
             }
             catch (Exception ex)
             {
-                Plugin.Logger.LogError($"Error processing HTTP request: {ex.Message}");
+                Logger.LogError($"Error processing HTTP request: {ex.Message}");
             }
         });
     }
@@ -186,7 +188,7 @@ internal static class WebServer
         {
             string requestedPath = request.Url.LocalPath.TrimStart('/'); // e.g., "overlay" or "assets/css/style.css"
 
-            Plugin.Instance.LogInfoExtended($"Requested path: \"{requestedPath}\"");
+            Logger.LogInfo($"Requested path: \"{requestedPath}\"", extended: true);
 
             if (string.IsNullOrEmpty(requestedPath))
             {
@@ -242,7 +244,7 @@ internal static class WebServer
             response.ContentLength64 = errorBytes.Length;
             response.OutputStream.Write(errorBytes, 0, errorBytes.Length);
 
-            Plugin.Logger.LogError($"Error serving request: {ex.Message}");
+            Logger.LogError($"Error serving request: {ex.Message}");
         }
         finally
         {
@@ -296,7 +298,7 @@ internal static class WebServer
             }
             catch (Exception ex)
             {
-                Plugin.Logger.LogError($"Failed to send JSON data to WebSocket clients. {ex}");
+                Logger.LogError($"Failed to send JSON data to WebSocket clients. {ex}");
             }
         }
     }
@@ -323,12 +325,12 @@ internal static class WebServer
         {
             type = "formatting",
 
-            crewLabel = Plugin.ConfigManager.CrewStat_Label.Value,
-            moonLabel = Plugin.ConfigManager.MoonStat_Label.Value,
-            dayLabel = Plugin.ConfigManager.DayStat_Label.Value,
-            quotaLabel = Plugin.ConfigManager.QuotaStat_Label.Value,
-            lootLabel = Plugin.ConfigManager.LootStat_Label.Value,
-            averagePerDayLabel = Plugin.ConfigManager.AveragePerDayStat_Label.Value
+            crewLabel = ConfigManager.CrewStat_Label.Value,
+            moonLabel = ConfigManager.MoonStat_Label.Value,
+            dayLabel = ConfigManager.DayStat_Label.Value,
+            quotaLabel = ConfigManager.QuotaStat_Label.Value,
+            lootLabel = ConfigManager.LootStat_Label.Value,
+            averagePerDayLabel = ConfigManager.AveragePerDayStat_Label.Value
         };
     }
 
@@ -341,8 +343,8 @@ internal static class WebServer
             showOverlay = Utils.CanShowOverlay(),
             crewCount = Utils.GetPlayerCount(),
             moonName = Utils.GetCurrentPlanetName(),
-            weatherName = Utils.GetEnumName(Utils.GetCurrentPlanetWeather()),
-            showWeatherIcon = Plugin.ConfigManager.MoonStat_ShowWeatherIcon.Value,
+            weatherName = Utils.GetCurrentPlanetWeather().ToString(),
+            showWeatherIcon = ConfigManager.MoonStat_ShowWeatherIcon.Value,
             dayCount = DayManager.GetDayNumber(),
             dayInQuota = Utils.GetDayInQuota(),
             quotaValue = Utils.GetProfitQuota(),
@@ -399,11 +401,11 @@ internal static class WebServer
 
             File.Delete(archivePath);
 
-            Plugin.Logger.LogInfo("Successfully decompressed public archive.");
+            Logger.LogInfo("Successfully decompressed public archive.");
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Error while decompressing public archive: {ex.Message}");
+            Logger.LogError($"Error while decompressing public archive: {ex.Message}");
         }
     }
 

@@ -99,7 +99,7 @@ internal static class LethalConfigProxy
     }
 
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-    public static void AddButton(string section, string name, string description, string buttonText, Action callback)
+    public static void AddButton(string section, string name, string buttonText, string description, Action callback)
     {
         LethalConfigManager.AddConfigItem(new GenericButtonConfigItem(section, name, description, buttonText, () => callback?.Invoke()));
     }

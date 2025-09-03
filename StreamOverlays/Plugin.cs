@@ -1,9 +1,10 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
-using BepInEx.Logging;
 using com.github.zehsteam.StreamOverlays.Dependencies;
 using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using com.github.zehsteam.StreamOverlays.Dependencies.Vanilla;
+using com.github.zehsteam.StreamOverlays.Helpers;
+using com.github.zehsteam.StreamOverlays.Managers;
 using com.github.zehsteam.StreamOverlays.Patches;
 using com.github.zehsteam.StreamOverlays.Server;
 using HarmonyLib;
@@ -19,19 +20,16 @@ internal class Plugin : BaseUnityPlugin
     private readonly Harmony _harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
 
     internal static Plugin Instance { get; private set; }
-    internal static new ManualLogSource Logger { get; private set; }
-    internal static new ConfigFile Config {  get; private set; }
-
-    internal static ConfigManager ConfigManager { get; private set; }
+    internal static new ConfigFile Config { get; private set; }
 
     #pragma warning disable IDE0051 // Remove unused private members
     private void Awake()
     #pragma warning restore IDE0051 // Remove unused private members
     {
-        if (Instance == null) Instance = this;
+        Instance = this;
 
-        Logger = BepInEx.Logging.Logger.CreateLogSource(MyPluginInfo.PLUGIN_GUID);
-        Logger.LogInfo($"{MyPluginInfo.PLUGIN_NAME} has awoken!");
+        StreamOverlays.Logger.Initialize(BepInEx.Logging.Logger.CreateLogSource(MyPluginInfo.PLUGIN_GUID));
+        StreamOverlays.Logger.LogInfo($"{MyPluginInfo.PLUGIN_NAME} has awoken!");
 
         Config = Utils.CreateGlobalConfigFile();
 
@@ -53,27 +51,8 @@ internal class Plugin : BaseUnityPlugin
             ShipInventoryProxy.PatchAll(_harmony);
         }
 
-        ConfigManager = new ConfigManager();
+        ConfigManager.Initialize(Config);
 
         Task.Run(WebServer.Initialize);
-    }
-
-    public void LogInfoExtended(object data)
-    {
-        LogExtended(LogLevel.Info, data);
-    }
-
-    public void LogExtended(LogLevel level, object data)
-    {
-        if (ConfigManager == null || ConfigManager.ExtendedLogging == null)
-        {
-            Logger.Log(level, data);
-            return;
-        }
-
-        if (ConfigManager.ExtendedLogging.Value)
-        {
-            Logger.Log(level, data);
-        }
     }
 }

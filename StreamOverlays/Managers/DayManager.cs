@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using com.github.zehsteam.StreamOverlays.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace com.github.zehsteam.StreamOverlays;
+namespace com.github.zehsteam.StreamOverlays.Managers;
 
 internal static class DayManager
 {
@@ -19,21 +20,21 @@ internal static class DayManager
             return;
         }
 
-        if (!SaveSystem.KeyExists("DayData"))
+        if (!GameSaveFileHelper.KeyExists("DayData"))
         {
             return;
         }
 
         try
         {
-            string json = SaveSystem.LoadData<string>("DayData");
+            string json = GameSaveFileHelper.Load<string>("DayData");
             DayDataList = JsonConvert.DeserializeObject<List<DayData>>(json);
 
-            Plugin.Instance.LogInfoExtended($"Loaded day data from save file. {json}");
+            Logger.LogInfo($"Loaded day data from save file. {json}", extended: true);
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to load day data from save file. {ex}");
+            Logger.LogError($"Failed to load day data from save file. {ex}");
         }
     }
 
@@ -47,13 +48,13 @@ internal static class DayManager
         try
         {
             string json = JsonConvert.SerializeObject(DayDataList);
-            SaveSystem.SaveData("DayData", json);
+            GameSaveFileHelper.Save("DayData", json);
 
-            Plugin.Instance.LogInfoExtended($"Saved day data to save file. {json}");
+            Logger.LogInfo($"Saved day data to save file. {json}", extended: true);
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to save day data to save file. {ex}");
+            Logger.LogError($"Failed to save day data to save file. {ex}");
         }
     }
 

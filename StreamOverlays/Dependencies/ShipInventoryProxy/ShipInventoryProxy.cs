@@ -29,11 +29,11 @@ internal static class ShipInventoryProxy
             harmony.PatchAll(typeof(ItemManagerPatch));
             harmony.PatchAll(typeof(ChuteInteractPatch));
 
-            Plugin.Logger.LogInfo("Applied ShipInventory patches.");
+            Logger.LogInfo("Applied ShipInventory patches.");
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to apply ShipInventory patches. {ex}");
+            Logger.LogError($"Failed to apply ShipInventory patches. {ex}");
         }
     }
 
@@ -46,7 +46,7 @@ internal static class ShipInventoryProxy
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to get the total value from ShipInventory. {ex}");
+            Logger.LogError($"Failed to get the total value from ShipInventory. {ex}");
         }
 
         return 0;

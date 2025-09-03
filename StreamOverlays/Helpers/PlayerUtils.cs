@@ -1,15 +1,13 @@
 ﻿using GameNetcodeStuff;
 
-namespace com.github.zehsteam.StreamOverlays;
+namespace com.github.zehsteam.StreamOverlays.Helpers;
 
 internal static class PlayerUtils
 {
     public static PlayerControllerB GetLocalPlayerScript()
     {
         if (GameNetworkManager.Instance == null)
-        {
             return null;
-        }
 
         return GameNetworkManager.Instance.localPlayerController;
     }
@@ -27,9 +25,7 @@ internal static class PlayerUtils
     public static PlayerControllerB GetPlayerScriptByClientId(ulong clientId)
     {
         if (StartOfRound.Instance == null)
-        {
             return null;
-        }
 
         foreach (var playerScript in StartOfRound.Instance.allPlayerScripts)
         {

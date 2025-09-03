@@ -1,10 +1,11 @@
 ﻿using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using com.github.zehsteam.StreamOverlays.Dependencies.Vanilla;
+using com.github.zehsteam.StreamOverlays.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace com.github.zehsteam.StreamOverlays;
+namespace com.github.zehsteam.StreamOverlays.Managers;
 
 internal static class LootManager
 {
@@ -14,7 +15,7 @@ internal static class LootManager
 
     public static bool CanUpdateLootTotal()
     {
-        if (!Plugin.ConfigManager.LootStat_OnlyUpdateEndOfDay.Value)
+        if (!ConfigManager.LootStat_OnlyUpdateEndOfDay.Value)
         {
             return true;
         }

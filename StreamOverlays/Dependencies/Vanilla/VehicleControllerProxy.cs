@@ -1,4 +1,5 @@
-﻿using com.github.zehsteam.StreamOverlays.Patches;
+﻿using com.github.zehsteam.StreamOverlays.Dependencies.Vanilla.Patches;
+using com.github.zehsteam.StreamOverlays.Helpers;
 using HarmonyLib;
 using System;
 using System.Linq;
@@ -29,7 +30,7 @@ internal static class VehicleControllerProxy
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to get enabled state from VehicleControllerProxy. {ex}");
+            Logger.LogError($"Failed to get enabled state from VehicleControllerProxy. {ex}");
             return false;
         }
     }
@@ -43,7 +44,7 @@ internal static class VehicleControllerProxy
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to apply VehicleController patch. {ex}");
+            Logger.LogError($"Failed to apply VehicleController patch. {ex}");
         }
     }
     
@@ -66,7 +67,7 @@ internal static class VehicleControllerProxy
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to get loot total from attached vehicle. {ex}");
+            Logger.LogError($"Failed to get loot total from attached vehicle. {ex}");
             return 0;
         }
     }

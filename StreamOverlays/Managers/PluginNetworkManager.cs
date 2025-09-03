@@ -1,9 +1,10 @@
-﻿using System;
+﻿using com.github.zehsteam.StreamOverlays.Helpers;
+using System;
 using System.Linq;
 using Unity.Collections;
 using Unity.Netcode;
 
-namespace com.github.zehsteam.StreamOverlays;
+namespace com.github.zehsteam.StreamOverlays.Managers;
 
 internal static class PluginNetworkManager
 {
@@ -11,19 +12,19 @@ internal static class PluginNetworkManager
     {
         if (NetworkManager.Singleton == null)
         {
-            Plugin.Logger.LogError("Failed to initialize PluginNetworkManager. NetworkManager.Singleton is null.");
+            Logger.LogError("Failed to initialize PluginNetworkManager. NetworkManager.Singleton is null.");
             return;
         }
 
         if (NetworkManager.Singleton.CustomMessagingManager == null)
         {
-            Plugin.Logger.LogError("Failed to initialize PluginNetworkManager. NetworkManager.Singleton.CustomMessagingManager is null.");
+            Logger.LogError("Failed to initialize PluginNetworkManager. NetworkManager.Singleton.CustomMessagingManager is null.");
             return;
         }
 
         NetworkManager.Singleton.CustomMessagingManager.RegisterNamedMessageHandler("ReceiveCustomMessage", HandleCustomMessage);
 
-        Plugin.Logger.LogInfo("PluginNetworkManager initialized successfully.");
+        Logger.LogInfo("PluginNetworkManager initialized successfully.");
     }
 
     public static void OnClientConnected(ulong clientId)
@@ -43,7 +44,7 @@ internal static class PluginNetworkManager
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to send CustomMessage data to client: {clientId}. {ex}");
+            Logger.LogError($"Failed to send CustomMessage data to client: {clientId}. {ex}");
         }
     }
 
@@ -51,7 +52,7 @@ internal static class PluginNetworkManager
     {
         if (!NetworkUtils.IsServer)
         {
-            Plugin.Logger.LogWarning("Only the host can send messages to clients.");
+            Logger.LogWarning("Only the host can send messages to clients.");
             return;
         }
 
@@ -75,11 +76,11 @@ internal static class PluginNetworkManager
 
             NetworkManager.Singleton.CustomMessagingManager.SendNamedMessage("ReceiveCustomMessage", clientId, writer);
 
-            Plugin.Logger.LogInfo($"Sent CustomMessage data to client: {clientId}");
+            Logger.LogInfo($"Sent CustomMessage data to client: {clientId}");
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to send CustomMessage data to client: {clientId}. {ex}");
+            Logger.LogError($"Failed to send CustomMessage data to client: {clientId}. {ex}");
         }
     }
 
@@ -87,7 +88,7 @@ internal static class PluginNetworkManager
     {
         if (!reader.TryBeginRead(sizeof(int) * 2)) // Ensure there's enough data to read
         {
-            Plugin.Logger.LogWarning("Failed to deserialize message: Insufficient data.");
+            Logger.LogWarning("Failed to deserialize message: Insufficient data.");
             return;
         }
 
@@ -115,13 +116,13 @@ internal static class PluginNetworkManager
             }
 
             // Handle the message (e.g., update client-side state)
-            Plugin.Logger.LogInfo($"Received message from client: {senderId}");
+            Logger.LogInfo($"Received message from client: {senderId}");
 
             ApplyCustomMessageData(customMessage);
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to deserialize message. {ex}");
+            Logger.LogError($"Failed to deserialize message. {ex}");
         }
     }
 
@@ -129,7 +130,7 @@ internal static class PluginNetworkManager
     {
         if (customMessage == null)
         {
-            Plugin.Logger.LogError("Failed to apply CustomMessage data. CustomMessage is null.");
+            Logger.LogError("Failed to apply CustomMessage data. CustomMessage is null.");
             return;
         }
 
@@ -139,11 +140,11 @@ internal static class PluginNetworkManager
             TimeOfDay.Instance.timesFulfilledQuota = customMessage.TimesFulfilledQuota;
             DayManager.DayDataList = customMessage.DayDataList.ToList();
 
-            Plugin.Logger.LogInfo("Applied CustomMessage data successfully!");
+            Logger.LogInfo("Applied CustomMessage data successfully!");
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError($"Failed to apply CustomMessage data. {ex}");
+            Logger.LogError($"Failed to apply CustomMessage data. {ex}");
         }
     }
 }

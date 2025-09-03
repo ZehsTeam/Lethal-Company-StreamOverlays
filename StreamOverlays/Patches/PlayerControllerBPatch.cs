@@ -1,4 +1,5 @@
-﻿using com.github.zehsteam.StreamOverlays.Server;
+﻿using com.github.zehsteam.StreamOverlays.Managers;
+using com.github.zehsteam.StreamOverlays.Server;
 using GameNetcodeStuff;
 using HarmonyLib;
 using Unity.Netcode;

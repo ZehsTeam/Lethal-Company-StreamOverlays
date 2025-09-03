@@ -1,22 +1,17 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
-using com.github.zehsteam.StreamOverlays.Helpers;
+using com.github.zehsteam.StreamOverlays.Extensions;
 using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace com.github.zehsteam.StreamOverlays;
+namespace com.github.zehsteam.StreamOverlays.Helpers;
 
 internal static class Utils
 {
-    public static string GetEnumName<T>(T e) where T : Enum
-    {
-        return Enum.GetName(typeof(T), e) ?? string.Empty;
-    }
-
     public static string GetPluginDirectoryPath()
     {
         return Path.GetDirectoryName(Plugin.Instance.Info.Location);
@@ -57,7 +52,7 @@ internal static class Utils
             return GameNetworkManager.Instance.StartCoroutine(routine);
         }
 
-        Plugin.Logger.LogError("Failed to start coroutine. " + routine);
+        Logger.LogError("Failed to start coroutine. " + routine);
 
         return null;
     }
@@ -142,7 +137,7 @@ internal static class Utils
         int daysUntilDeadline = Mathf.Max(TimeOfDay.Instance.daysUntilDeadline, 0);
         int daysInQuota = 3;
 
-        return (daysInQuota - daysUntilDeadline) + 1;
+        return daysInQuota - daysUntilDeadline + 1;
     }
 
     public static int GetProfitQuota()
@@ -187,7 +182,7 @@ internal static class Utils
             return false;
         }
 
-        if (GrabbableObjectHelper.IsDeactivated(grabbableObject) || grabbableObject.itemUsedUp)
+        if (grabbableObject.IsDeactivated() || grabbableObject.itemUsedUp)
         {
             return false;
         }
