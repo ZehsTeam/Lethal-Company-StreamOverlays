@@ -48,10 +48,11 @@ Ensure the game is running. The overlays will not work otherwise.
    - **Width**: Set to **1535** or **1920** *(Flexible)*  
    - **Height**: Set to **75**
 
-#### Additional Notes:
+#### Additional Notes & Troubleshooting:
 
-- **Streaming from another PC?** Replace `localhost` in the URL with the local IP address of the PC running the game (e.g., `192.168.0.1`).  
-- **Troubleshooting:** If the overlay doesn't appear, refresh the browser source in your streaming application. 
+- **Can't see the overlay?** If the overlay doesn't appear, refresh the browser source in your streaming application.
+- **Streaming from another PC?** Replace `localhost` in the URL with the local IP address of the PC running the game (e.g., `192.168.0.1`).
+- **Already using port 8080?** You can change the HTTP and WebSocket ports in the config file.
 
 ## Config Settings
 This mod uses a global config file.
