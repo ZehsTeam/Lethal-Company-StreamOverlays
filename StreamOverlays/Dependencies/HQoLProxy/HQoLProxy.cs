@@ -27,6 +27,7 @@ internal static class HQoLProxy
 
     private static int GetTotalStorageValueByAssembly(Assembly assembly)
     {
+        // internal class
         var networkType = assembly.GetType("HQoL.Network.HQoLNetwork", throwOnError: false)
             ?? throw new Exception("HQoLNetwork type not found.");
 
