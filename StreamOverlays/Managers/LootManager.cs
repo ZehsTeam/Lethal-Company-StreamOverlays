@@ -1,4 +1,5 @@
-﻿using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
+﻿using com.github.zehsteam.StreamOverlays.Dependencies;
+using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using com.github.zehsteam.StreamOverlays.Dependencies.Vanilla;
 using com.github.zehsteam.StreamOverlays.Helpers;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ internal static class LootManager
     private static int _shipLootTotal;
     private static int _vehicleLootTotal;
     private static int _shipInventoryLootTotal;
+
+    private static int _hqolLootTotal;
 
     public static bool CanUpdateLootTotal()
     {
@@ -46,11 +49,16 @@ internal static class LootManager
         {
             _shipInventoryLootTotal = ShipInventoryProxy.GetLootTotal();
         }
+
+        if (HQoLProxy.Enabled)
+        {
+            _hqolLootTotal = HQoLProxy.GetLootTotal();
+        }
     }
 
     public static int GetLootTotal()
     {
-        return _shipLootTotal + _vehicleLootTotal + _shipInventoryLootTotal;
+        return _shipLootTotal + _vehicleLootTotal + _shipInventoryLootTotal + _hqolLootTotal;
     }
 
     private static int GetShipLootTotal()
