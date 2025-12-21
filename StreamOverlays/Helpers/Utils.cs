@@ -1,6 +1,5 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
-using com.github.zehsteam.StreamOverlays.Dependencies.HQoLProxy;
 using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using com.github.zehsteam.StreamOverlays.Extensions;
 using System;

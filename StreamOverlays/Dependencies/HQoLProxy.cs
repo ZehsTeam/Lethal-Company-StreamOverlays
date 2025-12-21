@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace com.github.zehsteam.StreamOverlays.Dependencies.HQoLProxy;
+namespace com.github.zehsteam.StreamOverlays.Dependencies;
 
 internal static class HQoLProxy
 {
