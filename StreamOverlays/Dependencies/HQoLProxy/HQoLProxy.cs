@@ -3,6 +3,7 @@ using com.github.zehsteam.StreamOverlays.Dependencies.HQoLProxy.Patches;
 using HarmonyLib;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace com.github.zehsteam.StreamOverlays.Dependencies.HQoLProxy;
@@ -43,25 +44,16 @@ internal static class HQoLProxy
         }
     }
 
-    private static int GetTotalStorageValue()
+    private static int GetTotalStorageValueByAssembly(Assembly assembly)
     {
-        var asm72 = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .FirstOrDefault(a => a.GetName().Name == PLUGIN_72_ASSEMBLY_NAME);
-        var asm73 = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .FirstOrDefault(a => a.GetName().Name == PLUGIN_73_ASSEMBLY_NAME);
-
-        var asm = asm73 ?? asm72 ?? throw new Exception("HQoL assembly not found.");
-
-        var networkType = asm.GetType("HQoL.Network.HQoLNetwork", throwOnError: false)
+        var networkType = assembly.GetType("HQoL.Network.HQoLNetwork", throwOnError: false)
             ?? throw new Exception("HQoLNetwork type not found.");
 
         var networkInstanceProperty = AccessTools.Property(networkType, "Instance")
             ?? throw new Exception("HQoLNetwork Instance property not found.");
 
         var networkInstance = networkInstanceProperty.GetValue(null)
-            ?? throw new Exception("HQoLNetwork Instance is null.");
+            ?? throw new HQoLNotInitializedException($"HQoL is not initialized. Assembly={assembly.FullName}");
 
         // NetworkVariable<int>
         var totalStorageValueField = AccessTools.Field(networkType, "totalStorageValue")
@@ -74,6 +66,42 @@ internal static class HQoLProxy
             ?? throw new Exception("HQoLNetwork totalStorageValue Value property not found.");
 
         return (int)valueProperty.GetValue(totalStorageValueNetworkVariable);
+    }
+    
+    private static int GetTotalStorageValue()
+    {
+        var asm73 = AppDomain.CurrentDomain
+            .GetAssemblies()
+            .FirstOrDefault(a => a.GetName().Name == PLUGIN_73_ASSEMBLY_NAME);
+        var asm72 = AppDomain.CurrentDomain
+            .GetAssemblies()
+            .FirstOrDefault(a => a.GetName().Name == PLUGIN_72_ASSEMBLY_NAME);
+        if (asm73 == null && asm72 == null)
+        {
+            throw new Exception("HQoL assembly not found.");
+        }
+
+        if (asm73 != null)
+        {
+            try
+            {
+                return GetTotalStorageValueByAssembly(asm73);
+            }
+            catch (HQoLNotInitializedException)
+            {
+                // ignore and try the other version
+
+                // check if other version exists
+                if (asm72 == null)
+                {
+                    // no other version to try
+                    throw;
+                }
+            }
+        }
+
+        // try backport version
+        return GetTotalStorageValueByAssembly(asm72);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
@@ -109,5 +137,12 @@ internal static class HQoLProxy
         {
             Logger.LogError($"Failed to get the storage value from HQoL. {ex}");
         }
+    }
+}
+
+internal class HQoLNotInitializedException : Exception
+{
+    public HQoLNotInitializedException(string message) : base(message)
+    {
     }
 }
