@@ -8,9 +8,11 @@ namespace com.github.zehsteam.StreamOverlays.Dependencies;
 
 internal static class HQoLProxy
 {
+    // Backport version for Lethal Company v72 and below
     public const string PLUGIN_72_GUID = "OreoM.HQoL.72";
     public const string PLUGIN_72_ASSEMBLY_NAME = "OreoM.HQoL.72";
 
+    // Current version for Lethal Company v73 and above
     public const string PLUGIN_73_GUID = "OreoM.HQoL.73";
     public const string PLUGIN_73_ASSEMBLY_NAME = "OreoM.HQoL.73";
 
@@ -72,6 +74,7 @@ internal static class HQoLProxy
 
         if (asm73 != null)
         {
+            // try current version
             try
             {
                 return GetTotalStorageValueByAssembly(asm73);
