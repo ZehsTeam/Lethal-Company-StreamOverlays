@@ -57,10 +57,10 @@ internal static class HQoLProxy
         var networkType = asm.GetType("HQoL.Network.HQoLNetwork", throwOnError: false)
             ?? throw new Exception("HQoLNetwork type not found.");
 
-        var networkInstanceField = AccessTools.Field(networkType, "Instance")
-            ?? throw new Exception("HQoLNetwork Instance field not found.");
+        var networkInstanceProperty = AccessTools.Property(networkType, "Instance")
+            ?? throw new Exception("HQoLNetwork Instance property not found.");
 
-        var networkInstance = networkInstanceField.GetValue(null)
+        var networkInstance = networkInstanceProperty.GetValue(null)
             ?? throw new Exception("HQoLNetwork Instance is null.");
 
         // NetworkVariable<int>
