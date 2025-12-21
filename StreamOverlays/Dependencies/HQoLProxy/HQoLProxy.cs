@@ -46,9 +46,17 @@ internal static class HQoLProxy
         var valueProperty = totalStorageValueNetworkVariable.GetType().GetProperty("Value")
             ?? throw new Exception("HQoLNetwork totalStorageValue Value property not found.");
 
-        return (int)valueProperty.GetValue(totalStorageValueNetworkVariable);
+        var value = valueProperty.GetValue(totalStorageValueNetworkVariable)
+            ?? throw new Exception("HQoLNetwork totalStorageValue Value is null.");
+
+        if (value is int intValue)
+        {
+            return intValue;
+        }
+
+        throw new Exception("HQoLNetwork totalStorageValue Value is not an integer.");
     }
-    
+
     private static int GetTotalStorageValue()
     {
         var asm73 = AppDomain.CurrentDomain
