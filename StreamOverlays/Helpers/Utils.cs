@@ -232,11 +232,6 @@ internal static class Utils
             totalValue += ShipInventoryProxy.GetLootTotal(onlyFromRound: true);
         }
 
-        if (HQoLProxy.Enabled)
-        {
-            totalValue += HQoLProxy.GetLootTotal(onlyFromRound: true);
-        }
-
         return totalValue;
     }
 }

@@ -1,10 +1,8 @@
 ﻿using BepInEx.Bootstrap;
-using com.github.zehsteam.StreamOverlays.Dependencies.HQoLProxy.Patches;
 using HarmonyLib;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace com.github.zehsteam.StreamOverlays.Dependencies.HQoLProxy;
 
@@ -26,23 +24,6 @@ internal static class HQoLProxy
     }
 
     private static bool? _enabled;
-
-    private static int storageValueAtStartOfRound = 0;
-
-    [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-    public static void PatchAll(Harmony harmony)
-    {
-        try
-        {
-            harmony.PatchAll(typeof(StartOfRoundPatch));
-
-            Logger.LogInfo("Applied ShipInventory patches.");
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError($"Failed to apply ShipInventory patches. {ex}");
-        }
-    }
 
     private static int GetTotalStorageValueByAssembly(Assembly assembly)
     {
@@ -104,39 +85,18 @@ internal static class HQoLProxy
         return GetTotalStorageValueByAssembly(asm72);
     }
 
-    [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-    public static int GetLootTotal(bool onlyFromRound = false)
+    public static int GetLootTotal()
     {
-        var lootTotal = 0;
-
         try
         {
-            lootTotal = GetTotalStorageValue();
+            return GetTotalStorageValue();
         }
         catch (Exception ex)
         {
             Logger.LogError($"Failed to get the storage value from HQoL. {ex}");
         }
 
-        if (onlyFromRound)
-        {
-            lootTotal -= storageValueAtStartOfRound;
-            lootTotal = Math.Max(lootTotal, 0);
-        }
-
-        return lootTotal;
-    }
-
-    public static void UpdateStorageValueAtStartOfRound()
-    {
-        try
-        {
-           storageValueAtStartOfRound = GetTotalStorageValue();
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError($"Failed to get the storage value from HQoL. {ex}");
-        }
+        return 0;
     }
 }
 
