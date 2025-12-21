@@ -12,7 +12,7 @@
 
 **<ins>This mod works in all game versions from v40 to v73+</ins>**
 
-**This mod has integration with the [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/LethalCompanyModding/ShipInventoryUpdated) mod.**
+**This mod has integration with the [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/LethalCompanyModding/ShipInventoryUpdated) and [HQoL](https://thunderstore.io/c/lethal-company/p/HQHQTeam/HQoL) mod.**
 
 ## Features
 
@@ -140,6 +140,9 @@ Choose from multiple overlays to customize your stream.
 <br><br>
 - This mod has integration with the [ShipInventory](https://thunderstore.io/c/lethal-company/p/WarperSan/ShipInventory/) and [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/SoftDiamond/ShipInventoryUpdated/) mod.
   - Includes the total scrap value in the ship inventory in the loot stat.
+<br><br>
+- This mod has integration with the [HQoL](https://thunderstore.io/c/lethal-company/p/HQHQTeam/HQoL/) mod.
+  - Includes the total scrap value in the ship storage in the loot stat.
 
 ## Developer Contact
 
