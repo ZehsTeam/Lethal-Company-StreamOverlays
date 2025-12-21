@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
+using com.github.zehsteam.StreamOverlays.Dependencies.HQoLProxy;
 using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 using com.github.zehsteam.StreamOverlays.Extensions;
 using System;
@@ -229,6 +230,11 @@ internal static class Utils
         if (ShipInventoryProxy.Enabled)
         {
             totalValue += ShipInventoryProxy.GetLootTotal(onlyFromRound: true);
+        }
+
+        if (HQoLProxy.Enabled)
+        {
+            totalValue += HQoLProxy.GetLootTotal(onlyFromRound: true);
         }
 
         return totalValue;
