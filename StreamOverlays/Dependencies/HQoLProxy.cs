@@ -12,10 +12,10 @@ namespace com.github.zehsteam.StreamOverlays.Dependencies;
 
 internal static class HQoLProxy
 {
-    // Backport version for Lethal Company v72 and below
+    // Backport version for Lethal Company v72 and earlier
     public const string PLUGIN_72_GUID = "OreoM.HQoL.72";
 
-    // Current version for Lethal Company v73 and above
+    // Current version for Lethal Company v73 and later
     public const string PLUGIN_73_GUID = "OreoM.HQoL.73";
 
     public static bool Enabled
@@ -32,19 +32,21 @@ internal static class HQoLProxy
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
     private static int GetTotalStorageValue()
     {
+        // HQoL72 skips assigning the HQoLNetwork instance on Lethal Company v73 and later.
         var hqol72NetworkInstance = HQoL72Network.HQoLNetwork.Instance;
         if (hqol72NetworkInstance != null)
         {
             return hqol72NetworkInstance.totalStorageValue.Value;
         }
 
+        // HQoL73 skips assigning the HQoLNetwork instance on Lethal Company v72 and earlier.
         var hqol73NetworkInstance = HQoL73Network.HQoLNetwork.Instance;
         if (hqol73NetworkInstance != null)
         {
             return hqol73NetworkInstance.totalStorageValue.Value;
         }
 
-        throw new Exception("HQoL is not initialized.");
+        throw new Exception("Unexpected state. HQoL is loaded but not initialized yet.");
     }
 
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
