@@ -51,15 +51,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="LethalConfig" HintPath="libs/LethalConfig.dll" />
-    <Reference Include="ShipInventoryUpdated" HintPath="libs/ShipInventoryUpdated.dll" Publicize="true" />
-    <Reference Include="CSync" HintPath="libs/com.sigurd.csync.dll" />
-    <Reference Include="HQoL72" HintPath="libs/OreoM.HQoL.72.dll" Publicize="true">
-      <Aliases>HQoL72</Aliases>
-    </Reference>
-    <Reference Include="HQoL73" HintPath="libs/OreoM.HQoL.73.dll" Publicize="true">
-      <Aliases>HQoL73</Aliases>
-    </Reference>
+
+    <Reference Include="LethalConfig" HintPath="$(BepInExPluginsFolder)\AinaVT-LethalConfig\LethalConfig\LethalConfig.dll" />
+    <Reference Include="ShipInventoryUpdated" HintPath="$(BepInExPluginsFolder)\LethalCompanyModding-ShipInventoryUpdated\ShipInventoryUpdated.dll" Publicize="true" />
+    <Reference Include="CSync" HintPath="$(BepInExPluginsFolder)\Sigurd-CSync\CSync\com.sigurd.csync.dll" />
+    <Reference Include="HQoL72" HintPath="$(BepInExPluginsFolder)\HQHQTeam-HQoL\OreoM.HQoL.72.dll" Publicize="true" />
+    <Reference Include="HQoL73" HintPath="$(BepInExPluginsFolder)\HQHQTeam-HQoL\OreoM.HQoL.73.dll" Publicize="true" />
   </ItemGroup>
   
   <PropertyGroup>
@@ -85,4 +82,41 @@
     <PluginFolderV56>$(SteamLibrary)\Lethal Company v56 hotfix\$(PluginFolderEnding)</PluginFolderV56>
     <PluginFolderV62>$(SteamLibrary)\Lethal Company v62\$(PluginFolderEnding)</PluginFolderV62>
   </PropertyGroup>
+  
+  <!-- Copy files to Gale plugin folder -->
+  <Target Name="CopyToGalePluginFolder" AfterTargets="PostBuildEvent">
+    <Copy Condition="Exists('$(PluginFolder)')" DestinationFolder="$(PluginFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolder)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolder)\public&quot; /mir || exit 0" />
+  </Target>
+  
+  <!-- Copy files to Gale plugin folder 2 -->
+  <PropertyGroup>
+    <GalePluginFolder2>$(GaleProfilesFolder)\Mod Development 2\BepInEx\plugins\Zehs-$(MSBuildProjectName)</GalePluginFolder2>
+  </PropertyGroup>
+  
+  <Target Name="CopyToGalePluginFolder2" AfterTargets="CopyToGalePluginFolder">
+    <Copy Condition="Exists('$(GalePluginFolder2)')" DestinationFolder="$(GalePluginFolder2)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(GalePluginFolder2)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(GalePluginFolder2)\public&quot; /mir || exit 0" />
+  </Target>
+  
+  <!-- Copy files to older versions plugin folders -->
+  <Target Name="CopyToOlderVersionsPluginFolders" AfterTargets="CopyToGalePluginFolder">
+    <Copy Condition="Exists('$(PluginFolderV40)')" DestinationFolder="$(PluginFolderV40)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV40)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV40)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV45)')" DestinationFolder="$(PluginFolderV45)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV45)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV45)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV49)')" DestinationFolder="$(PluginFolderV49)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV49)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV49)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV50)')" DestinationFolder="$(PluginFolderV50)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV50)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV50)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV56)')" DestinationFolder="$(PluginFolderV56)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV56)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV56)\public&quot; /mir || exit 0" />
+    
+    <Copy Condition="Exists('$(PluginFolderV62)')" DestinationFolder="$(PluginFolderV62)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolderV62)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV62)\public&quot; /mir || exit 0" />
+  </Target>
 </Project>
