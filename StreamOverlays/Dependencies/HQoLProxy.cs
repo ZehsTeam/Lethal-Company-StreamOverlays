@@ -81,7 +81,7 @@ internal static class HQoLProxy
             }
             catch (HQoLNotInitializedException)
             {
-                // ignore and try the other version
+                // ignore and try other version
 
                 // check if other version exists
                 if (asm72 == null)

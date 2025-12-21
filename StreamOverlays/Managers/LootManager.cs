@@ -13,7 +13,6 @@ internal static class LootManager
     private static int _shipLootTotal;
     private static int _vehicleLootTotal;
     private static int _shipInventoryLootTotal;
-
     private static int _hqolLootTotal;
 
     public static bool CanUpdateLootTotal()
