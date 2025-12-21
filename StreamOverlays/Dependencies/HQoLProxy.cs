@@ -60,11 +60,10 @@ internal static class HQoLProxy
 
     private static int GetTotalStorageValue()
     {
-        var asm73 = AppDomain.CurrentDomain
-            .GetAssemblies()
+        var assmblies = AppDomain.CurrentDomain.GetAssemblies();
+        var asm73 = assmblies
             .FirstOrDefault(a => a.GetName().Name == PLUGIN_73_ASSEMBLY_NAME);
-        var asm72 = AppDomain.CurrentDomain
-            .GetAssemblies()
+        var asm72 = assmblies
             .FirstOrDefault(a => a.GetName().Name == PLUGIN_72_ASSEMBLY_NAME);
         if (asm73 == null && asm72 == null)
         {
