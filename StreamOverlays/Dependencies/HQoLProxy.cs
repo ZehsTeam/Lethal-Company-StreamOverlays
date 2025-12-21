@@ -1,8 +1,12 @@
-﻿using BepInEx.Bootstrap;
-using HarmonyLib;
+﻿extern alias HQoL72;
+extern alias HQoL73;
+
+using HQoL72Network = HQoL72::HQoL.Network;
+using HQoL73Network = HQoL73::HQoL.Network;
+
+using BepInEx.Bootstrap;
 using System;
-using System.Linq;
-using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace com.github.zehsteam.StreamOverlays.Dependencies;
 
@@ -10,11 +14,9 @@ internal static class HQoLProxy
 {
     // Backport version for Lethal Company v72 and below
     public const string PLUGIN_72_GUID = "OreoM.HQoL.72";
-    public const string PLUGIN_72_ASSEMBLY_NAME = "OreoM.HQoL.72";
 
     // Current version for Lethal Company v73 and above
     public const string PLUGIN_73_GUID = "OreoM.HQoL.73";
-    public const string PLUGIN_73_ASSEMBLY_NAME = "OreoM.HQoL.73";
 
     public static bool Enabled
     {
@@ -27,73 +29,21 @@ internal static class HQoLProxy
 
     private static bool? _enabled;
 
-    private static int GetTotalStorageValueByAssembly(Assembly assembly)
-    {
-        // internal class
-        var networkType = assembly.GetType("HQoL.Network.HQoLNetwork", throwOnError: false)
-            ?? throw new Exception("HQoLNetwork type not found.");
-
-        var networkInstanceProperty = AccessTools.Property(networkType, "Instance")
-            ?? throw new Exception("HQoLNetwork Instance property not found.");
-
-        var networkInstance = networkInstanceProperty.GetValue(null)
-            ?? throw new HQoLNotInitializedException($"HQoL is not initialized. Assembly={assembly.FullName}");
-
-        // NetworkVariable<int>
-        var totalStorageValueField = AccessTools.Field(networkType, "totalStorageValue")
-            ?? throw new Exception("HQoLNetwork totalStorageValue field not found.");
-
-        var totalStorageValueNetworkVariable = totalStorageValueField.GetValue(networkInstance)
-            ?? throw new Exception("HQoLNetwork totalStorageValue is null.");
-
-        var valueProperty = totalStorageValueNetworkVariable.GetType().GetProperty("Value")
-            ?? throw new Exception("HQoLNetwork totalStorageValue Value property not found.");
-
-        var value = valueProperty.GetValue(totalStorageValueNetworkVariable)
-            ?? throw new Exception("HQoLNetwork totalStorageValue Value is null.");
-
-        if (value is int intValue)
-        {
-            return intValue;
-        }
-
-        throw new Exception("HQoLNetwork totalStorageValue Value is not an integer.");
-    }
-
     private static int GetTotalStorageValue()
     {
-        var assmblies = AppDomain.CurrentDomain.GetAssemblies();
-        var asm73 = assmblies
-            .FirstOrDefault(a => a.GetName().Name == PLUGIN_73_ASSEMBLY_NAME);
-        var asm72 = assmblies
-            .FirstOrDefault(a => a.GetName().Name == PLUGIN_72_ASSEMBLY_NAME);
-        if (asm73 == null && asm72 == null)
+        var hqol72NetworkInstance = HQoL72Network.HQoLNetwork.Instance;
+        if (hqol72NetworkInstance != null)
         {
-            throw new Exception("HQoL assembly not found.");
+            return hqol72NetworkInstance.totalStorageValue.Value;
         }
 
-        if (asm73 != null)
+        var hqol73NetworkInstance = HQoL73Network.HQoLNetwork.Instance;
+        if (hqol73NetworkInstance != null)
         {
-            // try current version
-            try
-            {
-                return GetTotalStorageValueByAssembly(asm73);
-            }
-            catch (HQoLNotInitializedException)
-            {
-                // ignore and try other version
-
-                // check if other version exists
-                if (asm72 == null)
-                {
-                    // no other version to try
-                    throw;
-                }
-            }
+            return hqol73NetworkInstance.totalStorageValue.Value;
         }
 
-        // try backport version
-        return GetTotalStorageValueByAssembly(asm72);
+        throw new Exception("HQoL is not initialized.");
     }
 
     public static int GetLootTotal()
@@ -108,12 +58,5 @@ internal static class HQoLProxy
         }
 
         return 0;
-    }
-}
-
-internal class HQoLNotInitializedException : Exception
-{
-    public HQoLNotInitializedException(string message) : base(message)
-    {
     }
 }
