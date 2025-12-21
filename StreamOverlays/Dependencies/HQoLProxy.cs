@@ -29,6 +29,7 @@ internal static class HQoLProxy
 
     private static bool? _enabled;
 
+    [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
     private static int GetTotalStorageValue()
     {
         var hqol72NetworkInstance = HQoL72Network.HQoLNetwork.Instance;
@@ -46,6 +47,7 @@ internal static class HQoLProxy
         throw new Exception("HQoL is not initialized.");
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
     public static int GetLootTotal()
     {
         try
