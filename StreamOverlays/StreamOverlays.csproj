@@ -51,7 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-
     <Reference Include="LethalConfig" HintPath="$(BepInExPluginsFolder)\AinaVT-LethalConfig\LethalConfig\LethalConfig.dll" />
     <Reference Include="ShipInventoryUpdated" HintPath="$(BepInExPluginsFolder)\LethalCompanyModding-ShipInventoryUpdated\ShipInventoryUpdated.dll" Publicize="true" />
     <Reference Include="CSync" HintPath="$(BepInExPluginsFolder)\Sigurd-CSync\CSync\com.sigurd.csync.dll" />
