@@ -141,7 +141,7 @@ Choose from multiple overlays to customize your stream.
 - This mod has integration with the [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/LethalCompanyModding/ShipInventoryUpdated) mod.
   - Includes the total scrap value in the ship inventory in the loot stat.
 <br><br>
-- This mod has integration with the [HQoL](https://thunderstore.io/c/lethal-company/p/HQHQTeam/HQoL/) mod.
+- This mod has integration with the [HQoL](https://thunderstore.io/c/lethal-company/p/HQHQTeam/HQoL) mod.
   - Includes the total scrap value in the ship storage in the loot stat.
 
 ## Developer Contact
