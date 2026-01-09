@@ -1,4 +1,5 @@
-﻿using com.github.zehsteam.StreamOverlays.Helpers;
+﻿using com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
+using com.github.zehsteam.StreamOverlays.Helpers;
 using com.github.zehsteam.StreamOverlays.Managers;
 using com.github.zehsteam.StreamOverlays.Server;
 using HarmonyLib;
@@ -58,6 +59,11 @@ internal static class StartOfRoundPatch
     [HarmonyPostfix]
     private static void StartGamePatch()
     {
+        if (ShipInventoryProxy.Enabled)
+        {
+            ShipInventoryProxy.ResetRoundData();
+        }
+
         WebServer.UpdateOverlaysData();
     }
 
