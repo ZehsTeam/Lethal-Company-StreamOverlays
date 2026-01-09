@@ -1,4 +1,5 @@
-﻿using com.github.zehsteam.StreamOverlays.Helpers;
+﻿using com.github.zehsteam.StreamOverlays.Dependencies;
+using com.github.zehsteam.StreamOverlays.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ internal static class DayManager
 
     public static void ResetDayData()
     {
-        _dayDataList = [];
+        _dayDataList.Clear();
     }
 
     public static int GetDayNumber()
