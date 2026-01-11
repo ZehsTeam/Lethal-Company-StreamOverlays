@@ -3,6 +3,7 @@
 [![GitHub](https://img.shields.io/badge/GitHub-StreamOverlays-brightgreen?style=for-the-badge&logo=GitHub)](https://github.com/ZehsTeam/Lethal-Company-StreamOverlays)
 [![Thunderstore Version](https://img.shields.io/thunderstore/v/Zehs/StreamOverlays?style=for-the-badge&logo=thunderstore&logoColor=white)](https://thunderstore.io/c/lethal-company/p/Zehs/StreamOverlays)
 [![Thunderstore Downloads](https://img.shields.io/thunderstore/dt/Zehs/StreamOverlays?style=for-the-badge&logo=thunderstore&logoColor=white)](https://thunderstore.io/c/lethal-company/p/Zehs/StreamOverlays)
+[![Ko-fi](https://img.shields.io/badge/Donate-F16061.svg?style=for-the-badge&logo=ko-fi&logoColor=white&label=Ko-fi)](https://ko-fi.com/zehsteam)
 
 **Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, ship loot, and average per day. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.**
 
