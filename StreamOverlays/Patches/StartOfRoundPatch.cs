@@ -20,8 +20,13 @@ internal static class StartOfRoundPatch
 
     [HarmonyPatch(nameof(StartOfRound.OnPlayerConnectedClientRpc))]
     [HarmonyPostfix]
-    private static void OnPlayerConnectedClientRpcPatch()
+    private static void OnPlayerConnectedClientRpcPatch(ulong clientId)
     {
+        if (NetworkUtils.IsLocalClientId(clientId))
+        {
+            Utils.UpdateScrapPersistedThroughRounds();
+        }
+
         WebServer.UpdateOverlaysData();
     }
 

@@ -233,4 +233,19 @@ internal static class Utils
 
         return totalValue;
     }
+
+    public static void UpdateScrapPersistedThroughRounds()
+    {
+        GrabbableObject[] array = Object.FindObjectsByType<GrabbableObject>(FindObjectsSortMode.None);
+
+        foreach (var grabbableObject in array)
+        {
+            if (grabbableObject == null || grabbableObject.deactivated)
+            {
+                continue;
+            }
+
+            grabbableObject.scrapPersistedThroughRounds = true;
+        }
+    }
 }
