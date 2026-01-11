@@ -30,7 +30,8 @@ internal static class ShipInventoryProxy
 
     // This might not be accurate if items from other rounds are removed and added again.
     // ItemData.PERSISTED_THROUGH_ROUNDS isn't always reliable.
-    private static readonly List<ItemData> _itemsAddedThisRound = [];
+    // object is ItemData
+    private static readonly List<object> _itemsAddedThisRound = [];
 
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
     public static void PatchAll(Harmony harmony)
@@ -54,7 +55,7 @@ internal static class ShipInventoryProxy
         {
             if (onlyFromRound)
             {
-                return _itemsAddedThisRound.Sum(x => x.SCRAP_VALUE);
+                return _itemsAddedThisRound.Sum(x => x is ItemData itemData ? itemData.SCRAP_VALUE : 0);
             }
 
             return Inventory.Items.Sum(x => x.SCRAP_VALUE);
