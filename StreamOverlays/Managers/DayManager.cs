@@ -85,6 +85,8 @@ internal static class DayManager
         }
 
         _dayDataList.Add(new DayData(dayNumber, scrapCollected));
+
+        Logger.LogInfo($"\n\nDayManager.AddDayData() day: {dayNumber} scrapCollected: {scrapCollected}\n", extended: true);
     }
 
     private static bool CanAddDayData()

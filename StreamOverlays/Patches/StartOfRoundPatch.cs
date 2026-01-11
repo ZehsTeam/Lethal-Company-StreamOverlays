@@ -68,10 +68,14 @@ internal static class StartOfRoundPatch
     }
 
     [HarmonyPatch(nameof(StartOfRound.EndOfGame))]
-    [HarmonyPostfix]
+    [HarmonyPrefix]
     private static void EndOfGamePatch()
     {
-        DayManager.AddDayData(Utils.GetScrapValueCollectedThisRound());
+        int value = Utils.GetScrapValueCollectedThisRound();
+
+        Logger.LogInfo($"\n\n\n\nStartOfRoundPatch.EndOfGamePatch() value: {value}\n\n\n", extended: true);
+
+        DayManager.AddDayData(value);
         LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
     }

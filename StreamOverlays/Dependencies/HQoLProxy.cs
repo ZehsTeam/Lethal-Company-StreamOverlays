@@ -54,7 +54,11 @@ internal static class HQoLProxy
     {
         try
         {
-            return GetTotalStorageValue();
+            int value = GetTotalStorageValue();
+
+            Logger.LogInfo($"\n\nHQoLProxy.GetLootTotal() value: {value}\n", extended: true);
+
+            return value;
         }
         catch (Exception ex)
         {
