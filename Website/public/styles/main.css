@@ -4,8 +4,8 @@
 }
 
 @font-face {
-    font-family: Icons;
-    src: url(../fonts/Icons.ttf);
+    font-family: WeatherIcons;
+    src: url(../fonts/Weather-Icons.ttf);
 }
 
 * {
@@ -67,6 +67,6 @@ custom-overlay {
 }
 
 .icon {
-    font-family: Icons !important;
+    font-family: WeatherIcons !important;
     font-weight: normal !important;
 }

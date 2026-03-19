@@ -3,7 +3,6 @@ using com.github.zehsteam.StreamOverlays.Managers;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.IO.Compression;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,11 +31,6 @@ internal static class WebServer
             _isApplicationQuitting = true;
             Stop();
         };
-
-        if (WebsiteArchiveExists())
-        {
-            await DecompressWebsiteArchive();
-        }
 
         if (!WebsiteFolderExists())
         {
@@ -354,69 +348,15 @@ internal static class WebServer
         };
     }
 
-    #region Website Folder/Archive
+    #region Website Folder
     private static bool WebsiteFolderExists()
     {
         return Directory.Exists(GetWebsiteFolderPath());
     }
 
-    private static bool WebsiteArchiveExists()
-    {
-        return File.Exists(GetWebsiteArchivePath());
-    }
-
-    private static async Task DecompressWebsiteArchive()
-    {
-        string archivePath = GetWebsiteArchivePath();
-
-        if (!File.Exists(archivePath))
-        {
-            return;
-        }
-
-        try
-        {
-            string extractPath = Utils.GetPluginDirectoryPath();
-
-            await Task.Run(() =>
-            {
-                using var archive = ZipFile.OpenRead(archivePath);
-
-                foreach (var entry in archive.Entries)
-                {
-                    string destinationPath = Path.Combine(extractPath, entry.FullName);
-                    string destinationDir = Path.GetDirectoryName(destinationPath);
-
-                    if (!string.IsNullOrEmpty(destinationDir))
-                    {
-                        Directory.CreateDirectory(destinationDir);
-                    }
-
-                    if (!entry.FullName.EndsWith("/"))
-                    {
-                        entry.ExtractToFile(destinationPath, overwrite: true);
-                    }
-                }
-            });
-
-            File.Delete(archivePath);
-
-            Logger.LogInfo("Successfully decompressed public archive.");
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError($"Error while decompressing public archive: {ex.Message}");
-        }
-    }
-
     private static string GetWebsiteFolderPath()
     {
         return Path.Combine(Utils.GetPluginDirectoryPath(), "public");
-    }
-
-    private static string GetWebsiteArchivePath()
-    {
-        return Path.Combine(Utils.GetPluginDirectoryPath(), "public.zip");
     }
     #endregion
 }

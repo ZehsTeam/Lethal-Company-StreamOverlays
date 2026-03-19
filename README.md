@@ -7,13 +7,13 @@
 
 **Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, ship loot, and average per day. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.**
 
-**<ins>Who needs this mod installed for it to work?</ins> Only You!**
+**<ins>Who needs this mod installed for it to work?</ins> Only you!**
 
 **<ins>This mod is fully client-side and works in vanilla lobbies.</ins>**
 
 **<ins>This mod works in all game versions from v40 to v73+</ins>**
 
-**This mod has integration with the [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/LethalCompanyModding/ShipInventoryUpdated) and [HQoL](https://thunderstore.io/c/lethal-company/p/HQHQTeam/HQoL) mod.**
+**This mod has integration with the [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/LethalCompanyModding/ShipInventoryUpdated), [HQoL](https://thunderstore.io/c/lethal-company/p/HQHQTeam/HQoL), and [Wesleys Weathers](https://thunderstore.io/c/lethal-company/p/Magic_Wesley/Wesleys_Weathers/) mod.**
 
 ## Features
 
@@ -46,6 +46,10 @@ Ensure the game is running. The overlays will not work otherwise.
    ```
    http://localhost:8080/overlay
    ```
+   If you want an additional average collected scrap per day stat, use this URL:
+   ```
+   http://localhost:8080/overlay2
+   ```
 2. Adjust the browser source settings:  
    - **Width**: Set to **1535** or **1920** *(Flexible)*  
    - **Height**: Set to **75**
@@ -53,7 +57,7 @@ Ensure the game is running. The overlays will not work otherwise.
 #### Additional Notes & Troubleshooting:
 
 - **Can't see the overlay?** If the overlay doesn't appear, refresh the browser source in your streaming application.
-- **Streaming from another PC?** Replace `localhost` in the URL with the local IP address of the PC running the game (e.g., `192.168.0.1`).
+- **Streaming from another PC?** Replace `localhost` in the URL with the local IP address of the PC running the game (e.g., `192.168.X.X`).
 - **Already using port 8080?** You can change the HTTP and WebSocket ports in the config file.
 
 ## Config Settings
@@ -144,6 +148,9 @@ Choose from multiple overlays to customize your stream.
 <br><br>
 - This mod has integration with the [HQoL](https://thunderstore.io/c/lethal-company/p/HQHQTeam/HQoL) mod.
   - Includes the total scrap value in the ship storage in the loot stat.
+<br><br>
+- This mod has integration with the [Wesleys Weathers](https://thunderstore.io/c/lethal-company/p/Magic_Wesley/Wesleys_Weathers/) mod.
+  - Includes icons for all weathers.
 
 ## Developer Contact
 
@@ -164,13 +171,17 @@ https://solo.to/crithaxxog
 
 ## Credits
 
-* <a href="https://www.flaticon.com/free-icons/sun" title="sun icons">Sun icons created by Good Ware - Flaticon</a>
-* <a href="https://www.flaticon.com/free-icons/cloudy" title="cloudy icons">Cloudy icons created by bqlqn - Flaticon</a>
-* <a href="https://www.flaticon.com/free-icons/rain" title="rain icons">Rain icons created by bqlqn - Flaticon</a>
-* <a href="https://www.flaticon.com/free-icons/flash" title="flash icons">Flash icons created by Smashicons - Flaticon</a>
-* <a href="https://www.flaticon.com/free-icons/climate" title="climate icons">Climate icons created by Freepik - Flaticon</a>
-* <a href="https://www.flaticon.com/free-icons/river" title="river icons">River icons created by Freepik - Flaticon</a>
-* <a href="https://www.flaticon.com/free-icons/eclipse" title="eclipse icons">Eclipse icons created by Muhamad Ulum - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/sun" title="sun icons">Sun icons created by Good Ware - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/cloudy" title="cloudy icons">Cloudy icons created by bqlqn - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/rain" title="rain icons">Rain icons created by bqlqn - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/flash" title="flash icons">Flash icons created by Smashicons - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/climate" title="climate icons">Climate icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/river" title="river icons">River icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/eclipse" title="eclipse icons">Eclipse icons created by Muhamad Ulum - Flaticon</a>
+- Forsaken icon created by [Tomatobird8](https://www.twitch.tv/tomatobird8)
+- Hallowed icon created by [Tomatobird8](https://www.twitch.tv/tomatobird8)
+- Hurricane icon created by [Tomatobird8](https://www.twitch.tv/tomatobird8)
+- Earthquakes icon created by [Tomatobird8](https://www.twitch.tv/tomatobird8)
 
 ## Screenshots
 

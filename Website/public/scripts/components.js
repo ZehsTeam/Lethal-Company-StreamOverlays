@@ -130,6 +130,10 @@ class CustomMoon extends CustomStat {
             foggy: '&#xe904;',
             flooded: '&#xe902;',
             eclipsed: '&#xe905;',
+            forsaken: '&#xe907;',
+            hallowed: '&#xe908;',
+            hurricane: '&#xe909;',
+            earthquakes: '&#xe90a;'
         };
         return weatherIconCodes[weatherName?.toLowerCase()] || '';
     }
