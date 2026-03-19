@@ -5,11 +5,11 @@ using HarmonyLib;
 namespace com.github.zehsteam.StreamOverlays.Dependencies.Vanilla.Patches;
 
 [HarmonyPatch(typeof(VehicleController))]
-internal static class VehicleControllerPatch
+internal static class VehicleController_Patches
 {
     [HarmonyPatch(nameof(VehicleController.CollectItemsInTruck))]
     [HarmonyPostfix]
-    private static void CollectItemsInTruckPatch()
+    private static void CollectItemsInTruck_Patch()
     {
         if (LootManager.CanUpdateLootTotal())
         {

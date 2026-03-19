@@ -18,16 +18,7 @@ internal static class HQoLProxy
     // Current version for Lethal Company v73 and later
     public const string PLUGIN_73_GUID = "OreoM.HQoL.73";
 
-    public static bool Enabled
-    {
-        get
-        {
-            _enabled ??= Chainloader.PluginInfos.ContainsKey(PLUGIN_72_GUID) || Chainloader.PluginInfos.ContainsKey(PLUGIN_73_GUID);
-            return _enabled.Value;
-        }
-    }
-
-    private static bool? _enabled;
+    public static bool Enabled => Chainloader.PluginInfos.ContainsKey(PLUGIN_72_GUID) || Chainloader.PluginInfos.ContainsKey(PLUGIN_73_GUID);
 
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
     private static int GetTotalStorageValue()

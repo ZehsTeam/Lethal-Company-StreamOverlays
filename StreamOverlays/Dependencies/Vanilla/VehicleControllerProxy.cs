@@ -40,7 +40,7 @@ internal static class VehicleControllerProxy
     {
         try
         {
-            harmony.PatchAll(typeof(VehicleControllerPatch));
+            harmony.PatchAll(typeof(VehicleController_Patches));
         }
         catch (Exception ex)
         {

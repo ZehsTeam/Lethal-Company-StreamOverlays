@@ -17,16 +17,7 @@ namespace com.github.zehsteam.StreamOverlays.Dependencies.ShipInventoryProxy;
 internal static class ShipInventoryProxy
 {
     public const string PLUGIN_GUID = ShipInventoryUpdated.MyPluginInfo.PLUGIN_GUID;
-    public static bool Enabled
-    {
-        get
-        {
-            _enabled ??= Chainloader.PluginInfos.ContainsKey(PLUGIN_GUID);
-            return _enabled.Value;
-        }
-    }
-
-    private static bool? _enabled;
+    public static bool Enabled => Chainloader.PluginInfos.ContainsKey(PLUGIN_GUID);
 
     // This might not be accurate if items from other rounds are removed and added again.
     // ItemData.PERSISTED_THROUGH_ROUNDS isn't always reliable.
@@ -38,7 +29,7 @@ internal static class ShipInventoryProxy
     {
         try
         {
-            harmony.PatchAll(typeof(InventoryPatch));
+            harmony.PatchAll(typeof(Inventory_Patches));
 
             Logger.LogInfo("Applied ShipInventory patches.");
         }

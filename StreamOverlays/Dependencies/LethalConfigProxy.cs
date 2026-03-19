@@ -10,16 +10,7 @@ namespace com.github.zehsteam.StreamOverlays.Dependencies;
 internal static class LethalConfigProxy
 {
     public const string PLUGIN_GUID = "ainavt.lc.lethalconfig";
-    public static bool Enabled
-    {
-        get
-        {
-            _enabled ??= Chainloader.PluginInfos.ContainsKey(PLUGIN_GUID);
-            return _enabled.Value;
-        }
-    }
-
-    private static bool? _enabled;
+    public static bool Enabled => Chainloader.PluginInfos.ContainsKey(PLUGIN_GUID);
 
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
     public static void SkipAutoGen()
