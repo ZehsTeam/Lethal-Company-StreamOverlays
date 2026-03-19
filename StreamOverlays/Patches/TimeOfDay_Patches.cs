@@ -5,18 +5,18 @@ using HarmonyLib;
 namespace com.github.zehsteam.StreamOverlays.Patches;
 
 [HarmonyPatch(typeof(TimeOfDay))]
-internal static class TimeOfDayPatch
+internal static class TimeOfDay_Patches
 {
     [HarmonyPatch(nameof(TimeOfDay.SyncNewProfitQuotaClientRpc))]
     [HarmonyPostfix]
-    private static void SyncNewProfitQuotaClientRpcPatch()
+    private static void SyncNewProfitQuotaClientRpc_Patch()
     {
         WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(TimeOfDay.UpdateProfitQuotaCurrentTime))]
     [HarmonyPostfix]
-    private static void UpdateProfitQuotaCurrentTimePatch()
+    private static void UpdateProfitQuotaCurrentTime_Patch()
     {
         LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();

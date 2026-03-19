@@ -35,13 +35,13 @@ internal class Plugin : BaseUnityPlugin
 
         Config = Utils.CreateGlobalConfigFile();
 
-        _harmony.PatchAll(typeof(NetworkManagerPatch));
-        _harmony.PatchAll(typeof(GameNetworkManagerPatch));
-        _harmony.PatchAll(typeof(StartOfRoundPatch));
-        _harmony.PatchAll(typeof(RoundManagerPatch));
-        _harmony.PatchAll(typeof(TimeOfDayPatch));
-        _harmony.PatchAll(typeof(PlayerControllerBPatch));
-        _harmony.PatchAll(typeof(DepositItemsDeskPatch));
+        _harmony.PatchAll(typeof(NetworkManager_Patches));
+        _harmony.PatchAll(typeof(GameNetworkManager_Patches));
+        _harmony.PatchAll(typeof(StartOfRound_Patches));
+        _harmony.PatchAll(typeof(RoundManager_Patches));
+        _harmony.PatchAll(typeof(TimeOfDay_Patches));
+        _harmony.PatchAll(typeof(PlayerControllerB_Patches));
+        _harmony.PatchAll(typeof(DepositItemsDesk_Patches));
 
         if (VehicleControllerProxy.Enabled)
         {

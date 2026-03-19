@@ -5,11 +5,11 @@ using Unity.Netcode;
 namespace com.github.zehsteam.StreamOverlays.Patches;
 
 [HarmonyPatch(typeof(NetworkManager))]
-internal static class NetworkManagerPatch
+internal static class NetworkManager_Patches
 {
     [HarmonyPatch("Initialize")]
     [HarmonyPostfix]
-    private static void InitializePatch()
+    private static void Initialize_Patch()
     {
         PluginNetworkManager.Initialize();
     }

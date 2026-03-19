@@ -7,11 +7,11 @@ using HarmonyLib;
 namespace com.github.zehsteam.StreamOverlays.Patches;
 
 [HarmonyPatch(typeof(StartOfRound))]
-internal static class StartOfRoundPatch
+internal static class StartOfRound_Patches
 {
     [HarmonyPatch(nameof(StartOfRound.Start))]
     [HarmonyPostfix]
-    private static void StartPatch()
+    private static void Start_Patch()
     {
         DayManager.LoadDayData();
         LootManager.UpdateLootTotal();
@@ -20,7 +20,7 @@ internal static class StartOfRoundPatch
 
     [HarmonyPatch(nameof(StartOfRound.OnPlayerConnectedClientRpc))]
     [HarmonyPostfix]
-    private static void OnPlayerConnectedClientRpcPatch(ulong clientId)
+    private static void OnPlayerConnectedClientRpc_Patch(ulong clientId)
     {
         if (NetworkUtils.IsLocalClientId(clientId))
         {
@@ -32,7 +32,7 @@ internal static class StartOfRoundPatch
 
     [HarmonyPatch(nameof(StartOfRound.SyncShipUnlockablesClientRpc))]
     [HarmonyPostfix]
-    private static void SyncShipUnlockablesClientRpcPatch()
+    private static void SyncShipUnlockablesClientRpc_Patch()
     {
         LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
@@ -40,7 +40,7 @@ internal static class StartOfRoundPatch
 
     [HarmonyPatch(nameof(StartOfRound.OnClientConnect))]
     [HarmonyPostfix]
-    private static void OnClientConnectPatch(ulong clientId)
+    private static void OnClientConnect_Patch(ulong clientId)
     {
         WebServer.UpdateOverlaysData();
         PluginNetworkManager.OnClientConnected(clientId);
@@ -48,21 +48,21 @@ internal static class StartOfRoundPatch
 
     [HarmonyPatch(nameof(StartOfRound.OnPlayerDC))]
     [HarmonyPostfix]
-    private static void OnPlayerDCPatch()
+    private static void OnPlayerDC_Patch()
     {
         WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.ChangeLevelClientRpc))]
     [HarmonyPostfix]
-    private static void ChangeLevelClientRpcPatch()
+    private static void ChangeLevelClientRpc_Patch()
     {
         WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.StartGame))]
     [HarmonyPostfix]
-    private static void StartGamePatch()
+    private static void StartGame_Patch()
     {
         if (ShipInventoryProxy.Enabled)
         {
@@ -74,7 +74,7 @@ internal static class StartOfRoundPatch
 
     [HarmonyPatch(nameof(StartOfRound.EndOfGame))]
     [HarmonyPrefix]
-    private static void EndOfGamePatch()
+    private static void EndOfGame_Patch()
     {
         DayManager.AddDayData(Utils.GetScrapValueCollectedThisRound());
         LootManager.UpdateLootTotal();
@@ -83,21 +83,21 @@ internal static class StartOfRoundPatch
 
     [HarmonyPatch(nameof(StartOfRound.ReviveDeadPlayers))]
     [HarmonyPostfix]
-    private static void ReviveDeadPlayersPatch()
+    private static void ReviveDeadPlayers_Patch()
     {
         WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.SetMapScreenInfoToCurrentLevel))]
     [HarmonyPostfix]
-    private static void SetMapScreenInfoToCurrentLevelPatch()
+    private static void SetMapScreenInfoToCurrentLevel_Patch()
     {
         WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(StartOfRound.ResetShip))]
     [HarmonyPostfix]
-    private static void ResetShipPatch()
+    private static void ResetShip_Patch()
     {
         LootManager.UpdateLootTotal();
         WebServer.UpdateOverlaysData();
@@ -105,7 +105,7 @@ internal static class StartOfRoundPatch
 
     [HarmonyPatch(nameof(StartOfRound.OnLocalDisconnect))]
     [HarmonyPostfix]
-    private static void OnLocalDisconnectPatch()
+    private static void OnLocalDisconnect_Patch()
     {
         DayManager.ResetDayData();
         WebServer.UpdateOverlaysData();

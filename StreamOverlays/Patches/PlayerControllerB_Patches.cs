@@ -7,18 +7,18 @@ using Unity.Netcode;
 namespace com.github.zehsteam.StreamOverlays.Patches;
 
 [HarmonyPatch(typeof(PlayerControllerB))]
-internal static class PlayerControllerBPatch
+internal static class PlayerControllerB_Patches
 {
     [HarmonyPatch(nameof(PlayerControllerB.ConnectClientToPlayerObject))]
     [HarmonyPostfix]
-    private static void ConnectClientToPlayerObjectPatch()
+    private static void ConnectClientToPlayerObject_Patch()
     {
         WebServer.UpdateOverlaysData();
     }
 
     [HarmonyPatch(nameof(PlayerControllerB.GrabObjectClientRpc))]
     [HarmonyPostfix]
-    private static void GrabObjectClientRpcPatch(NetworkObjectReference grabbedObject)
+    private static void GrabObjectClientRpc_Patch(NetworkObjectReference grabbedObject)
     {
         if (!LootManager.CanUpdateLootTotal())
         {
@@ -46,7 +46,7 @@ internal static class PlayerControllerBPatch
 
     [HarmonyPatch(nameof(PlayerControllerB.ThrowObjectClientRpc))]
     [HarmonyPostfix]
-    private static void ThrowObjectClientRpcPatch(bool droppedInElevator, bool droppedInShipRoom)
+    private static void ThrowObjectClientRpc_Patch(bool droppedInElevator, bool droppedInShipRoom)
     {
         if (!LootManager.CanUpdateLootTotal())
         {
@@ -62,7 +62,7 @@ internal static class PlayerControllerBPatch
 
     [HarmonyPatch(nameof(PlayerControllerB.PlaceGrabbableObject))]
     [HarmonyPostfix]
-    private static void PlaceGrabbableObjectPatch(GrabbableObject placeObject)
+    private static void PlaceGrabbableObject_Patch(GrabbableObject placeObject)
     {
         if (!LootManager.CanUpdateLootTotal())
         {

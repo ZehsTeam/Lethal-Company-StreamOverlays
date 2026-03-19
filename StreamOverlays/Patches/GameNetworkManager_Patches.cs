@@ -5,11 +5,11 @@ using HarmonyLib;
 namespace com.github.zehsteam.StreamOverlays.Patches;
 
 [HarmonyPatch(typeof(GameNetworkManager))]
-internal static class GameNetworkManagerPatch
+internal static class GameNetworkManager_Patches
 {
     [HarmonyPatch(nameof(GameNetworkManager.SaveGame))]
     [HarmonyPostfix]
-    private static void SaveGamePatch()
+    private static void SaveGame_Patch()
     {
         DayManager.SaveDayData();
         LootManager.UpdateLootTotal();
@@ -18,7 +18,7 @@ internal static class GameNetworkManagerPatch
 
     [HarmonyPatch(nameof(GameNetworkManager.ResetSavedGameValues))]
     [HarmonyPostfix]
-    private static void ResetSavedGameValuesPatch()
+    private static void ResetSavedGameValues_Patch()
     {
         DayManager.ResetSavedDayData();
         WebServer.UpdateOverlaysData();

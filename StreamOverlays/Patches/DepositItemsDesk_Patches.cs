@@ -5,11 +5,11 @@ using HarmonyLib;
 namespace com.github.zehsteam.StreamOverlays.Patches;
 
 [HarmonyPatch(typeof(DepositItemsDesk))]
-internal static class DepositItemsDeskPatch
+internal static class DepositItemsDesk_Patches
 {
     [HarmonyPatch(nameof(DepositItemsDesk.SellAndDisplayItemProfits))]
     [HarmonyPostfix]
-    private static void SellAndDisplayItemProfitsPatch()
+    private static void SellAndDisplayItemProfits_Patch()
     {
         if (LootManager.CanUpdateLootTotal())
         {
