@@ -31,11 +31,11 @@ internal static class ShipInventoryProxy
         {
             harmony.PatchAll(typeof(Inventory_Patches));
 
-            Logger.LogInfo("Applied ShipInventory patches.");
+            Logger.LogInfo($"[{nameof(ShipInventoryProxy)}.{nameof(PatchAll)}] Applied ShipInventory patches.");
         }
         catch (Exception ex)
         {
-            Logger.LogError($"Failed to apply ShipInventory patches. {ex}");
+            Logger.LogError($"[{nameof(ShipInventoryProxy)}.{nameof(PatchAll)}] Failed to apply ShipInventory patches. {ex}");
         }
     }
 
@@ -53,7 +53,7 @@ internal static class ShipInventoryProxy
         }
         catch (Exception ex)
         {
-            Logger.LogError($"Failed to get the total value from ShipInventory. {ex}");
+            Logger.LogError($"[{nameof(ShipInventoryProxy)}.{nameof(GetLootTotal)}] Failed to get the total value from ShipInventory. {ex}");
         }
 
         return 0;
@@ -62,14 +62,14 @@ internal static class ShipInventoryProxy
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
     public static void ResetRoundData()
     {
-        Logger.LogInfo($"ShipInventoryProxy: Reset round data", extended: true);
+        Logger.LogInfo($"[{nameof(ShipInventoryProxy)}.{nameof(ResetRoundData)}] Reset round data", extended: true);
 
         _itemsAddedThisRound.Clear();
     }
 
     public static void HandleItemsChanged(NetworkListEvent<ItemData> changeEvent)
     {
-        Logger.LogInfo($"[ShipInventoryProxy.HandleItemsChanged] Type: {changeEvent.Type}, Index: {changeEvent.Index}", extended: true);
+        Logger.LogInfo($"[{nameof(ShipInventoryProxy)}.{nameof(HandleItemsChanged)}] Type: {changeEvent.Type}, Index: {changeEvent.Index}", extended: true);
 
         switch (changeEvent.Type)
         {
@@ -97,7 +97,7 @@ internal static class ShipInventoryProxy
 
     private static void HandleItemAdded(ItemData item)
     {
-        Logger.LogInfo($"[ShipInventoryProxy.HandleItemAdded] ID: {item.ID}, SCRAP_VALUE: ${item.SCRAP_VALUE}, PERSISTED_THROUGH_ROUNDS: {item.PERSISTED_THROUGH_ROUNDS}", extended: true);
+        Logger.LogInfo($"[{nameof(ShipInventoryProxy)}.{nameof(HandleItemAdded)}] ID: {item.ID}, SCRAP_VALUE: ${item.SCRAP_VALUE}, PERSISTED_THROUGH_ROUNDS: {item.PERSISTED_THROUGH_ROUNDS}", extended: true);
 
         if (CanModifyRoundData())
         {
@@ -112,7 +112,7 @@ internal static class ShipInventoryProxy
 
     private static void HandleItemRemoved(ItemData item)
     {
-        Logger.LogInfo($"[ShipInventoryProxy.HandleItemRemoved] ID: {item.ID}, SCRAP_VALUE: ${item.SCRAP_VALUE}, PERSISTED_THROUGH_ROUNDS: {item.PERSISTED_THROUGH_ROUNDS}", extended: true);
+        Logger.LogInfo($"[{nameof(ShipInventoryProxy)}.{nameof(HandleItemRemoved)}] ID: {item.ID}, SCRAP_VALUE: ${item.SCRAP_VALUE}, PERSISTED_THROUGH_ROUNDS: {item.PERSISTED_THROUGH_ROUNDS}", extended: true);
 
         if (CanModifyRoundData())
         {
