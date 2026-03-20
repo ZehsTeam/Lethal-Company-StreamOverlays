@@ -240,7 +240,7 @@ internal static class Utils
 
         foreach (var grabbableObject in array)
         {
-            if (grabbableObject == null || grabbableObject.deactivated)
+            if (grabbableObject == null || grabbableObject.IsDeactivated())
             {
                 continue;
             }
