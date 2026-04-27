@@ -1,4 +1,8 @@
-# v1.6.0
+# v1.6.1
+
+- Updated README.
+
+## v1.6.0
 
 - Updated vanilla weather icons: DustClouds, Rainy, Foggy, Flooded, Eclipsed
 - Updated weather icons for the [Wesleys Weathers](https://thunderstore.io/c/lethal-company/p/Magic_Wesley/Wesleys_Weathers/) mod v1.2.11
@@ -7,7 +11,7 @@
 - Added weather icons for the [LethalElementsTheta](https://thunderstore.io/c/lethal-company/p/pacoito/LethalElementsTheta/) mod v1.3.5
 - Added weather icons for the [MrovWeathers](https://thunderstore.io/c/lethal-company/p/mrov/MrovWeathers/) mod v0.0.7
 
-Thanks to [Zeta](https://www.twitch.tv/zetaarcade) for all of the new weather icons.
+Thanks to [Zeta](https://www.twitch.tv/zetaarcade) for creating all of the new weather icons.
 
 ## v1.5.2
 

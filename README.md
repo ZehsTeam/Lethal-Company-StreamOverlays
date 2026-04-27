@@ -11,9 +11,9 @@
 
 **<ins>This mod is fully client-side and works in vanilla lobbies.</ins>**
 
-**<ins>This mod works in all game versions from v40 to v73+</ins>**
+**<ins>This mod works in all game versions from v40 to v81</ins>**
 
-**This mod has integration with the [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/LethalCompanyModding/ShipInventoryUpdated), [HQoL](https://thunderstore.io/c/lethal-company/p/HQHQTeam/HQoL), and [Wesleys Weathers](https://thunderstore.io/c/lethal-company/p/Magic_Wesley/Wesleys_Weathers/) mod.**
+**This mod has integration with the [ShipInventoryUpdated](https://thunderstore.io/c/lethal-company/p/LethalCompanyModding/ShipInventoryUpdated) and [HQoL](https://thunderstore.io/c/lethal-company/p/HQHQTeam/HQoL) mod.**
 
 ## Features
 
@@ -151,6 +151,18 @@ Choose from multiple overlays to customize your stream.
 <br><br>
 - This mod has integration with the [Wesleys Weathers](https://thunderstore.io/c/lethal-company/p/Magic_Wesley/Wesleys_Weathers/) mod.
   - Includes icons for all weathers.
+<br><br>
+- This mod has integration with the [CodeRebirth](https://thunderstore.io/c/lethal-company/p/XuXiaolan/CodeRebirth/) mod.
+  - Includes icons for all weathers.
+<br><br>
+- This mod has integration with the [LegendWeathers](https://thunderstore.io/c/lethal-company/p/Zigzag/LegendWeathers/) mod.
+  - Includes icons for all weathers.
+<br><br>
+- This mod has integration with the [LethalElementsTheta](https://thunderstore.io/c/lethal-company/p/pacoito/LethalElementsTheta/) mod.
+  - Includes icons for all weathers.
+<br><br>
+- This mod has integration with the [MrovWeathers](https://thunderstore.io/c/lethal-company/p/mrov/MrovWeathers/) mod.
+  - Includes icons for all weathers.
 
 ## Developer Contact
 
@@ -171,17 +183,15 @@ https://solo.to/crithaxxog
 
 ## Credits
 
-- <a href="https://www.flaticon.com/free-icons/sun" title="sun icons">Sun icons created by Good Ware - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/cloudy" title="cloudy icons">Cloudy icons created by bqlqn - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/rain" title="rain icons">Rain icons created by bqlqn - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/flash" title="flash icons">Flash icons created by Smashicons - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/climate" title="climate icons">Climate icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/river" title="river icons">River icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/eclipse" title="eclipse icons">Eclipse icons created by Muhamad Ulum - Flaticon</a>
-- Forsaken icon created by [Tomatobird8](https://www.twitch.tv/tomatobird8)
-- Hallowed icon created by [Tomatobird8](https://www.twitch.tv/tomatobird8)
-- Hurricane icon created by [Tomatobird8](https://www.twitch.tv/tomatobird8)
-- Earthquakes icon created by [Tomatobird8](https://www.twitch.tv/tomatobird8)
+- <a href="https://www.flaticon.com/free-icons/sun" title="sun icons">Sun icons created by Good Ware - Flaticon</a> - (None/Clear) Vanilla weather icon
+- <a href="https://www.flaticon.com/free-icons/flash" title="flash icons">Flash icons created by Smashicons - Flaticon</a> - (Stormy) Vanilla weather icon
+- [Zeta](https://www.twitch.tv/zetaarcade) - Creating weather icons:
+  - Vanilla: DustClouds, Eclipsed, Flooded, Foggy, and Rainy
+  - CodeRebirth: MeteorShower and Tornado
+  - LegendWeathers: BloodMoon and MajoraMoon 
+  - LethalElementsTheta: Blizzard, Heatwave, Snowfall, SolarFlare, and ToxicSmog
+  - MrovWeathers: Blackout and Cloudy
+  - WesleysWeathers: Earthquakes, Forsaken, Hallowed, and Hurricane
 
 ## Screenshots
 
