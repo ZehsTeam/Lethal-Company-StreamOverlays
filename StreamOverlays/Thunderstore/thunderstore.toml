@@ -1,0 +1,34 @@
+[config]
+schemaVersion = "0.0.1"
+
+[package]
+namespace = "Zehs"
+name = "StreamOverlays"
+description = "[v40/v73+] Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, and ship loot. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more."
+websiteUrl = "https://github.com/ZehsTeam/Lethal-Company-StreamOverlays"
+containsNsfwContent = false
+
+[package.dependencies]
+BepInEx-BepInExPack = "5.4.2305"
+dotnet_lethal_company-WebSocketSharp_netstandard = "1.0.100"
+
+[build]
+icon = "./icon.png"
+readme = "../../README.md"
+outdir = "./Packages"
+
+[[build.copy]]
+source = "../../StreamOverlays/bin/Release/netstandard2.1/com.github.zehsteam.StreamOverlays.dll"
+target = "BepInEx/plugins/"
+
+[[build.copy]]
+source = "../../Website/public"
+target = "BepInEx/plugins/public/"
+
+[[build.copy]]
+source = "./CHANGELOG.md"
+target = "/"
+
+[[build.copy]]
+source = "../../LICENSE.txt"
+target = "/"

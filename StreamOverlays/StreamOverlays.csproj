@@ -9,7 +9,7 @@
     <Product>$(MSBuildProjectName)</Product>                               <!-- PLUGIN_NAME -->
     <Version>1.5.2</Version>                                               <!-- PLUGIN_VERSION -->
     <Authors>Zehs</Authors>
-    <Description>[v40/v73+] Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, and ship loot. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.</Description>
+    <Description>[v40/v81] Display real-time game stats on your stream using browser sources. Shows the player count, current moon, weather, day count, quota, and ship loot. Works with OBS, Streamlabs OBS, and similar software for Twitch, YouTube, TikTok, Kick, and more.</Description>
     <Copyright>Copyright © 2026 Zehs</Copyright>
     
     <RootNamespace>com.github.zehsteam.$(MSBuildProjectName)</RootNamespace>
@@ -38,17 +38,111 @@
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3"        PrivateAssets="all" />
-    <PackageReference Include="BepInEx.Analyzers"                  Version="1.*"          PrivateAssets="all" />
-    <PackageReference Include="BepInEx.Core"                       Version="5.4.21" />
-    <PackageReference Include="BepInEx.PluginInfoProps"            Version="2.*"          PrivateAssets="all" />
-    <PackageReference Include="Newtonsoft.Json"                    Version="13.0.3" />
-    <PackageReference Include="UnityEngine.Modules"                Version="2022.3.62"    PrivateAssets="all" IncludeAssets="compile" />
-    <PackageReference Include="LethalCompany.GameLibs.Steam"       Version="73.0.0-ngd.0" PrivateAssets="all" />
+    <None Include="..\README.md" Link="README.md" />
   </ItemGroup>
   
+  <!-- Dependencies -->
+  <ItemGroup>
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" PrivateAssets="all" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="UnityEngine.Modules" Version="2022.3.62" PrivateAssets="all" IncludeAssets="compile" />
+    
+    <!-- This is not working for NetcodePatcher for some reason? -->
+    <!--<PackageReference Include="LethalCompany.GameLibs.Steam" Version="81.0.0-ngd.0" PrivateAssets="all" />-->
+  </ItemGroup>
+
+  <!-- Lethal Company Direct References -->
+  <PropertyGroup>
+    <ManagedFolder>D:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed</ManagedFolder>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Reference Include="AmazingAssets.TerrainToMesh" HintPath="$(ManagedFolder)\AmazingAssets.TerrainToMesh.dll" PrivateAssets="all" />
+    <Reference Include="Assembly-CSharp-firstpass" HintPath="$(ManagedFolder)\Assembly-CSharp-firstpass.dll" PrivateAssets="all" Publicize="true" />
+    <Reference Include="Assembly-CSharp" HintPath="$(ManagedFolder)\Assembly-CSharp.dll" PrivateAssets="all" Publicize="true" />
+    <Reference Include="ClientNetworkTransform" HintPath="$(ManagedFolder)\ClientNetworkTransform.dll" PrivateAssets="all" />
+    <Reference Include="com.olegknyazev.softmask" HintPath="$(ManagedFolder)\com.olegknyazev.softmask.dll" PrivateAssets="all" />
+    <Reference Include="DissonanceVoip" HintPath="$(ManagedFolder)\DissonanceVoip.dll" PrivateAssets="all" />
+    <Reference Include="DunGen.Integration.ASPP" HintPath="$(ManagedFolder)\DunGen.Integration.ASPP.dll" PrivateAssets="all" />
+    <Reference Include="DunGen.Integration.UnityNav" HintPath="$(ManagedFolder)\DunGen.Integration.UnityNav.dll" PrivateAssets="all" />
+    <Reference Include="DunGen" HintPath="$(ManagedFolder)\DunGen.dll" PrivateAssets="all" />
+    <Reference Include="EasyTextEffects" HintPath="$(ManagedFolder)\EasyTextEffects.dll" PrivateAssets="all" />
+    <Reference Include="Facepunch Transport for Netcode for GameObjects" HintPath="$(ManagedFolder)\Facepunch Transport for Netcode for GameObjects.dll" PrivateAssets="all" />
+    <Reference Include="Facepunch.Steamworks.Win64" HintPath="$(ManagedFolder)\Facepunch.Steamworks.Win64.dll" PrivateAssets="all" />
+    <Reference Include="Unity.AI.Navigation" HintPath="$(ManagedFolder)\Unity.AI.Navigation.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Animation.Rigging.DocCodeExamples" HintPath="$(ManagedFolder)\Unity.Animation.Rigging.DocCodeExamples.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Animation.Rigging" HintPath="$(ManagedFolder)\Unity.Animation.Rigging.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Burst.Unsafe" HintPath="$(ManagedFolder)\Unity.Burst.Unsafe.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Burst" HintPath="$(ManagedFolder)\Unity.Burst.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Collections.LowLevel.ILSupport" HintPath="$(ManagedFolder)\Unity.Collections.LowLevel.ILSupport.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Collections" HintPath="$(ManagedFolder)\Unity.Collections.dll" PrivateAssets="all" />
+    <Reference Include="Unity.InputSystem.ForUI" HintPath="$(ManagedFolder)\Unity.InputSystem.ForUI.dll" PrivateAssets="all" />
+    <Reference Include="Unity.InputSystem" HintPath="$(ManagedFolder)\Unity.InputSystem.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Jobs" HintPath="$(ManagedFolder)\Unity.Jobs.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Mathematics" HintPath="$(ManagedFolder)\Unity.Mathematics.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Multiplayer.Tools.Common" HintPath="$(ManagedFolder)\Unity.Multiplayer.Tools.Common.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Multiplayer.Tools.MetricTypes" HintPath="$(ManagedFolder)\Unity.Multiplayer.Tools.MetricTypes.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Multiplayer.Tools.NetStats" HintPath="$(ManagedFolder)\Unity.Multiplayer.Tools.NetStats.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Multiplayer.Tools.NetStatsMonitor.Component" HintPath="$(ManagedFolder)\Unity.Multiplayer.Tools.NetStatsMonitor.Component.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Multiplayer.Tools.NetStatsMonitor.Configuration" HintPath="$(ManagedFolder)\Unity.Multiplayer.Tools.NetStatsMonitor.Configuration.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Multiplayer.Tools.NetStatsMonitor.Implementation" HintPath="$(ManagedFolder)\Unity.Multiplayer.Tools.NetStatsMonitor.Implementation.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Multiplayer.Tools.NetStatsReporting" HintPath="$(ManagedFolder)\Unity.Multiplayer.Tools.NetStatsReporting.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Multiplayer.Tools.NetworkProfiler.Runtime" HintPath="$(ManagedFolder)\Unity.Multiplayer.Tools.NetworkProfiler.Runtime.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Multiplayer.Tools.NetworkSolutionInterface" HintPath="$(ManagedFolder)\Unity.Multiplayer.Tools.NetworkSolutionInterface.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Netcode.Components" HintPath="$(ManagedFolder)\Unity.Netcode.Components.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Netcode.Runtime" HintPath="$(ManagedFolder)\Unity.Netcode.Runtime.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Networking.Transport" HintPath="$(ManagedFolder)\Unity.Networking.Transport.dll" PrivateAssets="all" />
+    <Reference Include="Unity.ProBuilder.Csg" HintPath="$(ManagedFolder)\Unity.ProBuilder.Csg.dll" PrivateAssets="all" />
+    <Reference Include="Unity.ProBuilder.KdTree" HintPath="$(ManagedFolder)\Unity.ProBuilder.KdTree.dll" PrivateAssets="all" />
+    <Reference Include="Unity.ProBuilder.Poly2Tri" HintPath="$(ManagedFolder)\Unity.ProBuilder.Poly2Tri.dll" PrivateAssets="all" />
+    <Reference Include="Unity.ProBuilder.Stl" HintPath="$(ManagedFolder)\Unity.ProBuilder.Stl.dll" PrivateAssets="all" />
+    <Reference Include="Unity.ProBuilder" HintPath="$(ManagedFolder)\Unity.ProBuilder.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Profiling.Core" HintPath="$(ManagedFolder)\Unity.Profiling.Core.dll" PrivateAssets="all" />
+    <Reference Include="Unity.RenderPipelines.Core.Runtime" HintPath="$(ManagedFolder)\Unity.RenderPipelines.Core.Runtime.dll" PrivateAssets="all" />
+    <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary" HintPath="$(ManagedFolder)\Unity.RenderPipelines.Core.ShaderLibrary.dll" PrivateAssets="all" />
+    <Reference Include="Unity.RenderPipelines.HighDefinition.Config.Runtime" HintPath="$(ManagedFolder)\Unity.RenderPipelines.HighDefinition.Config.Runtime.dll" PrivateAssets="all" />
+    <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime" HintPath="$(ManagedFolder)\Unity.RenderPipelines.HighDefinition.Runtime.dll" PrivateAssets="all" />
+    <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary" HintPath="$(ManagedFolder)\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Authentication" HintPath="$(ManagedFolder)\Unity.Services.Authentication.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Analytics" HintPath="$(ManagedFolder)\Unity.Services.Core.Analytics.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Components" HintPath="$(ManagedFolder)\Unity.Services.Core.Components.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Configuration" HintPath="$(ManagedFolder)\Unity.Services.Core.Configuration.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Device" HintPath="$(ManagedFolder)\Unity.Services.Core.Device.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Environments.Internal" HintPath="$(ManagedFolder)\Unity.Services.Core.Environments.Internal.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Environments" HintPath="$(ManagedFolder)\Unity.Services.Core.Environments.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Internal" HintPath="$(ManagedFolder)\Unity.Services.Core.Internal.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Networking" HintPath="$(ManagedFolder)\Unity.Services.Core.Networking.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Registration" HintPath="$(ManagedFolder)\Unity.Services.Core.Registration.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Scheduler" HintPath="$(ManagedFolder)\Unity.Services.Core.Scheduler.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Telemetry" HintPath="$(ManagedFolder)\Unity.Services.Core.Telemetry.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core.Threading" HintPath="$(ManagedFolder)\Unity.Services.Core.Threading.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Core" HintPath="$(ManagedFolder)\Unity.Services.Core.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.QoS" HintPath="$(ManagedFolder)\Unity.Services.QoS.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Services.Relay" HintPath="$(ManagedFolder)\Unity.Services.Relay.dll" PrivateAssets="all" />
+    <Reference Include="Unity.TextMeshPro" HintPath="$(ManagedFolder)\Unity.TextMeshPro.dll" PrivateAssets="all" />
+    <Reference Include="Unity.Timeline" HintPath="$(ManagedFolder)\Unity.Timeline.dll" PrivateAssets="all" />
+    <Reference Include="Unity.VisualEffectGraph.Runtime" HintPath="$(ManagedFolder)\Unity.VisualEffectGraph.Runtime.dll" PrivateAssets="all" />
+    <Reference Include="Unity.XR.CoreUtils" HintPath="$(ManagedFolder)\Unity.XR.CoreUtils.dll" PrivateAssets="all" />
+    <Reference Include="Unity.XR.Management" HintPath="$(ManagedFolder)\Unity.XR.Management.dll" PrivateAssets="all" />
+    <Reference Include="Unity.XR.OpenXR.Features.ConformanceAutomation" HintPath="$(ManagedFolder)\Unity.XR.OpenXR.Features.ConformanceAutomation.dll" PrivateAssets="all" />
+    <Reference Include="Unity.XR.OpenXR.Features.MetaQuestSupport" HintPath="$(ManagedFolder)\Unity.XR.OpenXR.Features.MetaQuestSupport.dll" PrivateAssets="all" />
+    <Reference Include="Unity.XR.OpenXR.Features.MockRuntime" HintPath="$(ManagedFolder)\Unity.XR.OpenXR.Features.MockRuntime.dll" PrivateAssets="all" />
+    <Reference Include="Unity.XR.OpenXR.Features.OculusQuestSupport" HintPath="$(ManagedFolder)\Unity.XR.OpenXR.Features.OculusQuestSupport.dll" PrivateAssets="all" />
+    <Reference Include="Unity.XR.OpenXR.Features.RuntimeDebugger" HintPath="$(ManagedFolder)\Unity.XR.OpenXR.Features.RuntimeDebugger.dll" PrivateAssets="all" />
+    <Reference Include="Unity.XR.OpenXR" HintPath="$(ManagedFolder)\Unity.XR.OpenXR.dll" PrivateAssets="all" />
+    <Reference Include="UnityEngine.ARModule" HintPath="$(ManagedFolder)\UnityEngine.ARModule.dll" PrivateAssets="all" />
+    <Reference Include="UnityEngine.NVIDIAModule" HintPath="$(ManagedFolder)\UnityEngine.NVIDIAModule.dll" PrivateAssets="all" />
+    <Reference Include="UnityEngine.SpatialTracking" HintPath="$(ManagedFolder)\UnityEngine.SpatialTracking.dll" PrivateAssets="all" />
+    <Reference Include="UnityEngine.UI" HintPath="$(ManagedFolder)\UnityEngine.UI.dll" PrivateAssets="all" />
+    <Reference Include="UnityEngine.XR.LegacyInputHelpers" HintPath="$(ManagedFolder)\UnityEngine.XR.LegacyInputHelpers.dll" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <!-- Mod dependencies -->
   <ItemGroup>
     <PackageReference Include="WebSocketSharp-netstandard" Version="1.0.1" />
     
@@ -63,18 +157,50 @@
     </Reference>
   </ItemGroup>
   
+  <!-- Settings -->
   <PropertyGroup>
     <Game>lethal-company</Game>
+    <ThunderstoreTeamName>Zehs</ThunderstoreTeamName>
+    <AssetBundleFileName></AssetBundleFileName>
+    <AssetBundleFolder>D:\LethalCompanyUnityProjects\LethalCompanyV81\Assets\LethalCompany\Mods\AssetBundles</AssetBundleFolder>
+    
     <GaleProfileName>Mod Development</GaleProfileName>
+
     <GaleDataFolder>$(AppData)\com.kesomannen.gale</GaleDataFolder>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssetBundleFilePath>$(AssetBundleFolder)\$(AssetBundleFileName)</AssetBundleFilePath>
+
     <GaleProfilesFolder>$(GaleDataFolder)\$(Game)\profiles</GaleProfilesFolder>
+
     <BepInExPluginsFolder>$(GaleProfilesFolder)\$(GaleProfileName)\BepInEx\plugins</BepInExPluginsFolder>
-    <PluginFolder>$(BepInExPluginsFolder)\Zehs-$(MSBuildProjectName)</PluginFolder>
+
+    <PluginFolder>$(BepInExPluginsFolder)\$(ThunderstoreTeamName)-$(MSBuildProjectName)</PluginFolder>
   </PropertyGroup>
   
   <PropertyGroup>
     <WebsitePublicFolder>$(MSBuildProjectDirectory)\..\Website\public</WebsitePublicFolder>
   </PropertyGroup>
+  
+  <!-- Copy files to Gale plugin folder -->
+  <Target Name="CopyToGalePluginFolder" AfterTargets="PostBuildEvent">
+    <Message Text="Copying to Gale plugin folder" Importance="high" />
+
+    <Copy Condition="Exists('$(PluginFolder)')" DestinationFolder="$(PluginFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
+    <Exec Condition="Exists('$(PluginFolder)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolder)\public&quot; /mir || exit 0" />
+  </Target>
+  
+  <!-- Call with `dotnet build -target:PackThunderstore` -->
+  <Target Name="PackThunderstore" DependsOnTargets="PostBuildEvent">
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet tcli build --config-path &quot;$(ProjectDir)Thunderstore\thunderstore.toml&quot; --package-version $(Version)" />
+    
+    <ItemGroup>
+      <ThunderstorePackage Include="$(ProjectDir)Thunderstore\Packages\*-$(Version).zip" />
+    </ItemGroup>
+    <Move SourceFiles="@(ThunderstorePackage)" DestinationFolder="$(USERPROFILE)\Downloads\Thunderstore Builds" />
+  </Target>
   
   <PropertyGroup>
     <SteamLibrary>D:\SteamLibrary\steamapps\common</SteamLibrary>
@@ -87,39 +213,29 @@
     <PluginFolderV62>$(SteamLibrary)\Lethal Company v62\$(PluginFolderEnding)</PluginFolderV62>
   </PropertyGroup>
   
-  <!-- Copy files to Gale plugin folder -->
-  <Target Name="CopyToGalePluginFolder" AfterTargets="PostBuildEvent">
-    <Copy Condition="Exists('$(PluginFolder)')" DestinationFolder="$(PluginFolder)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
-    <Exec Condition="Exists('$(PluginFolder)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolder)\public&quot; /mir || exit 0" />
-  </Target>
-  
-  <!-- Copy files to Gale plugin folder 2 -->
-  <PropertyGroup>
-    <GalePluginFolder2>$(GaleProfilesFolder)\Mod Development 2\BepInEx\plugins\Zehs-$(MSBuildProjectName)</GalePluginFolder2>
-  </PropertyGroup>
-  
-  <Target Name="CopyToGalePluginFolder2" AfterTargets="CopyToGalePluginFolder">
-    <Copy Condition="Exists('$(GalePluginFolder2)')" DestinationFolder="$(GalePluginFolder2)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
-    <Exec Condition="Exists('$(GalePluginFolder2)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(GalePluginFolder2)\public&quot; /mir || exit 0" />
-  </Target>
-  
   <!-- Copy files to older versions plugin folders -->
   <Target Name="CopyToOlderVersionsPluginFolders" AfterTargets="CopyToGalePluginFolder">
+    <Message Condition="Exists('$(PluginFolderV40)')" Text="Copying to v40 folder" Importance="high" />
     <Copy Condition="Exists('$(PluginFolderV40)')" DestinationFolder="$(PluginFolderV40)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
     <Exec Condition="Exists('$(PluginFolderV40)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV40)\public&quot; /mir || exit 0" />
     
+    <Message Condition="Exists('$(PluginFolderV45)')" Text="Copying to v45 folder" Importance="high" />
     <Copy Condition="Exists('$(PluginFolderV45)')" DestinationFolder="$(PluginFolderV45)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
     <Exec Condition="Exists('$(PluginFolderV45)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV45)\public&quot; /mir || exit 0" />
     
+    <Message Condition="Exists('$(PluginFolderV49)')" Text="Copying to v49 folder" Importance="high" />
     <Copy Condition="Exists('$(PluginFolderV49)')" DestinationFolder="$(PluginFolderV49)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
     <Exec Condition="Exists('$(PluginFolderV49)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV49)\public&quot; /mir || exit 0" />
     
+    <Message Condition="Exists('$(PluginFolderV50)')" Text="Copying to v50 folder" Importance="high" />
     <Copy Condition="Exists('$(PluginFolderV50)')" DestinationFolder="$(PluginFolderV50)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
     <Exec Condition="Exists('$(PluginFolderV50)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV50)\public&quot; /mir || exit 0" />
     
+    <Message Condition="Exists('$(PluginFolderV56)')" Text="Copying to v56 folder" Importance="high" />
     <Copy Condition="Exists('$(PluginFolderV56)')" DestinationFolder="$(PluginFolderV56)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
     <Exec Condition="Exists('$(PluginFolderV56)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV56)\public&quot; /mir || exit 0" />
     
+    <Message Condition="Exists('$(PluginFolderV62)')" Text="Copying to v62 folder" Importance="high" />
     <Copy Condition="Exists('$(PluginFolderV62)')" DestinationFolder="$(PluginFolderV62)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" SourceFiles="$(TargetPath)" />
     <Exec Condition="Exists('$(PluginFolderV62)')" Command="robocopy &quot;$(WebsitePublicFolder)&quot; &quot;$(PluginFolderV62)\public&quot; /mir || exit 0" />
   </Target>

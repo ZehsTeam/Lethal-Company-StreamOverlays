@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="50mm"
+   height="50mm"
+   viewBox="0 0 50 50"
+   version="1.1"
+   id="svg7082"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="Snowfall.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7084"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.74564394"
+     inkscape:cx="193.12167"
+     inkscape:cy="25.481331"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs7079" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g9180"
+       transform="matrix(0.33668346,0,0,0.33668346,14.008913,14.486786)">
+      <rect
+         style="fill:#000000;stroke-width:0.20413"
+         id="rect12266"
+         width="26.612904"
+         height="141.22581"
+         x="19.338711"
+         y="-39.387096"
+         ry="15.967742" />
+      <rect
+         style="fill:#000000;stroke-width:0.20413"
+         id="rect12266-8"
+         width="26.612904"
+         height="141.22581"
+         x="17.919359"
+         y="-103.25807"
+         ry="15.967742"
+         transform="rotate(90)" />
+      <path
+         id="rect12266-8-2"
+         style="fill:#000000;stroke-width:0.154634"
+         d="M 77.444661,61.69929 V 76.0253 h -14.32596 l -75.273039,-75.27228 -2e-6,-14.326716 H 2.172437 Z"
+         sodipodi:nodetypes="ccccccc" />
+      <path
+         id="rect12266-8-2-6"
+         style="fill:#000000;stroke-width:0.154634"
+         d="m 2.171678,76.02531 h -14.32602 l 10e-6,-14.32595 75.272273,-75.273056 h 14.32672 V 0.75308 Z"
+         sodipodi:nodetypes="ccccccc" />
+    </g>
+  </g>
+</svg>

@@ -123,19 +123,44 @@ class CustomMoon extends CustomStat {
 
     getWeatherIconCode(weatherName) {
         const weatherIconCodes = {
+            // Vanilla
             none: '&#xe900;',
-            dustclouds: '&#xe906;',
-            rainy: '&#xe901;',
-            stormy: '&#xe903;',
-            foggy: '&#xe904;',
-            flooded: '&#xe902;',
-            eclipsed: '&#xe905;',
-            forsaken: '&#xe907;',
-            hallowed: '&#xe908;',
-            hurricane: '&#xe909;',
-            earthquakes: '&#xe90a;'
+            dustclouds: '&#xe901;',
+            rainy: '&#xe902;',
+            foggy: '&#xe903;',
+            flooded: '&#xe904;',
+            stormy: '&#xe905;',
+            eclipsed: '&#xe906;',
+
+            // CodeRebirth
+            meteorshower: '&#xe907;',
+            tornado: '&#xe908;',
+
+            // LegendWeathers
+            bloodmoon: '&#xe909;',
+            majoramoon: '&#xe90a;',
+
+            // LethalElementsTheta
+            blizzard: '&#xe90b;',
+            heatwave: '&#xe90c;',
+            snowfall: '&#xe90d;',
+            solarflare: '&#xe90e;',
+            toxicsmog: '&#xe90f;',
+
+            // MrovWeathers
+            blackout: '&#xe910;',
+            cloudy: '&#xe911;',
+
+            // WesleysWeathers
+            earthquakes: '&#xe912;',
+            forsaken: '&#xe913;',
+            hallowed: '&#xe914;',
+            hurricane: '&#xe915;',
         };
-        return weatherIconCodes[weatherName?.toLowerCase()] || '';
+
+        const parsedWeatherName = weatherName?.replaceAll(' ', '').toLowerCase();
+
+        return weatherIconCodes[parsedWeatherName] || '';
     }
 }
 

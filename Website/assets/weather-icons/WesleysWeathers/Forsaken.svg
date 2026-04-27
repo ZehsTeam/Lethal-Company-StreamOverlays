@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="50mm"
+   height="50mm"
+   viewBox="0 0 50 50"
+   version="1.1"
+   id="svg7082"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="Forsaken.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7084"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.74564394"
+     inkscape:cx="193.12167"
+     inkscape:cy="347.35077"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs7079" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3038"
+       transform="matrix(1.7643023,0,0,1.7643023,-40.938527,-155.37019)"
+       style="fill:#000000">
+      <path
+         id="path2054"
+         style="fill:#000000;stroke-width:0.264999;stroke-dasharray:none"
+         d="m 37.373457,87.991926 c -5.658087,0 -10.253508,4.386097 -10.586951,9.957532 h -0.01964 v 0.649573 3.896399 11.1257 h 21.213693 v -11.1257 -3.896399 -0.649573 h -0.02015 C 47.626964,92.378023 43.031546,87.991926 37.373457,87.991926 Z m -0.975651,3.325418 h 1.951302 v 3.753259 h 4.07417 v 1.951302 h -4.07417 V 108.14887 H 36.397806 V 97.021905 h -4.073653 v -1.951302 h 4.073653 z"
+         sodipodi:nodetypes="sccccccccccsccccccccccccc" />
+      <rect
+         style="fill:#000000;stroke-width:0.190139;stroke-dasharray:none"
+         id="rect2025"
+         width="23.162102"
+         height="2.3423615"
+         x="25.792662"
+         y="114.13203" />
+    </g>
+  </g>
+</svg>
