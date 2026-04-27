@@ -1,4 +1,8 @@
-# v1.6.1
+# v1.6.2
+
+- Updated description for Thunderstore.
+
+## v1.6.1
 
 - Updated README.
 
